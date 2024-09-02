@@ -4,8 +4,8 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
-    <title>Admin - Dashboard</title>
-    <meta name="description" content="" />
+      <meta name="description" content="" />
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{asset('assets/img/favicon/favicon.ico')}}" />
     <!-- Fonts -->
@@ -30,7 +30,7 @@
     <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
     <script src="{{asset('assets/js/config.js')}}"></script>
 
-    
+
     <style>
         .toast {
             width: 250px; /* Set the desired width */
@@ -65,7 +65,7 @@
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-    @include('sweetalert::alert')
+
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
@@ -87,5 +87,8 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    @include('sweetalert::alert')
+
     @stack('scripts')
   </body>

@@ -42,4 +42,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('ins/dashboard', [InstituteController::class, 'index'])->name('insdashboard');
     Route::get('addcourse', [InstituteController::class, 'addcourse'])->name('addcourse');
+    Route::post('addcourse', [InstituteController::class, 'storeCourse'])->name('storecourse');
+    Route::get('course_category', [InstituteController::class, 'courseCategory'])->name('course_category');
+    Route::post('store_category', [InstituteController::class, 'StoreCategory'])->name('store_category');
+
+    Route::get('course_subcategory', [InstituteController::class, 'courseSubCategory'])->name('course_subcategory');
+    Route::post('store_subcategory', [InstituteController::class, 'StoreSubCategory'])->name('store_subcategory');
 });

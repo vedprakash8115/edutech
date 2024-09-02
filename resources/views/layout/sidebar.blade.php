@@ -56,7 +56,7 @@
                   </g>
                 </svg>
               </span>
-              <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+              <span class="app-brand-text demo menu-text fw-bolder ms-2">EDUTECH</span>
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -68,8 +68,8 @@
 
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
-            <li class="menu-item active">
-              <a href="index.html" class="menu-link">
+            <li class="menu-item {{ request()->routeIs('insdashboard') ? 'active' : '' }}">
+              <a href="{{route('insdashboard')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
@@ -83,18 +83,18 @@
               </a>
 
               <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{{ route('addcourse')}}" class="menu-link">
-                    <div data-i18n="Without menu">Add Course</div>
-                  </a>
+                <li class="menu-item {{ request()->routeIs('addcourse') ? 'active' : '' }}">
+                    <a href="{{ route('addcourse') }}" class="menu-link">
+                        <div data-i18n="Without menu">Add Course</div>
+                    </a>
                 </li>
-                <li class="menu-item">
-                  <a href="" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('course_category') ? 'active' : '' }}">
+                  <a href="{{route('course_category')}}" class="menu-link">
                     <div data-i18n="Without navbar">Add Course Category </div>
                   </a>
                 </li>
-                <li class="menu-item">
-                  <a href="" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('course_subcategory') ? 'active' : '' }}">
+                  <a href="{{route('course_subcategory')}}" class="menu-link">
                     <div data-i18n="Container">Add Course sub Category</div>
                   </a>
                 </li>
@@ -103,7 +103,7 @@
                     <div data-i18n="Fluid">All Courses</div>
                   </a>
                 </li>
-                
+
               </ul>
             </li>
             <!-- end -->
@@ -137,7 +137,7 @@
                     <div data-i18n="Fluid">Mock Test</div>
                   </a>
                 </li>
-                
+
               </ul>
             </li>
 
@@ -160,7 +160,7 @@
                     <div data-i18n="Notifications">Outer Students</div>
                   </a>
                 </li>
-                
+
               </ul>
             </li>
             <li class="menu-item">
@@ -180,8 +180,8 @@
                     <div data-i18n="Basic">Add Users</div>
                   </a>
                 </li>
-                
-               
+
+
               </ul>
             </li>
             <li class="menu-item">
@@ -204,5 +204,5 @@
               </ul>
             </li>
           </ul>
-        
+
         </aside>
