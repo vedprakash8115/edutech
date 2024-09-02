@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('live_classes', function (Blueprint $table) {
+            $table->id();
+            $table->string('course_name')->nullable();
+            $table->string('language')->nullable();
+            $table->integer('original_price')->nullable();
+            $table->integer('discount_price')->nullable();
+            $table->string('upload_banner')->nullable();
+            $table->string('course_duration')->nullable();
+            $table->string('about_course')->nullable();
+            $table->string('course_category')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('live_classes');
+    }
+};
