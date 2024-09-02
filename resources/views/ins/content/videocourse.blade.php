@@ -132,10 +132,10 @@
                                         <td>{{ $videoCourse->language }}</td>
                                         <td>{{ $videoCourse->original_price }}</td>
                                         <td>{{ $videoCourse->discount_price }}</td>
-                                        <td> <img src="{{ asset($videoCourse->video) }}" alt="Banner"
-                                                width="80%" height="60px"></td>
+                                        <td> <img src="{{ asset($videoCourse->video) }}" alt="Banner" width="80%"
+                                                height="60px"></td>
                                         <td>{{ $videoCourse->course_duration }}</td>
-                                        <td>{{ $videoCourse->about_course }}</td>
+                                        <td>{{ $videoCourse->about_course }} </td>
                                         <td>{{ $videoCourse->course_category }}</td>
                                         <td>
                                             <a class="badge bg-primary"
