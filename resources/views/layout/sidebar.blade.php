@@ -98,8 +98,8 @@
                     <div data-i18n="Container">Add Course sub Category</div>
                   </a>
                 </li>
-                <li class="menu-item">
-                  <a href="" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('course_list') ? 'active' : '' }}">
+                  <a href="{{ route('course_list')}}" class="menu-link">
                     <div data-i18n="Fluid">All Courses</div>
                   </a>
                 </li>

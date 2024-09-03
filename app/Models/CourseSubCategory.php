@@ -5,15 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CourseCategory extends Model
+class CourseSubCategory extends Model
 {
     use HasFactory;
     protected $guarded=[];
-
-    // In CourseCategory.php model
-    public function course()
+    public function category()
     {
-        return $this->belongsTo(Course::class, 'course_id');
+        return $this->belongsTo(CourseCategory::class, 'category_id');
     }
-
 }
