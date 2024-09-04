@@ -25,7 +25,7 @@ class InstituteController extends Controller
     public function storeCourse(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:courses,name',
         ]);
         Course::create([
             'name' => $request->name,
@@ -75,10 +75,15 @@ class InstituteController extends Controller
     public function updateCourse(Request $request, $id)
     {
         try {
-            // Validate the incoming data
             $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
+                'name' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    'unique:courses,name,' . $id,
+                ],
             ]);
+
             $course = Course::findOrFail($id);
             $course->update($validatedData);
             Alert::toast('Course updated successfully', 'success');
@@ -100,9 +105,7 @@ class InstituteController extends Controller
                 Alert::toast('Course not found.', 'error');
                 return redirect()->back();
             }
-            $course->update([
-                'status' => 0
-            ]);
+            $course->delete();
             Alert::toast('Course Deleted Successfully!', 'success');
         } catch (\Exception $e) {
 
@@ -143,7 +146,7 @@ class InstituteController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|string|max:255',
+                'name' => 'required|string|max:255|unique:course_categories,name',
                 'description' => 'required|string',
                 'course_id' => 'required|exists:courses,id'
             ]);
@@ -188,7 +191,7 @@ class InstituteController extends Controller
     public function updateCategory(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:course_categories,name,' . $id,
             'description' => 'required|string',
             'course_id' => 'required|exists:courses,id'
         ]);
@@ -215,9 +218,7 @@ class InstituteController extends Controller
                 Alert::toast('Category not found.', 'error');
                 return redirect()->route('course_category');
             }
-            $cat->update([
-                'status' => 0
-            ]);
+            $cat->delete();
             Alert::toast('Category deleted successfully!', 'success');
         } catch (\Exception $e) {
 
@@ -260,9 +261,8 @@ class InstituteController extends Controller
     public function storeSubCategory(Request $request)
     {
         try {
-            // Validate request data
             $request->validate([
-                'name' => 'required|string|max:255',
+                'name' => 'required|string|max:255|unique:course_sub_categories,name',
                 'description' => 'required|string',
                 'category_id' => 'required|exists:course_categories,id'
             ]);
@@ -308,7 +308,7 @@ class InstituteController extends Controller
     public function updateSubcategory(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:course_sub_categories,name,' . $id,
             'description' => 'required|string',
             'category_id' => 'required|exists:course_categories,id'
         ]);
@@ -335,9 +335,7 @@ class InstituteController extends Controller
                 Alert::toast('Subcategory not found.', 'error');
                 return redirect()->route('course_subcategory');
             }
-            $subcategory->update([
-                'status' => 0
-            ]);
+            $subcategory->delete();
             Alert::toast('Subcategory deleted successfully!', 'success');
         } catch (\Exception $e) {
 

@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('course_sub_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->string('name')->unique()->nullable();
             $table->text('description')->nullable();
             $table->foreignId('category_id')
                 ->nullable()
                 ->constrained('course_categories') // Specify the table for the foreign key
                 ->onDelete('set null');
             $table->boolean('status')->nullable()->default(1);
+            $table->softDeletes()->nullable();
             $table->timestamps();
         });
     }
