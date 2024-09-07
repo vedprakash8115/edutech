@@ -38,19 +38,35 @@ class VideoCourseController extends Controller
      */
     public function store(StoreVideoCourseRequest $request)
     {
-    
-        if ($request->hasFile('video')) {
-            $bannerFile = $request->file('video');
-            $destinationPath = '/video';
+        // dd($request->all());
+        $validatedData = $request->validated();
+
+        // Handle Banner Upload
+        if ($request->hasFile('banner')) {
+            $bannerFile = $request->file('banner');
+            $destinationPath = '/upload_banner';
             $fileName = time() . '_' . $bannerFile->getClientOriginalName();
             $bannerFile->move(public_path($destinationPath), $fileName);
-            $validatedData = array_merge($request->validated(), ['video' => $destinationPath . '/' . $fileName]);
-        } else {
-            $validatedData = $request->validated();
+            $validatedData['banner'] = $destinationPath . '/' . $fileName;
         }
+
+        // Handle Video Upload
+        if ($request->hasFile('video')) {
+            $video = $request->file('video');
+            $destinationVideo = '/video';
+            $videoFileName = time() . '_' . $video->getClientOriginalName();
+            $video->move(public_path($destinationVideo), $videoFileName);
+            $validatedData['video'] = $destinationVideo . '/' . $videoFileName;
+        }
+
+        $fromDate = \Carbon\Carbon::parse($validatedData['form']);
+        $toDate = \Carbon\Carbon::parse($validatedData['to']);
+        $courseDuration = $fromDate->diffInDays($toDate);
+        $validatedData['course_duration'] = $courseDuration;
+
+
         VideoCourse::create($validatedData);
-        return redirect()->back()
-            ->with('message', 'The Live Class has been created successfully.');
+        return redirect()->back()->with('message', 'The Live Class has been created successfully.');
     }
 
     /**

@@ -22,14 +22,17 @@ class StoreVideoCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'course_name' => 'required|string|max:255|min:3',
-            'language' => 'required|string',
-            'original_price' => 'required|numeric|min:2|max:255',
-            'discount_price' => 'nullable|numeric|min:2|max:255',
-            'video' => 'required',
-            'course_duration' => 'required|string|min:2|max:255',
+            'course_name' => 'required|string|max:255',
+            'language' => 'required|integer', // Language should be an integer
+            'original_price' => 'required|numeric|min:2',
+            'discount_price' => 'nullable|numeric|min:2',
+            'banner' => 'required|file',
+            'video' => 'required|file',
+            // 'course_duration' => 'required|string|min:2',
             'about_course' => 'required|string',
-            'course_category' => 'required|string'
+            'course_category_id' => 'required|integer', // Should be an integer
+            'form' => 'required|date', // Date format validation
+            'to' => 'required|date', // Date format validation
         ];
     }
 }
