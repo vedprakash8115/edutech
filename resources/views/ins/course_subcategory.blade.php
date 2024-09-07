@@ -1,0 +1,102 @@
+@extends('layout.app')
+@section('title', 'Add Subcategory')
+@section('content')
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="mb-0">{{ isset($single_data) ? 'Edit Subcategory' : 'Add Subcategory' }}</h5>
+            </div>
+            <div class="card-body">
+                <form id="subcategoryForm" method="post" action="{{ isset($single_data) ? route('update_subcategory', $single_data->id) : route('store_subcategory') }}">
+                    @csrf
+                    @if(isset($single_data))
+                        @method('PUT') <!-- This is needed for update operations -->
+                    @endif
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <label class="col-form-label" for="category">Category</label>
+                            <select name="category_id" class="form-control" id="category">
+                                <option value="">-- Select a Category --</option>
+                                @isset($categories)
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" {{ isset($single_data->category_id) && $single_data->category_id == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                                @endisset
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-form-label" for="name">Subcategory Name</label>
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Enter Subcategory Name" value="{{ isset($single_data->name) ? $single_data->name : '' }}" />
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-form-label" for="description">Description</label>
+                            <textarea name="description" class="form-control" id="description" rows="3" placeholder="Enter Description">{{ isset($single_data->description) ? $single_data->description : '' }}</textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-6 d-flex align-items-end">
+                            <input type="submit" class="btn btn-primary" value="{{ isset($single_data) ? 'Update Subcategory' : 'Add Subcategory' }}" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="mb-0">Subcategories</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped shadow-sm" id="subcategoriesTable">
+                    <thead>
+                        <tr>
+                            <th>Sr.no</th>
+                            <th>Category</th>
+                            <th>Subcategory Name</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+
+<script>
+    $(document).ready(function() {
+        $('#subcategoriesTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('subcategory.data') }}',
+            columns: [
+                {
+                    data: null,
+                    name: null,
+                    searchable: false,
+                    orderable: false,
+                    render: function (data, type, row, meta) {
+                        return meta.row + 1; // Serial number starts from 1
+                    }
+                },
+                { data: 'category_id', name: 'category.name' }, // Adjust based on your relationship
+                { data: 'name', name: 'name' },
+                { data: 'description', name: 'description' },
+                { data: 'actions', name: 'actions', orderable: false, searchable: false }
+            ]
+        });
+    });
+</script>
+@endpush
+
+@endsection

@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('course_sub_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique()->nullable();
-            $table->boolean('status')->default(true);
-            $table->integer('level')->default(1);
+            $table->text('description')->nullable();
+            $table->foreignId('category_id')
+                ->nullable()
+                ->constrained('course_categories') // Specify the table for the foreign key
+                ->onDelete('set null');
+            $table->boolean('status')->nullable()->default(1);
             $table->softDeletes()->nullable();
             $table->timestamps();
         });
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('course_sub_categories');
     }
 };
