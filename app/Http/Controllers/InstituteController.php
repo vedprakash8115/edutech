@@ -19,7 +19,7 @@ class InstituteController extends Controller
 
     public function addcourse()
     {
-        return view('ins.addcourse');
+        return view('ins.courses.addcourse');
     }
 
     public function storeCourse(Request $request)
@@ -38,7 +38,7 @@ class InstituteController extends Controller
     public function courseList()
     {
         $courses = Course::get();
-        return view('ins.course_list', compact('courses'));
+        return view('ins.courses.course_list', compact('courses'));
     }
     public function getCoursesData()
     {
@@ -118,7 +118,7 @@ class InstituteController extends Controller
     {
         $courses = Course::get();
         $categories = CourseCategory::with('course')->where('status', 1)->get();
-        return view('ins.course_category', compact('courses', 'categories'));
+        return view('ins.courses.course_category', compact('courses', 'categories'));
     }
     public function getCategoriesData()
     {
@@ -185,7 +185,7 @@ class InstituteController extends Controller
         $courses = Course::get();
         $categories = CourseCategory::with('course')->where('status', 1)->get();
         $single_data = CourseCategory::find($id);
-        return view('ins.course_category', compact('single_data', 'courses', 'categories'));
+        return view('ins.courses.course_category', compact('single_data', 'courses', 'categories'));
     }
 
     public function updateCategory(Request $request, $id)
@@ -232,7 +232,7 @@ class InstituteController extends Controller
     {
         $categories = CourseCategory::where('status', 1)->get(); // Adjusted to manage categories
         $subcategories = CourseSubCategory::with('category')->where('status', 1)->get();
-        return view('ins.course_subcategory', compact('categories', 'subcategories'));
+        return view('ins.courses.course_subcategory', compact('categories', 'subcategories'));
     }
 
     public function getSubcategoriesData()
@@ -302,7 +302,7 @@ class InstituteController extends Controller
         $categories = CourseCategory::get();
         $subcategories = CourseSubCategory::with('category')->where('status', 1)->get();
         $single_data = CourseSubCategory::find($id);
-        return view('ins.course_subcategory', compact('single_data', 'categories', 'subcategories'));
+        return view('ins.courses.course_subcategory', compact('single_data', 'categories', 'subcategories'));
     }
 
     public function updateSubcategory(Request $request, $id)
