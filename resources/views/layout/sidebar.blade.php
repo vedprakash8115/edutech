@@ -77,32 +77,32 @@
             <!-- Layouts -->
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
-              <i class="menu-icon fa fa-graduation-cap" aria-hidden="true"></i>
+                <i class="menu-icon fa fa-list" aria-hidden="true"></i>
                 <!-- <i class="menu-icon tf-icons bx bx-layout"></i> -->
-                <div data-i18n="Layouts">Courses</div>
+                <div data-i18n="Layouts">Categories</div>
               </a>
 
               <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('addcourse') ? 'active' : '' }}">
-                    <a href="{{ route('addcourse') }}" class="menu-link">
-                        <div data-i18n="Without menu">Add Course</div>
+                <li class="menu-item {{ request()->routeIs('addlevel0') ? 'active' : '' }}">
+                    <a href="{{ route('addlevel0') }}" class="menu-link">
+                        <div data-i18n="Without menu">Add Category level 0</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->routeIs('course_category') ? 'active' : '' }}">
-                  <a href="{{route('course_category')}}" class="menu-link">
-                    <div data-i18n="Without navbar">Add Course Category </div>
+                <li class="menu-item {{ request()->routeIs('category_level1') ? 'active' : '' }}">
+                  <a href="{{route('category_level1')}}" class="menu-link">
+                    <div data-i18n="Without navbar">Add Category Level 1 </div>
                   </a>
                 </li>
                 <li class="menu-item {{ request()->routeIs('course_subcategory') ? 'active' : '' }}">
                   <a href="{{route('course_subcategory')}}" class="menu-link">
-                    <div data-i18n="Container">Add Course sub Category</div>
+                    <div data-i18n="Container">Add Category Level 2</div>
                   </a>
                 </li>
-                <li class="menu-item {{ request()->routeIs('course_list') ? 'active' : '' }}">
+                {{-- <li class="menu-item {{ request()->routeIs('course_list') ? 'active' : '' }}">
                   <a href="{{ route('course_list')}}" class="menu-link">
                     <div data-i18n="Fluid">All Courses</div>
                   </a>
-                </li>
+                </li> --}}
 
               </ul>
             </li>

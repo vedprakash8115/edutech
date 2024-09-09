@@ -14,7 +14,7 @@ class CourseCategory extends Model
     // In CourseCategory.php model
     public function course()
     {
-        return $this->belongsTo(Course::class, 'course_id');
+        return $this->belongsTo(CourseCategory0::class, 'course_id');
     }
 
 }
