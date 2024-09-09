@@ -17,12 +17,12 @@
                     <div class="row mb-3">
                         <div class="col-sm-6">
                             <label class="col-form-label" for="level0">Category Level 0</label>
-                            <select name="course_id" class="form-control" id="level0">
+                            <select name="cat0_id" class="form-control" id="level0">
                                 <option value="">-- Select a Category --</option>
-                                @isset($courses)
-                                @foreach ($courses as $course)
-                                    <option value="{{ $course->id }}" {{ isset($single_data->course_id) && $single_data->course_id == $course->id ? 'selected' : '' }}>
-                                        {{ $course->name }}
+                                @isset($category_l0)
+                                @foreach ($category_l0 as $level1)
+                                    <option value="{{ $level1->id }}" {{ isset($single_data->cat0_id) && $single_data->cat0_id == $level1->id ? 'selected' : '' }}>
+                                        {{ $level1->name }}
                                     </option>
                                 @endforeach
                                 @endisset
@@ -39,7 +39,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-6 d-flex align-items-end">
-                            <input type="submit" class="btn btn-primary" value="{{ isset($single_data) ? 'Update Category' : 'Add Category' }}" />
+                            <input type="submit" class="btn btn-primary" value="{{ isset($single_data) ? 'Update' : 'Save' }}" />
                         </div>
                     </div>
                 </form>
@@ -89,7 +89,7 @@
                         return meta.row + 1; // Serial number starts from 1
                     }
                 },
-                { data: 'course_id', name: 'course.name' }, // Adjust based on your relationship
+                { data: 'cat0_id', name: 'catLevel0.name' }, // Adjust based on your relationship
                 { data: 'name', name: 'name' },
                 //{ data: 'description', name: 'description' },
                 { data: 'actions', name: 'actions', orderable: false, searchable: false }

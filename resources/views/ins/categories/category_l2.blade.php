@@ -1,22 +1,22 @@
 @extends('layout.app')
-@section('title', 'Add Subcategory')
+@section('title', 'Add Category level 2')
 @section('content')
 
 <div class="row">
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">{{ isset($single_data) ? 'Edit Subcategory' : 'Add Subcategory' }}</h5>
+                <h5 class="mb-0">{{ isset($single_data) ? 'Edit Category level 2' : 'Add Category level 2' }}</h5>
             </div>
             <div class="card-body">
-                <form id="subcategoryForm" method="post" action="{{ isset($single_data) ? route('update_subcategory', $single_data->id) : route('store_subcategory') }}">
+                <form id="level2Form" method="post" action="{{ isset($single_data) ? route('update_subcategory', $single_data->id) : route('store_subcategory') }}">
                     @csrf
                     @if(isset($single_data))
                         @method('PUT') <!-- This is needed for update operations -->
                     @endif
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <label class="col-form-label" for="category">Category</label>
+                            <label class="col-form-label" for="category">Category level 1</label>
                             <select name="category_id" class="form-control" id="category">
                                 <option value="">-- Select a Category --</option>
                                 @isset($categories)
@@ -29,8 +29,8 @@
                             </select>
                         </div>
                         <div class="col-sm-6">
-                            <label class="col-form-label" for="name">Subcategory Name</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Enter Subcategory Name" value="{{ isset($single_data->name) ? $single_data->name : '' }}" />
+                            <label class="col-form-label" for="name">Category Level 2 Name</label>
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Enter Category level 2 Name" value="{{ isset($single_data->name) ? $single_data->name : '' }}" />
                         </div>
                         {{-- <div class="col-sm-12">
                             <label class="col-form-label" for="description">Description</label>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-6 d-flex align-items-end">
-                            <input type="submit" class="btn btn-primary" value="{{ isset($single_data) ? 'Update Subcategory' : 'Add Subcategory' }}" />
+                            <input type="submit" class="btn btn-primary" value="{{ isset($single_data) ? 'Update' : 'Save' }}" />
                         </div>
                     </div>
                 </form>

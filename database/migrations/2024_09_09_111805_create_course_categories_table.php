@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('course_categories', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // This creates an unsigned big integer column
             $table->string('name')->unique()->nullable();
             $table->text('description')->nullable();
-            $table->foreignId('course_id')->nullable()->constrained()->onDelete('set null');
-            $table->boolean('status')->nullable()->default(1);
-            $table->softDeletes()->nullable();
+            $table->foreignId('cat0_id')->nullable()->constrained('course_category0s')->onDelete('set null');
+            $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
