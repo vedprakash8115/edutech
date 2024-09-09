@@ -27,8 +27,6 @@ class StoreVideoCourseRequest extends FormRequest
             'original_price' => 'required|numeric|min:2',
             'discount_price' => 'nullable|numeric|min:2',
             'banner' => 'required|file',
-            'video' => 'required|file',
-            // 'course_duration' => 'required|string|min:2',
             'about_course' => 'required|string',
             'course_category_id' => 'required|integer', // Should be an integer
             'form' => 'required|date', // Date format validation
