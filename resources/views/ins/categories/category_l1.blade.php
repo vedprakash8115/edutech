@@ -1,45 +1,45 @@
 @extends('layout.app')
-@section('title', 'Add Subcategory')
+@section('title', 'Add Category Level 1')
 @section('content')
 
 <div class="row">
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">{{ isset($single_data) ? 'Edit Subcategory' : 'Add Subcategory' }}</h5>
+                <h5 class="mb-0">{{ isset($single_data) ? 'Edit Category Level 1' : 'Add Category Level 1' }}</h5>
             </div>
             <div class="card-body">
-                <form id="subcategoryForm" method="post" action="{{ isset($single_data) ? route('update_subcategory', $single_data->id) : route('store_subcategory') }}">
+                <form id="level1Form" method="post" action="{{ isset($single_data) ? route('update_level1', $single_data->id) : route('store_level1') }}">
                     @csrf
                     @if(isset($single_data))
                         @method('PUT') <!-- This is needed for update operations -->
                     @endif
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <label class="col-form-label" for="category">Category</label>
-                            <select name="category_id" class="form-control" id="category">
+                            <label class="col-form-label" for="level0">Category Level 0</label>
+                            <select name="course_id" class="form-control" id="level0">
                                 <option value="">-- Select a Category --</option>
-                                @isset($categories)
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}" {{ isset($single_data->category_id) && $single_data->category_id == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
+                                @isset($courses)
+                                @foreach ($courses as $course)
+                                    <option value="{{ $course->id }}" {{ isset($single_data->course_id) && $single_data->course_id == $course->id ? 'selected' : '' }}>
+                                        {{ $course->name }}
                                     </option>
                                 @endforeach
                                 @endisset
                             </select>
                         </div>
                         <div class="col-sm-6">
-                            <label class="col-form-label" for="name">Subcategory Name</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Enter Subcategory Name" value="{{ isset($single_data->name) ? $single_data->name : '' }}" />
+                            <label class="col-form-label" for="level1">Category Level 1 Name</label>
+                            <input type="text" name="name" class="form-control" id="level1" placeholder="Enter Category Level 1 Name" value="{{ isset($single_data->name) ? $single_data->name : '' }}" />
                         </div>
-                        <div class="col-sm-12">
+                        {{-- <div class="col-sm-12">
                             <label class="col-form-label" for="description">Description</label>
                             <textarea name="description" class="form-control" id="description" rows="3" placeholder="Enter Description">{{ isset($single_data->description) ? $single_data->description : '' }}</textarea>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-6 d-flex align-items-end">
-                            <input type="submit" class="btn btn-primary" value="{{ isset($single_data) ? 'Update Subcategory' : 'Add Subcategory' }}" />
+                            <input type="submit" class="btn btn-primary" value="{{ isset($single_data) ? 'Update Category' : 'Add Category' }}" />
                         </div>
                     </div>
                 </form>
@@ -52,16 +52,16 @@
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Subcategories</h5>
+                <h5 class="mb-0">Level 1 Categories</h5>
             </div>
             <div class="card-body">
-                <table class="table table-bordered table-striped shadow-sm" id="subcategoriesTable">
+                <table class="table table-bordered table-striped shadow-sm" id="categoriesL1Table">
                     <thead>
                         <tr>
                             <th>Sr.no</th>
-                            <th>Category</th>
-                            <th>Subcategory Name</th>
-                            <th>Description</th>
+                            <th>Category Level 0 Name</th>
+                            <th>Category level 1 Name</th>
+                            {{-- <th>Description</th> --}}
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -75,10 +75,10 @@
 
 <script>
     $(document).ready(function() {
-        $('#subcategoriesTable').DataTable({
+        $('#categoriesL1Table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('subcategory.data') }}',
+            ajax: '{{ route('course_category.data') }}',
             columns: [
                 {
                     data: null,
@@ -89,9 +89,9 @@
                         return meta.row + 1; // Serial number starts from 1
                     }
                 },
-                { data: 'category_id', name: 'category.name' }, // Adjust based on your relationship
+                { data: 'course_id', name: 'course.name' }, // Adjust based on your relationship
                 { data: 'name', name: 'name' },
-                { data: 'description', name: 'description' },
+                //{ data: 'description', name: 'description' },
                 { data: 'actions', name: 'actions', orderable: false, searchable: false }
             ]
         });
