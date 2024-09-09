@@ -27,7 +27,7 @@ class InstituteController extends Controller
         $request->validate([
             'name' => 'required|string|max:255|unique:course_category0s,name',
         ]);
-      CourseCategory0::create([
+        CourseCategory0::create([
             'name' => $request->name,
         ]);
         Alert::toast('Successfully added Category Level 0!', 'success');
@@ -37,7 +37,7 @@ class InstituteController extends Controller
     }
     public function level0List()
     {
-        $courses =CourseCategory0::get();
+        $courses = CourseCategory0::get();
         return view('ins.categories.course_list', compact('courses'));
     }
     // public function getLevel0Data()
@@ -62,7 +62,7 @@ class InstituteController extends Controller
     // }
     public function getLevel0Data()
     {
-        $categories =CourseCategory0::where('status', 1)->select('course_category0s.*');
+        $categories = CourseCategory0::where('status', 1)->select('course_category0s.*');
         return DataTables::of($categories)
             ->addColumn('actions', function ($category) {
                 return '<a href="' . route('edit_level0', $category->id) . '" class="btn btn-info btn-md">
@@ -82,7 +82,7 @@ class InstituteController extends Controller
     public function editLevel0($id)
     {
         try {
-            $single_data =CourseCategory0::findOrFail($id);
+            $single_data = CourseCategory0::findOrFail($id);
             return view('ins.categories.category_l0', compact('single_data'));
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->with('error', 'Course not found');
@@ -103,7 +103,7 @@ class InstituteController extends Controller
                 ],
             ]);
 
-            $course =CourseCategory0::findOrFail($id);
+            $course = CourseCategory0::findOrFail($id);
             $course->update($validatedData);
             Alert::toast('Category level 0 updated successfully', 'success');
             return redirect()->route('course_list');
@@ -118,7 +118,7 @@ class InstituteController extends Controller
     public function deleteLevel0($id)
     {
         try {
-            $course =CourseCategory0::find($id);
+            $course = CourseCategory0::find($id);
 
             if (!$course) {
                 Alert::toast('Category level 0 not found.', 'error');
@@ -135,7 +135,7 @@ class InstituteController extends Controller
 
     public function CategoryLevel1()
     {
-        $courses =CourseCategory0::get();
+        $courses = CourseCategory0::get();
         $categories = CourseCategory::with('course')->where('status', 1)->get();
         return view('ins.categories.category_l1', compact('courses', 'categories'));
     }
@@ -166,18 +166,18 @@ class InstituteController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|max:255|unique:course_categories,name',
-                'description' => 'required|string',
+                // 'description' => 'required|string',
                 'course_id' => 'required|exists:course_category0s,id'
             ]);
             CourseCategory::create([
                 'name' => $request->name,
-                'description' => $request->description,
+                // 'description' => $request->description,
                 'course_id' => $request->course_id
             ]);
 
             // Check if course_id is provided and update course level
             if ($request->course_id) {
-                $course =CourseCategory0::find($request->course_id);
+                $course = CourseCategory0::find($request->course_id);
                 if ($course) {
                     if ($course->level == 1) {
                         $course->update([
@@ -201,7 +201,7 @@ class InstituteController extends Controller
 
     public function editLevel1($id)
     {
-        $courses =CourseCategory0::get();
+        $courses = CourseCategory0::get();
         $categories = CourseCategory::with('course')->where('status', 1)->get();
         $single_data = CourseCategory::find($id);
         return view('ins.categories.category_l1', compact('single_data', 'courses', 'categories'));
@@ -211,7 +211,7 @@ class InstituteController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:course_categories,name,' . $id,
-            'description' => 'required|string',
+            // 'description' => 'required|string',
             'course_id' => 'required|exists:course_category0s,id'
         ]);
 
@@ -219,7 +219,7 @@ class InstituteController extends Controller
         $category = CourseCategory::findOrFail($id);
         $category->update([
             'name' => $request->name,
-            'description' => $request->description,
+            // 'description' => $request->description,
             'course_id' => $request->course_id
         ]);
 
@@ -282,17 +282,17 @@ class InstituteController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|max:255|unique:course_sub_categories,name',
-                'description' => 'required|string',
+                // 'description' => 'required|string',
                 'category_id' => 'required|exists:course_categories,id'
             ]);
             CourseSubCategory::create([
                 'name' => $request->name,
-                'description' => $request->description,
+                // 'description' => $request->description,
                 'category_id' => $request->category_id
             ]);
             $category = CourseCategory::find($request->category_id);
             if ($category) {
-                $course =CourseCategory0::find($category->course_id);
+                $course = CourseCategory0::find($category->course_id);
                 if ($course) {
                     if ($course->level == 2) {
                         $course->update([
@@ -328,7 +328,7 @@ class InstituteController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:course_sub_categories,name,' . $id,
-            'description' => 'required|string',
+            // 'description' => 'required|string',
             'category_id' => 'required|exists:course_categories,id'
         ]);
 
@@ -336,7 +336,7 @@ class InstituteController extends Controller
         $subcategory = CourseSubCategory::findOrFail($id);
         $subcategory->update([
             'name' => $request->name ?? $subcategory->name,
-            'description' => $request->description ?? $subcategory->description,
+            // 'description' => $request->description ?? $subcategory->description,
             'category_id' => $request->category_id ?? $subcategory->category_id
         ]);
 
