@@ -53,14 +53,13 @@
                                 <div class="mb-2">
                                     <label for="banner" class="form-label">Upload Banner</label>
                                     <input type="file" class="form-control" id="banner" name="banner"
-                                        value="{{ old('banner') }}" >
+                                        value="{{ old('banner') }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="video" class="form-label">Upload Video </label>
-                                    <input type="file" class="form-control" id="video" name="video"
-                                       >
+                                    <input type="file" class="form-control" id="video" name="video">
                                 </div>
                             </div>
                         </div>
@@ -93,15 +92,15 @@
                             </div>
                         </div>
                         <div class="row mb-2">
-                            
-                             <div class="col-md-6">
+
+                            <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="to" class="form-label">To</label>
                                     <input type="date" class="form-control" id="to" name="to"
                                         placeholder="to">
                                 </div>
                             </div>
-                              <div class="col-md-6">
+                            <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="AboutCourse" class="form-label">About Course</label>
                                     <textarea class="form-control" placeholder="Leave a comment here" id="AboutCourse" name="about_course"
@@ -109,7 +108,7 @@
                                 </div>
                             </div>
                         </div>
-                       
+
 
                         <div class="row mb-2">
                             <div class="col">
@@ -138,7 +137,6 @@
                                     <th scope="col" class="text-white">Discount Price</th>
                                     <th scope="col" class="text-white">upload_banner</th>
                                     <th scope="col" class="text-white">Course Duration</th>
-                                    <th scope="col" class="text-white">About Course</th>
                                     <th scope="col" class="text-white">Course Category</th>
                                     <th scope="col" class="text-white">Action</th>
                                 </tr>
@@ -154,38 +152,79 @@
                                         <td>{{ $videoCourse->original_price }}</td>
                                         <td>{{ $videoCourse->discount_price }}</td>
                                         <td>
-                                            <iframe src="{{ asset($videoCourse->video) }}" frameborder="0"
-                                                alt="Banner" width="80%" height="60px"></iframe>
+                                            <img src="{{ asset($videoCourse->banner) }}" width="100%" height="100%">
                                         </td>
                                         <td>{{ $videoCourse->course_duration }} days</td>
-                                        <td>{{ $videoCourse->about_course }} </td>
                                         <td>{{ $videoCourse->course_category_id }}</td>
                                         <td>
-                                            <button type="button" class="badge bg-primary" data-bs-toggle="modal" data-bs-target="#view{{ $videoCourse->id }}">
-                                           View
-                                        </button>
+                                            <button type="button" class="badge bg-primary" data-bs-toggle="modal"
+                                                data-bs-target="#view{{ $videoCourse->id }}">
+                                                View
+                                            </button>
                                             <a class="badge bg-secondary"
-                                             href="{{ url('/videoCourseies/' . $videoCourse->id) }}">Edit</a>  
+                                                href="{{ url('/videoCourseies/' . $videoCourse->id) }}">Edit</a>
                                         </td>
                                     </tr>
 
-                                  <div class="modal fade" id="view{{ $videoCourse->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $videoCourse->id }}" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel{{ $videoCourse->id }}">Modal title</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                            {{$videoCourse->id}}
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                    <div class="modal fade" id="view{{ $videoCourse->id }}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel{{ $videoCourse->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel{{ $videoCourse->id }}">
+                                                        Modal title</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    {{-- {{$videoCourse->id}} --}}
+                                                    <div class="row">
+                                                        <div class="col-md-5 p-3 bg-light border rounded-3">
+                                                            <div class="row px-2">
+                                                                <div class="col-12 mb-2 bg-light rounded-3" id="banner"
+                                                                    style="width:100%; height:150px;">
+                                                                    <img src="{{ asset($videoCourse->banner) }}"
+                                                                        class="w-100 h-100 rounded-2" alt="">
+                                                                </div>
+                                                                <div class="col-12 mb-3 h3">
+                                                                    {{ $videoCourse->course_name }}</div>
+                                                                <hr class="hr">
+                                                                <div class="col-12 mb-1"><span class="h5">Course
+                                                                        Description:</span></div>
+                                                                <div class="col-12 mb-2" style="text-align:justify;">
+                                                                    {{ $videoCourse->about_course }}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-7 rounded-3 p-2">
+                                                            <h5 class="h5">Course Contents</h5>
+                                                            <div
+                                                                class="video-container row d-flex align-items-center justify-content-center">
+                                                                <div class="col-1">
+                                                                    {{ $videoCourse->id }}
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <video controls muted
+                                                                        src="{{ asset($videoCourse->video) }}"
+                                                                        width="100%" height="100%"></video>
+                                                                </div>
+                                                                <div class="col-7">
+                                                                    {{ $videoCourse->about_course }}
+                                                                </div>
+                                                            </div>
+                                                            {{-- <video controls muted loop  poster="" width="100%" height="100%">
+                                                    <source src="{{ asset($videoCourse->video) }}">
+                                                </video> --}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -194,7 +233,4 @@
             </div>
         </div>
     </div>
-
-
-   
 @endsection
