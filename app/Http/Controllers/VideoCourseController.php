@@ -19,7 +19,7 @@ class VideoCourseController extends Controller
         $videoCourseies = VideoCourse::query()
             ->paginate($perPage)
             ->appends($request->query());
-        return view('ins.content.videocourse', [
+             return view('ins.content.videocourse', [
             'videoCourseies' => $videoCourseies,
         ]);
         // return view('ins.content.videocourse');

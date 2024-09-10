@@ -1,45 +1,45 @@
 @extends('layout.app')
-@section('title', 'Add Category')
+@section('title', 'Add Category Level 1')
 @section('content')
 
 <div class="row">
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">{{ isset($single_data) ? 'Edit Category' : 'Add Category' }}</h5>
+                <h5 class="mb-0">{{ isset($single_data) ? 'Edit Category Level 1' : 'Add Category Level 1' }}</h5>
             </div>
             <div class="card-body">
-                <form id="categoryForm" method="post" action="{{ isset($single_data) ? route('update_category', $single_data->id) : route('store_category') }}">
+                <form id="level1Form" method="post" action="{{ isset($single_data) ? route('update_level1', $single_data->id) : route('store_level1') }}">
                     @csrf
                     @if(isset($single_data))
                         @method('PUT') <!-- This is needed for update operations -->
                     @endif
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <label class="col-form-label" for="course">Course</label>
-                            <select name="course_id" class="form-control" id="course">
-                                <option value="">-- Select a Course --</option>
-                                @isset($courses)
-                                @foreach ($courses as $course)
-                                    <option value="{{ $course->id }}" {{ isset($single_data->course_id) && $single_data->course_id == $course->id ? 'selected' : '' }}>
-                                        {{ $course->name }}
+                            <label class="col-form-label" for="level0">Category Level 0</label>
+                            <select name="cat0_id" class="form-control" id="level0">
+                                <option value="">-- Select a Category --</option>
+                                @isset($category_l0)
+                                @foreach ($category_l0 as $level1)
+                                    <option value="{{ $level1->id }}" {{ isset($single_data->cat0_id) && $single_data->cat0_id == $level1->id ? 'selected' : '' }}>
+                                        {{ $level1->name }}
                                     </option>
                                 @endforeach
                                 @endisset
                             </select>
                         </div>
                         <div class="col-sm-6">
-                            <label class="col-form-label" for="name">Category Name</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Enter Category Name" value="{{ isset($single_data->name) ? $single_data->name : '' }}" />
+                            <label class="col-form-label" for="level1">Category Level 1 Name</label>
+                            <input type="text" name="name" class="form-control" id="level1" placeholder="Enter Category Level 1 Name" value="{{ isset($single_data->name) ? $single_data->name : '' }}" />
                         </div>
-                        <div class="col-sm-12">
+                        {{-- <div class="col-sm-12">
                             <label class="col-form-label" for="description">Description</label>
                             <textarea name="description" class="form-control" id="description" rows="3" placeholder="Enter Description">{{ isset($single_data->description) ? $single_data->description : '' }}</textarea>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-6 d-flex align-items-end">
-                            <input type="submit" class="btn btn-primary" value="{{ isset($single_data) ? 'Update Category' : 'Add Category' }}" />
+                            <input type="submit" class="btn btn-primary" value="{{ isset($single_data) ? 'Update' : 'Save' }}" />
                         </div>
                     </div>
                 </form>
@@ -52,16 +52,16 @@
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Course Categories</h5>
+                <h5 class="mb-0">Level 1 Categories</h5>
             </div>
             <div class="card-body">
-                <table class="table table-bordered table-striped shadow-sm" id="categoriesTable">
+                <table class="table table-bordered table-striped shadow-sm" id="categoriesL1Table">
                     <thead>
                         <tr>
                             <th>Sr.no</th>
-                            <th>Course</th>
-                            <th>Category Name</th>
-                            <th>Description</th>
+                            <th>Category Level 0 Name</th>
+                            <th>Category level 1 Name</th>
+                            {{-- <th>Description</th> --}}
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -75,7 +75,7 @@
 
 <script>
     $(document).ready(function() {
-        $('#categoriesTable').DataTable({
+        $('#categoriesL1Table').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{{ route('course_category.data') }}',
@@ -89,9 +89,9 @@
                         return meta.row + 1; // Serial number starts from 1
                     }
                 },
-                { data: 'course_id', name: 'course.name' }, // Adjust based on your relationship
+                { data: 'cat0_id', name: 'catLevel0.name' }, // Adjust based on your relationship
                 { data: 'name', name: 'name' },
-                { data: 'description', name: 'description' },
+                //{ data: 'description', name: 'description' },
                 { data: 'actions', name: 'actions', orderable: false, searchable: false }
             ]
         });

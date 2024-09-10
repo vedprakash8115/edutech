@@ -1,24 +1,21 @@
 @extends('layout.app')
 @section('content')
-    <div class="row">
+   <div class="row">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0">Live Class</h5>
+                    <h5 class="mb-0">Live class </h5>
                     <small class="text-muted float-end">Default label</small>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action='{{ route('liveclass.store') }}' enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('liveclass.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="CourseName" class="form-label">Course Name</label>
                                     <input type="text" class="form-control" id="CourseName" placeholder="Course Name"
-                                        name="course_name" value="{{ old('course_name') }}" required>
-                                    @error('course_name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                        name="course_name" value="{{ old('course_name') }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -27,9 +24,8 @@
                                     <select class="form-select" aria-label="Default select example" id="Language"
                                         name="language">
                                         <option selected>Select Language</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <option value="1">Hindi</option>
+                                        <option value="2">English</option>
                                     </select>
                                 </div>
                             </div>
@@ -38,66 +34,68 @@
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="OriginalPrice" class="form-label">Original Price</label>
-                                    <input type="text" class="form-control" id="OriginalPrice" name="original_price" value="{{ old('original_price') }}"
-                                        placeholder="Original Price" required>
+                                    <input type="text" class="form-control" id="OriginalPrice" name="original_price"
+                                        value="{{ old('original_price') }}" placeholder="Original Price">
                                 </div>
-                                @error('original_price')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="DiscountPrice" class="form-label">Discount Price</label>
-                                    <input type="text" class="form-control" id="DiscountPrice" name="discount_price" value="{{ old('discount_price') }}"
-                                        placeholder="Discount Price" required>
+                                    <input type="text" class="form-control" id="DiscountPrice" name="discount_price"
+                                        value="{{ old('discount_price') }}" placeholder="Discount Price">
                                 </div>
-                                @error('discount_price')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="mb-2">
-                                    <label for="UploadBanner" class="form-label">Upload Banner</label>
-                                    <input type="file" class="form-control" id="UploadBanner" name="upload_banner"
-                                        placeholder="Original Price" required>
+                                    <label for="banner" class="form-label">Upload Banner</label>
+                                    <input type="file" class="form-control" id="banner" name="banner"
+                                        value="{{ old('banner') }}" >
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="CourseDuration" class="form-label">Course Duration</label>
-                                    <input type="text" class="form-control" id="CourseDuration" name="course_duration" value="{{ old('course_duration') }}"
-                                        placeholder="Course Duration" required>
-                                </div>
-                                @error('course_duration')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="AboutCourse" class="form-label">About Course</label>
-                                    <textarea class="form-control" placeholder="Leave a comment here" id="AboutCourse" name="about_course" value="{{ old('about_course') }}" required></textarea>
-                                </div>
-                                  @error('about_course')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="CourseCategory" class="form-label">Choose Course Category</label>
                                     <select class="form-select" aria-label="Default select example" id="CourseCategory"
-                                        name="course_category">
+                                        name="course_category_id">
                                         <option selected>Select Category</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <option value="1">CCC</option>
+                                        <option value="2">PHP</option>
+                                        <option value="3">DRUPAL</option>
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label for="from" class="form-label">Form</label>
+                                    <input type="date" class="form-control" id="from" name="form"
+                                        placeholder="from">
+                                </div>
+                            </div>
                         </div>
+                        <div class="row mb-2">
+                            
+                             <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label for="to" class="form-label">To</label>
+                                    <input type="date" class="form-control" id="to" name="to"
+                                        placeholder="to">
+                                </div>
+                            </div>
+                              <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label for="AboutCourse" class="form-label">About Course</label>
+                                    <textarea class="form-control" placeholder="Leave a comment here" id="AboutCourse" name="about_course"
+                                        value="{{ old('about_course') }}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                       
 
                         <div class="row mb-2">
                             <div class="col">
@@ -118,7 +116,7 @@
                     <div class="table-responsive">
                         <table id="table" class="table table-bordered border-primary table-striped table-hover">
                             <thead style="background-color: #566A7F;">
-                                <tr>
+                               <tr>
                                     <th scope="col" class="text-white">Sr.No</th>
                                     <th scope="col" class="text-white">Course Name</th>
                                     <th scope="col" class="text-white">Language</th>
@@ -159,6 +157,23 @@
             </div>
         </div>
     </div>
+     <div class="modal fade" id="view{{ $liveClass->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $liveClass->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel{{ $liveClass->id }}">Modal title</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            {{$liveClass->id}}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 @endsection
 
 

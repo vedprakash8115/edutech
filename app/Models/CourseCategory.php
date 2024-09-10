@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CourseCategory extends Model
 {
+
     use HasFactory, SoftDeletes;
     protected $guarded=[];
 
     // In CourseCategory.php model
-    public function course()
+    public function catLevel0()
     {
-        return $this->belongsTo(Course::class, 'course_id');
+        return $this->belongsTo(CourseCategory0::class, 'cat0_id');
     }
-
 }

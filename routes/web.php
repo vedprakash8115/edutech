@@ -21,7 +21,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 // Route::get('login', function () {
-//     return view('auth.login');
+//     return view('dashboard');
 // });
 
 
@@ -42,20 +42,21 @@ Route::middleware(['auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('ins/dashboard', [InstituteController::class, 'index'])->name('insdashboard');
     /***  For Course routes ***/
-    Route::get('addcourse', [InstituteController::class, 'addcourse'])->name('addcourse');
-    Route::post('addcourse', [InstituteController::class, 'storeCourse'])->name('storecourse');
-    Route::get('course_list', [InstituteController::class, 'courseList'])->name('course_list');
-    Route::get('course_list/data', [InstituteController::class, 'getCoursesData'])->name('courses.data');
-    Route::get('edit_course/{id}', [InstituteController::class, 'editCourse'])->name('edit_course');
-    Route::put('update_course/{id}', [InstituteController::class, 'updateCourse'])->name('update_course');
-    Route::delete('delete_course/{id}', [InstituteController::class, 'deleteCourse'])->name('delete_course');
+    Route::get('addlevel0', [InstituteController::class, 'categoryLevel0'])->name('addlevel0');
+    Route::post('addlevel0', [InstituteController::class, 'storeLevel0'])->name('storelevel0');
+    // Route::get('course_list', [InstituteController::class, 'level0List'])->name('course_list');
+    Route::get('category_level0/data', [InstituteController::class, 'getLevel0Data'])->name('category_level0.data');
+    // Route::get('course_list/data', [InstituteController::class, 'getLevel0Data'])->name('courses.data');
+    Route::get('edit_level0/{id}', [InstituteController::class, 'editLevel0'])->name('edit_level0');
+    Route::put('update_level0/{id}', [InstituteController::class, 'updateLevel0'])->name('update_level0');
+    Route::delete('delete_level0/{id}', [InstituteController::class, 'deleteLevel0'])->name('delete_level0');
     /***  For Category routes ***/
-    Route::get('course_category', [InstituteController::class, 'courseCategory'])->name('course_category');
-    Route::get('course_category/data', [InstituteController::class, 'getCategoriesData'])->name('course_category.data');
-    Route::post('store_category', [InstituteController::class, 'StoreCategory'])->name('store_category');
-    Route::get('edit_category/{id}', [InstituteController::class, 'editCategory'])->name('edit_category');
-    Route::put('update_category/{id}', [InstituteController::class, 'updateCategory'])->name('update_category');
-    Route::delete('delete_category/{id}', [InstituteController::class, 'deleteCategory'])->name('delete_category');
+    Route::get('category_level1', [InstituteController::class, 'CategoryLevel1'])->name('category_level1');
+    Route::get('course_category/data', [InstituteController::class, 'getLevel1Data'])->name('course_category.data');
+    Route::post('store_category', [InstituteController::class, 'StoreLevel1'])->name('store_level1');
+    Route::get('edit_level1/{id}', [InstituteController::class, 'editLevel1'])->name('edit_level1');
+    Route::put('edit_level1/{id}', [InstituteController::class, 'updateLevel1'])->name('update_level1');
+    Route::delete('delete_level1/{id}', [InstituteController::class, 'deleteLevel1'])->name('delete_level1');
     /***  For Sub Category routes ***/
     Route::get('course_subcategory', [InstituteController::class, 'courseSubCategory'])->name('course_subcategory');
     Route::post('store_subcategory', [InstituteController::class, 'StoreSubCategory'])->name('store_subcategory');
@@ -63,5 +64,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('edit_subcategory/{id}', [InstituteController::class, 'editSubCategory'])->name('edit_subcategory');
     Route::put('update_subcategory/{id}', [InstituteController::class, 'updateSubcategory'])->name('update_subcategory');
     Route::delete('delete_subcategory/{id}', [InstituteController::class, 'deleteSubcategory'])->name('delete_subcategory');
-
 });

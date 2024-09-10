@@ -19,7 +19,7 @@ class LiveClassController extends Controller
         $liveClasses = liveClass::query()
             ->paginate($perPage)
             ->appends($request->query());
-        return view('ins.content.liveclass', [
+            return view('ins.content.liveclass', [
             'liveClasses' => $liveClasses,
         ]);
         // return view('ins.content.liveclass');
