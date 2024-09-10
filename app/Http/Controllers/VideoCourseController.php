@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\VideoCourse;
 use App\Http\Requests\StoreVideoCourseRequest;
 use App\Http\Requests\UpdateVideoCourseRequest;
+use App\Models\CourseCategory;
+use App\Models\CourseCategory0;
+use App\Models\CourseSubCategory;
 use Illuminate\Http\Request;
 
 class VideoCourseController extends Controller
@@ -19,8 +22,13 @@ class VideoCourseController extends Controller
         $videoCourseies = VideoCourse::query()
             ->paginate($perPage)
             ->appends($request->query());
-             return view('ins.content.videocourse', [
+
+        $courseCategory0 = CourseCategory0::all();
+
+        return view('ins.content.videocourse', [
             'videoCourseies' => $videoCourseies,
+            'courseCategory0' => $courseCategory0,
+
         ]);
         // return view('ins.content.videocourse');
     }
@@ -51,13 +59,28 @@ class VideoCourseController extends Controller
         }
 
         // Handle Video Upload
+        // if ($request->hasFile('video')) {
+        //     $video = $request->file('video');
+        //     $destinationVideo = '/video';
+        //     $videoFileName = time() . '_' . $video->getClientOriginalName();
+        //     $video->move(public_path($destinationVideo), $videoFileName);
+        //     $validatedData['video'] = $destinationVideo . '/' . $videoFileName;
+        // }
+
         if ($request->hasFile('video')) {
-            $video = $request->file('video');
-            $destinationVideo = '/video';
-            $videoFileName = time() . '_' . $video->getClientOriginalName();
-            $video->move(public_path($destinationVideo), $videoFileName);
-            $validatedData['video'] = $destinationVideo . '/' . $videoFileName;
+            $videos = $request->file('video');
+            $videoPaths = []; 
+            foreach ($videos as $video) {
+                $destinationVideo = '/video';
+                $videoFileName = time() . '_' . $video->getClientOriginalName();
+                $video->move(public_path($destinationVideo), $videoFileName);
+                $videoPaths[] = $destinationVideo . '/' . $videoFileName; // Store the path
+            }
+
+            // You can store the paths in your database
+            $validatedData['videos'] = json_encode($videoPaths); // Store the video paths as a JSON array
         }
+
 
         $fromDate = \Carbon\Carbon::parse($validatedData['form']);
         $toDate = \Carbon\Carbon::parse($validatedData['to']);
@@ -99,5 +122,18 @@ class VideoCourseController extends Controller
     public function destroy(VideoCourse $videoCourse)
     {
         //
+    }
+    public function getSubcategories($id)
+    {
+        // Retrieve subcategories based on the category ID
+        $subcategories = CourseCategory::where('cat0_id', $id)->get();
+        return response()->json($subcategories);
+    }
+
+
+    public function getSubcategories2($categoryId)
+    {
+        $subcategories2 = CourseSubCategory::where('category_id', $categoryId)->get();
+        return response()->json($subcategories2);
     }
 }

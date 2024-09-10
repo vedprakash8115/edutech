@@ -10,4 +10,14 @@ class VideoCourse extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function courseCategory()
+    {
+        return $this->belongsTo(CourseCategory::class);
+    }
+    public function getSubcategories()
+    {
+        return $this->belongsTo(CourseSubCategory::class);
+    }
+
 }

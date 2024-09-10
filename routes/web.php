@@ -30,14 +30,16 @@ Route::get('ins/content', [LiveClassController::class, 'index'])->name('liveclas
 Route::post('ins/content', [LiveClassController::class, 'store'])->name('liveclass.store');
 Route::get('/live-classes/{id}', [LiveClassController::class, 'show'])->name('liveClasses.show');
 Route::get('/live-classes/{id}/edit', [LiveClassController::class, 'edit'])->name('liveClasses.edit');
-
 Route::get('ins/video', [VideoCourseController::class, 'index'])->name('videocourse');
 Route::post('ins/video', [VideoCourseController::class, 'store'])->name('videocourse.store');
-
-
 Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
-
 Route::post('login', [LoginController::class, 'login'])->name('login');
+
+
+Route::get('/get-subcategories/{id}', [VideoCourseController::class, 'getSubcategories'])->name('get-subcategories');
+Route::get('/get-subcategories2/{categoryId}', [VideoCourseController::class, 'getSubcategories2'])->name('get-subcategories2');
+
+
 Route::middleware(['auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('ins/dashboard', [InstituteController::class, 'index'])->name('insdashboard');

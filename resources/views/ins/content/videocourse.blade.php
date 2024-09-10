@@ -53,14 +53,13 @@
                                 <div class="mb-2">
                                     <label for="banner" class="form-label">Upload Banner</label>
                                     <input type="file" class="form-control" id="banner" name="banner"
-                                        value="{{ old('banner') }}" >
+                                        value="{{ old('banner') }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="video" class="form-label">Upload Video </label>
-                                    <input type="file" class="form-control" id="video" name="video"
-                                       >
+                                    <input type="file" class="form-control" id="video" name="video[]" multiple>
                                 </div>
                             </div>
                         </div>
@@ -72,18 +71,7 @@
                                         placeholder="Course Duration">
                                 </div>
                             </div> --}}
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="CourseCategory" class="form-label">Choose Course Category</label>
-                                    <select class="form-select" aria-label="Default select example" id="CourseCategory"
-                                        name="course_category_id">
-                                        <option selected>Select Category</option>
-                                        <option value="1">CCC</option>
-                                        <option value="2">PHP</option>
-                                        <option value="3">DRUPAL</option>
-                                    </select>
-                                </div>
-                            </div>
+
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="from" class="form-label">Form</label>
@@ -91,25 +79,55 @@
                                         placeholder="from">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2">
-                            
-                             <div class="col-md-6">
+                            <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="to" class="form-label">To</label>
                                     <input type="date" class="form-control" id="to" name="to"
                                         placeholder="to">
                                 </div>
                             </div>
-                              <div class="col-md-6">
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <div class="mb-2">
+                                    <label for="CourseCategory" class="form-label">Choose Course 0</label>
+                                    <select class="form-select" aria-label="Default select example" id="CourseCategory"
+                                        name="course_category_id">
+                                        <option selected>Select Category</option>
+                                        @foreach ($courseCategory0 as $courseCategory)
+                                            <option value="{{ $courseCategory->id }}">{{ $courseCategory->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-2">
+                                    <label for="CourseCategory" class="form-label">Choose Course 1</label>
+                                    <select class="form-select" aria-label="Default select example"
+                                        id="CourseSubCategory" name="course_category_id">
+                                        <option selected>Select Category</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-2">
+                                    <label for="CourseCategory" class="form-label">Choose Course 2</label>
+                                    <select class="form-select" aria-label="Default select example" id="coursecategory2"
+                                        name="course_subcategory_id">
+                                        <option selected>Select Subcategory</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
                                 <div class="mb-2">
                                     <label for="AboutCourse" class="form-label">About Course</label>
-                                    <textarea class="form-control" placeholder="Leave a comment here" id="AboutCourse" name="about_course"
+                                    <textarea class="form-control" placeholder="About Course" id="AboutCourse" name="about_course"
                                         value="{{ old('about_course') }}"></textarea>
                                 </div>
                             </div>
                         </div>
-                       
 
                         <div class="row mb-2">
                             <div class="col">
@@ -161,31 +179,36 @@
                                         <td>{{ $videoCourse->about_course }} </td>
                                         <td>{{ $videoCourse->course_category_id }}</td>
                                         <td>
-                                            <button type="button" class="badge bg-primary" data-bs-toggle="modal" data-bs-target="#view{{ $videoCourse->id }}">
-                                           View
-                                        </button>
+                                            <button type="button" class="badge bg-primary" data-bs-toggle="modal"
+                                                data-bs-target="#view{{ $videoCourse->id }}">
+                                                View
+                                            </button>
                                             <a class="badge bg-secondary"
-                                             href="{{ url('/videoCourseies/' . $videoCourse->id) }}">Edit</a>  
+                                                href="{{ url('/videoCourseies/' . $videoCourse->id) }}">Edit</a>
                                         </td>
                                     </tr>
 
-                                  <div class="modal fade" id="view{{ $videoCourse->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $videoCourse->id }}" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel{{ $videoCourse->id }}">Modal title</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                            {{$videoCourse->id}}
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                    <div class="modal fade" id="view{{ $videoCourse->id }}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel{{ $videoCourse->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel{{ $videoCourse->id }}">
+                                                        Modal title</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    {{ $videoCourse->id }}
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -195,6 +218,61 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#CourseCategory').on('change', function() {
+                var categoryId = $(this).val();
 
-   
+                if (categoryId) {
+                    $.ajax({
+                        url: '/get-subcategories/' + categoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#CourseSubCategory').empty();
+                            $('#CourseSubCategory').append(
+                                '<option selected>Select Subcategory</option>');
+
+                            $.each(data, function(key, value) {
+                                $('#CourseSubCategory').append('<option value="' + value
+                                    .id + '">' + value.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#CourseSubCategory').empty(); // Clear the dropdown if no category is selected
+                    $('#CourseSubCategory').append('<option selected>Select Subcategory</option>');
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('#CourseSubCategory').change(function() {
+                var categoryId = $(this).val();
+                if (categoryId) {
+                    $.ajax({
+                        url: '/get-subcategories2/' + categoryId,
+                        type: 'GET',
+                        success: function(response) {
+                            $('#coursecategory2').empty();
+                            $('#coursecategory2').append(
+                                '<option selected>Select Subcategory</option>');
+                            $.each(response, function(key, subcategory) {
+                                $('#coursecategory2').append('<option value="' +
+                                    subcategory.id + '">' + subcategory.name +
+                                    '</option>');
+                            });
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endsection
