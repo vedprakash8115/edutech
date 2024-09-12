@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\LiveClassController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCourseController;
 
 /*
@@ -67,4 +68,5 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('delete_subcategory/{id}', [InstituteController::class, 'deleteSubcategory'])->name('delete_subcategory');
 
     Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
 });
