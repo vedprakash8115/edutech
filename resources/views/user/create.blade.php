@@ -9,9 +9,11 @@
             <h3 class="card-title">{{ isset($single_data) ? 'Edit User' : 'Add User' }}</h3>
         </div>
         <div class="card-body">
-            <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ isset($single_data->id)?route('users.update',$single_data->id):route('users.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
+                @isset($single_data)
+                    @method('put')
+                @endisset
                 <!-- User Details Section -->
                 <div class="row mb-2">
                     <div class="col-md-4">
@@ -44,7 +46,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" value="{{ old('password') }}">
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Leave to keep old password">
                             <span class="text-warning">password must be 8 character with Capital,Small letter and number , symbol</span>
                         </div>
                     </div>
@@ -107,7 +109,7 @@
                             <select name="role_id" id="role_id" class="form-control">
                                 @isset($roles)
                                 @foreach ($roles as $role)
-                                <option value="{{$role->id ?? ''}}">{{$role->name ?? ''}}</option>
+                                <option value="{{$role->id ?? ''}}" {{(isset($single_data->role_id) && $single_data->role_id==$role->id)?'selected':''}}>{{$role->name ?? ''}}</option>
                                 @endforeach
                                 @endisset
                                 <!-- Add more roles as needed -->
@@ -116,7 +118,7 @@
                     </div>
                     <div class="col-md-8">
                         <label for="role">Details</label>
-                        <textarea name="details" class="form-control" rows=""></textarea>
+                        <textarea name="details" class="form-control" rows="">{{ old('details', $single_data->details ?? '') }}</textarea>
                     </div>
                 </div>
 

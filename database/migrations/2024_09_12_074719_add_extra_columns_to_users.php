@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('youtube_url')->nullable()->after('facebook_link');
             $table->string('twitter_url')->nullable()->after('youtube_url');
             $table->string('linkedin_url')->nullable()->after('twitter_url');
+            $table->softDeletes()->after('remember_token');
         });
     }
 
