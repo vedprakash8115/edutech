@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\LiveClassController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\user_frontend\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCourseController;
 
 /*
@@ -17,14 +20,14 @@ use App\Http\Controllers\VideoCourseController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('auth.login');
 });
 // Route::get('login', function () {
 //     return view('dashboard');
 // });
 
-
+Route::get('/',[HomeController::class,'index'])->name('index');
 
 Route::get('ins/content', [LiveClassController::class, 'index'])->name('liveclass');
 Route::post('ins/content', [LiveClassController::class, 'store'])->name('liveclass.store');
@@ -64,4 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('edit_subcategory/{id}', [InstituteController::class, 'editSubCategory'])->name('edit_subcategory');
     Route::put('update_subcategory/{id}', [InstituteController::class, 'updateSubcategory'])->name('update_subcategory');
     Route::delete('delete_subcategory/{id}', [InstituteController::class, 'deleteSubcategory'])->name('delete_subcategory');
+
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
 });

@@ -1,0 +1,33 @@
+footer {
+    background-color: #343a40;
+    color: white;
+  }
+  
+  footer a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  footer a:hover {
+    color: #ffc107;
+    text-decoration: underline;
+  }
+  
+  footer h5 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  footer .input-group {
+    max-width: 300px;
+  }
+  
+  footer .social-icons i {
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
+  
+  footer .social-icons a:hover i {
+    color: #ffc107;
+  }
+  
