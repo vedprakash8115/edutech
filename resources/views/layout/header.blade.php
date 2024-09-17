@@ -94,7 +94,7 @@
                       @csrf
                     <button type="submit" style="border: none; background: none; cursor: pointer;">
                         <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle"  >Log Out</span>
+                        <span class="align-middle">Log Out</span>
                     </button>
                     </form>
                     </li>

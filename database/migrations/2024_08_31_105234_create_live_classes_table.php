@@ -15,16 +15,23 @@ return new class extends Migration
             $table->id();
             $table->string('course_name')->nullable();
             $table->string('language')->nullable();
+            $table->enum('discount_type', ['fixed', 'percentage'])->default('fixed');
             $table->integer('original_price')->nullable();
             $table->integer('discount_price')->nullable();
+            
             $table->string('banner')->nullable();
-            $table->integer('course_duration')->nullable();
+            $table->string('course_duration')->nullable();
+
             $table->string('about_course')->nullable();
-            $table->string('course_category_id')->nullable();
-            $table->date('form')->nullable();
+            $table->integer('cat_level_0')->nullable();
+            $table->integer('cat_level_1')->nullable();
+            $table->integer('cat_level_2')->nullable();
+            $table->date('from')->nullable();
             $table->date('to')->nullable();
-            $table->string('status')->default(1);
+            $table->boolean('status')->default(true);
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

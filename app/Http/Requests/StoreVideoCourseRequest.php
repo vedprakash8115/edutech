@@ -26,11 +26,12 @@ class StoreVideoCourseRequest extends FormRequest
             'language' => 'required|integer', // Language should be an integer
             'original_price' => 'required|numeric|min:2',
             'discount_price' => 'nullable|numeric|min:2',
-            'banner' => 'required|file',
+            'banner' => 'required|file|mimes:jpg,jpeg,png|max:2048', // Added MIME and file size validation for banner
             'about_course' => 'required|string',
             'course_category_id' => 'required|integer', // Should be an integer
-            'form' => 'required|date', // Date format validation
+            'from' => 'required|date', // Date format validation
             'to' => 'required|date', // Date format validation
+     
         ];
     }
 }

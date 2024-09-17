@@ -18,13 +18,14 @@ return new class extends Migration
             $table->integer('original_price')->nullable();
             $table->integer('discount_price')->nullable();
             $table->string('banner')->nullable();
-            $table->string('video')->nullable();
+          
             $table->integer('course_duration')->nullable();
             $table->string('about_course')->nullable();
             $table->string('course_category_id')->nullable();
-            $table->date('form')->nullable();
+            $table->date('from')->nullable();
             $table->date('to')->nullable();
             $table->string('status')->default(1);
+            $table->softdeletes();
             $table->timestamps();
         });
     }
