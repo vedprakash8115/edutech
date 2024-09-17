@@ -103,7 +103,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/delete-multiple', [ElibraryController::class, 'deleteMultiple'])->name('elibrary.deleteMultiple');
     Route::post('/elibrary/upload-files', [ElibraryController::class, 'uploadFiles'])->name('elibrary.uploadFiles');
     // Route::get('/ins/content/e-library', [ElibraryController::class, 'index'])->name('elibrary.store');
-
+    Route::get('/upload-monitor', [UploadMonitorController::class, 'index'])->name('upload.monitor');
 });
 
 Auth::routes();
