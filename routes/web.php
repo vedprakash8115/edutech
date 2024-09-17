@@ -6,6 +6,8 @@ use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\LiveClassController;
 use App\Http\Controllers\ElibraryController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\user_frontend\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCourseController;
 
 /*
@@ -19,14 +21,14 @@ use App\Http\Controllers\VideoCourseController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('auth.login');
 });
 // Route::get('login', function () {
 //     return view('dashboard');
 // });
 
-
+Route::get('/',[HomeController::class,'index'])->name('index');
 
 Route::get('ins/content', [LiveClassController::class, 'index'])->name('liveclass');
 Route::post('ins/content', [LiveClassController::class, 'store'])->name('liveclass.store');
@@ -104,8 +106,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/elibrary/upload-files', [ElibraryController::class, 'uploadFiles'])->name('elibrary.uploadFiles');
     // Route::get('/ins/content/e-library', [ElibraryController::class, 'index'])->name('elibrary.store');
     Route::get('/upload-monitor', [UploadMonitorController::class, 'index'])->name('upload.monitor');
+    Route::resource('users', UserController::class);
 });
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
