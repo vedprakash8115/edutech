@@ -1,0 +1,251 @@
+nav-tab.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color);
+}
+
+.card img{
+  border-radius: 1rem 1rem 0 0;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease,box-shadow 0.3s ease-in;
+  border-radius: 1rem;
+
+}
+
+.card:hover {
+  box-shadow: 2px 2px 8px 5px #c4c3c39e;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-img-top {
+}
+
+
+.enroll-button {
+  border: none;
+}
+.enroll-button:hover {
+  background-color: var(--secondary-color);
+  border: none;
+}
+
+/* promo  */
+.stats-section {
+  background-color: #f8f9fa; /* Light background */
+}
+
+.stat-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #202b389e; /* Primary color */
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: #6c757d; /* Muted text color */
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.stats-section .col-md-3 {
+  border-right: 1px solid #ddd; /* Dividers between sections */
+}
+
+.stats-section .col-md-3:last-child {
+  border-right: none; /* Remove right border for the last section */
+}
+
+/* Style for Back to Top Button */
+/* Style for Back to Top Button */
+#backToTopBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  opacity: 0; /* Hidden by default */
+  visibility: hidden; /* Ensure the button is not clickable when hidden */
+  z-index: 1000; /* Ensure it's on top of other content */
+  border: none;
+  background-color: #007bff; /* Primary color */
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#backToTopBtn:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+#backToTopBtn:focus {
+  outline: none;
+}
+
+#backToTopBtn i {
+  font-size: 24px; /* Adjust icon size */
+}
+
+/* teacher cards */
+
+#industry-experts{
+  background-size: cover;
+}
+#industry-experts h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.teacher-card{
+  background-color: rgb(137 206 205 / 21%);
+  border: 1px solid transparent;
+}
+
+
+.col-md-3:nth-child(1) .teacher-card:hover {
+  box-shadow: none;
+  transform: none;
+  border: 1px solid pink;
+  background-color: rgba(255, 192, 203, 0.275); 
+}
+
+.col-md-3:nth-child(2) .teacher-card:hover {
+  box-shadow: none;
+  transform: none;
+  border: 1px solid blue;
+
+  background-color: rgba(192, 205, 255, 0.275); 
+}
+
+.col-md-3:nth-child(3) .teacher-card:hover {
+  box-shadow: none;
+  transform: none;
+  border: 1px solid green;
+  background-color: rgba(200, 255, 192, 0.275);
+}
+.teacher-card:hover img{
+  border: 5px solid white;
+  transform: scale(1.1);
+  filter: brightness(0.8); 
+  transition: transform 0.3s, filter 0.3s;
+}
+
+
+/* resources card */
+/* General card styling */
+.resource-card {
+  position: relative;
+  overflow: hidden;
+  border: none; /* Optional: remove card border */
+}
+
+.card-background {
+  background-size: cover;
+  background-position: center;
+  height: 200px; /* Adjust based on your design */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: opacity 0.3s ease;
+}
+
+.card-hover-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.834); /* Semi-transparent background for text */
+  color: #fff;
+  padding: 1rem;
+  transform: translateY(100%);
+  transition: transform 0.5s ease;
+}
+
+.resource-card:hover .card-background {
+  opacity: 0.8; /* Optional: fade background on hover */
+}
+
+.resource-card:hover .card-hover-content {
+  transform: translateY(0);
+}
+.resource-card span{
+  padding: .4rem 1rem;
+  background-color: #0056b3;
+  border-radius: 5px;
+  transition: all 0.2s ease-in;
+}
+.resource-card span:hover{
+  background-color: blue;
+  box-shadow: 0 0 3px 3px rgb(26, 26, 92);
+}
+.arrow-link {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+.arrow-link:hover{
+  color: white;
+}
+
+.arrow-link i {
+  margin-right: 0.5rem;
+}
+
+.arrow-text {
+  display: none; /* Hidden by default */
+}
+
+.resource-card:hover .arrow-text {
+  display: inline;
+}
+
+.explore-card {
+  position: relative;
+  border: 1px solid rgba(0, 0, 255, 0.311);
+  border-radius: 5px;
+  transition: all 0.3s ease-in;
+  cursor: pointer;
+}
+
+.explore-btn {
+  position: absolute;
+  right: 2rem;
+  bottom: 2px; /* Initial position outside view */
+  opacity: 0;
+  display: block; /* Keep display as block to allow opacity transition */
+  transition: all 0.2s ease-in;
+}
+
+.explore-card:hover {
+  box-shadow: rgba(28, 32, 255, 0.199) -5px 5px, rgba(32, 28, 255, 0.19) -10px 10px !important;
+  background-color: rgba(0, 0, 255, 0.078);
+  border-color:1px solid rgba(0, 0, 255, 0.477);
+}
+
+.explore-card:hover .explore-btn {
+  bottom: 2rem; /* Position moves up */
+  opacity: 1;
+}
+
