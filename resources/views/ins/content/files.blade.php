@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid elibrary-container">
-    <div class="elibrary-header mb-5" >
+    <div class="elibrary-header mb-5">
         <h1 class="elibrary-title">E-Library</h1>
         <p class="elibrary-subtitle">Manage Your Digital Resources</p>
     </div>
@@ -17,12 +17,12 @@
     <form action="{{ route('elibrary.deleteMultiple') }}" method="POST" id="multipleDeleteForm">
         @csrf
         @method('DELETE')
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <button type="submit" class="btn btn-danger" id="deleteSelected" disabled>
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div class="d-flex flex-wrap align-items-center mb-3 mb-md-0">
+                <button type="submit" class="btn btn-danger mb-2 mb-md-0 me-2" id="deleteSelected" disabled>
                     <i class="fas fa-trash-alt"></i> Delete Selected
                 </button>
-                <div class="btn-group ms-3" role="group" aria-label="View toggle">
+                <div class="btn-group mb-2 mb-md-0 me-2" role="group" aria-label="View toggle">
                     <button type="button" class="btn btn-outline-primary active" id="tileView">
                         <i class="fas fa-th-large"></i> Tile
                     </button>
@@ -31,12 +31,10 @@
                     </button>
                 </div>
                 @foreach($elibraryItems as $item)
-                <button type="button" class="btn btn-dark mx-3" onclick="addImage({{ $item->id }})">
-                    <i class="fas fa-upload"></i> Add Files
-                </button>
-            @endforeach
-            
-                
+                    <button type="button" class="btn btn-dark mb-2 mb-md-0 me-2" onclick="addImage({{ $item->id }})">
+                        <i class="fas fa-upload"></i> Add Files
+                    </button>
+                @endforeach
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="selectAll">
@@ -44,25 +42,25 @@
             </div>
         </div>
 
-        <div id="tileViewContainer" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div id="tileViewContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
             @foreach($elibraryItems as $item)
                 @foreach($item->files as $file)
                     <div class="col" data-aos="fade-up" data-aos-duration="800" data-aos-delay="{{ $loop->parent->index * 100 }}">
-                        <div class="file-card">
+                        <div class="file-card h-100">
                             <div class="file-card-header">
-                                <h5 class="file-title">{{ $file->file_path }}</h5> <!-- Display file path as the title -->
+                                <h5 class="file-title">{{ Str::limit($file->file_path, 20) }}</h5>
                                 <div class="form-check">
                                     <input class="form-check-input file-select" type="checkbox" name="files[]" value="{{ $file->id }}">
                                 </div>
                             </div>
                             <div class="file-card-body">
                                 <div class="file-icon">
-                                    {!! getFileTypeIcon($file->file_path) !!} <!-- Display file type icon for the current file -->
+                                    {!! getFileTypeIcon($file->file_path) !!}
                                 </div>
-                                <p class="file-description">{{ Str::limit($item->description, 80) }}</p> <!-- Same description for all files under the same item -->
+                                <p class="file-description">{{ Str::limit($item->description, 80) }}</p>
                             </div>
                             <div class="file-card-footer">
-                                <a href="{{ asset($file->file_path) }}" target="_blank" class="btn btn-primary btn-sm">
+                                <a href="{{ asset($file->file_path) }}" target="_blank" class="btn btn-primary btn-sm w-100">
                                     <i class="fas fa-external-link-alt"></i> Open
                                 </a>
                             </div>
@@ -71,7 +69,6 @@
                 @endforeach
             @endforeach
         </div>
-        
 
         <div id="tableViewContainer" class="table-responsive" style="display: none;">
             <table class="table table-hover">
@@ -93,9 +90,9 @@
                                         <input class="form-check-input file-select" type="checkbox" name="files[]" value="{{ $file->id }}">
                                     </div>
                                 </td>
-                                <td>{{ $file->file_path }}</td> <!-- Show file path as the title -->
-                                <td>{!! getFileTypeIcon($file->file_path) !!}</td> <!-- File type icon for the current file -->
-                                <td>{{ Str::limit($item->description, 80) }}</td> <!-- Same description for all rows of the same item -->
+                                <td>{{ Str::limit($file->file_path, 30) }}</td>
+                                <td>{!! getFileTypeIcon($file->file_path) !!}</td>
+                                <td>{{ Str::limit($item->description, 50) }}</td>
                                 <td>
                                     <a href="{{ asset($file->file_path) }}" target="_blank" class="btn btn-primary btn-sm">
                                         <i class="fas fa-external-link-alt"></i> Open
@@ -107,8 +104,6 @@
                 </tbody>
             </table>
         </div>
-        
-        
     </form>
 </div>
 
@@ -130,7 +125,8 @@
         --background-color: #f4f7f6;
         --card-background: #ffffff;
         --text-color: #2c3e50;
-        --border-radius: 2px;
+        --border-radius: 8px;
+        --transition: all 0.3s ease;
     }
 
     body {
@@ -140,13 +136,12 @@
     }
 
     .elibrary-container {
-        padding: 3rem 0;
-        /* background-color: #f8f9fa; */
+        padding: 3rem 1rem;
     }
 
     .elibrary-header {
         text-align: center;
-        background: rgb(4, 107, 180);
+        background: linear-gradient(135deg, #046bb4, #080340);
         padding: 4rem 2rem;
         border-radius: var(--border-radius);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -172,7 +167,10 @@
         border-radius: var(--border-radius);
         overflow: hidden;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
+        transition: var(--transition);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
     .file-card:hover {
@@ -192,11 +190,17 @@
         margin: 0;
         font-weight: 600;
         color: var(--text-color);
+        font-size: 1rem;
+        word-break: break-word;
     }
 
     .file-card-body {
         padding: 1.5rem;
         text-align: center;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .file-icon {
@@ -208,35 +212,32 @@
     .file-description {
         color: #666;
         font-size: 0.9rem;
+        margin-bottom: 0;
     }
 
     .file-card-footer {
         padding: 1rem 1.5rem;
         background-color: rgba(0, 0, 0, 0.03);
-        text-align: right;
+        text-align: center;
+    }
+
+    .btn {
+        transition: var(--transition);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .btn-primary {
         background-color: var(--primary-color);
         border-color: var(--primary-color);
-        color: #fff;
-        transition: all 0.3s ease;
     }
 
     .btn-primary:hover {
-        background-color: darken(var(--primary-color), 10%);
-        border-color: darken(var(--primary-color), 10%);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .btn-danger {
-        transition: all 0.3s ease;
-    }
-
-    .btn-danger:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #2980b9;
+        border-color: #2980b9;
     }
 
     .table {
@@ -262,6 +263,28 @@
         .elibrary-subtitle {
             font-size: 1.1rem;
         }
+        .file-card-header, .file-card-body, .file-card-footer {
+            padding: 1rem;
+        }
+        .file-icon {
+            font-size: 2.5rem;
+        }
+    }
+
+    @media (min-width: 2000px) {
+        .container-fluid {
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+        .elibrary-title {
+            font-size: 4.5rem;
+        }
+        .elibrary-subtitle {
+            font-size: 1.8rem;
+        }
+        .file-card {
+            min-height: 300px;
+        }
     }
 </style>
 @endpush
@@ -271,7 +294,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        AOS.init();
+        AOS.init({
+            once: true,
+            duration: 800,
+            offset: 100,
+        });
 
         const selectAll = document.getElementById('selectAll');
         const fileCheckboxes = document.querySelectorAll('.file-select');
@@ -311,76 +338,13 @@
     });
 
     function addImage(elibraryId) {
-        // Set the hidden elibrary_id field with the passed elibraryId
         document.getElementById('hiddenCourseId').value = elibraryId;
-
-        // Trigger the file input click
         document.getElementById('hiddenImageInput').click();
     }
 
-    // Submit the form when files are selected
     document.getElementById('hiddenImageInput').onchange = function() {
-        // Submit the form directly
         document.getElementById('imageUploadForm').submit();
     };
-
-
-//     function addImage(elibraryId) {
-//     const hiddenInput = document.getElementById('hiddenImageInput');
-//     const form = document.getElementById('imageUploadForm');
-
-//     // Function to get URL parameter by name
-//     function getUrlParameter(name) {
-//         const regex = new RegExp('[?&]' + name + '=([^&#]*)');
-//         const results = regex.exec(window.location.search);
-//         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-//     }
-
-//     const courseId = getUrlParameter('course_id'); // Extract course_id from URL
-
-//     document.getElementById('hiddenCourseId').value = courseId;
-
-//     hiddenInput.click();
-
-//     // When a file is selected, submit the form
-//     hiddenInput.onchange = function() {
-//         if (hiddenInput.files.length > 0) {
-//             // Perform AJAX to upload image
-//             const formData = new FormData(form);
-//             formData.append('course_id', courseId);
-//             formData.append('elibrary_id', elibraryId); // Append eLibrary ID
-
-//             $.ajax({
-//                 url: '{{ route("elibrary.uploadFiles") }}',
-//                 type: 'POST',
-//                 data: formData,
-//                 processData: false,
-//                 contentType: false,
-//                 headers: {
-//                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//                 },
-//                 success: function(response) {
-//                     alert('Files uploaded successfully!');
-//                     $('#elibrary-table').DataTable().ajax.reload();
-//                 },
-//                 error: function(response) {
-//                     if(response.responseJSON && response.responseJSON.errors) {
-//                         let errors = response.responseJSON.errors;
-//                         let errorMessage = '';
-//                         for (let field in errors) {
-//                             errorMessage += errors[field].join(', ') + '\n';
-//                         }
-//                         alert('Upload failed:\n' + errorMessage);
-//                     } else {
-//                         alert('Upload failed. Please try again.');
-//                     }
-//                 }
-//             });
-//         }
-//     };
-// }
-
-
 </script>
 @endpush
 

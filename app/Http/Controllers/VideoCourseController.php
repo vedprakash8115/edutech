@@ -133,6 +133,38 @@ class VideoCourseController extends Controller
         return view('ins.content.videos', compact('videoCourse'));
     }
 
+    // public function uploadVideos(Request $request)
+    // {
+    //     try {
+    //         $request->validate([
+    //             'course_id' => 'required|exists:video_courses,id',
+    //             'image.*' => 'required|file|mimes:mp4,mov,avi|max:102400', // 100MB max
+    //         ]);
+    
+    //         $videoCourse = VideoCourse::findOrFail($request->course_id);
+    
+    //         if ($request->hasFile('image')) {
+    //             foreach ($request->file('image') as $video) {
+    //                 $destinationVideo = 'video';
+    //                 $videoFileName = time() . '_' . $video->getClientOriginalName();
+    //                 $video->move(public_path($destinationVideo), $videoFileName);
+    
+    //                 // Create a new entry in the videos table
+    //                 $videoCourse->videos()->create([
+    //                     'video_path' => $destinationVideo . '/' . $videoFileName
+    //                 ]);
+    //             }
+    //         }
+    
+    //         return response()->json(['success' => 'Videos uploaded successfully'], 200);
+    //         // Alert::success('Success', 'Videos added successfully');
+    //     } catch (\Exception $e) {
+    //         Log::error('Error uploading videos: ' . $e->getMessage());
+    //         return response()->json(['error' => 'An error occurred while uploading videos.'], 500);
+    //     }
+    // }
+
+
     public function uploadVideos(Request $request)
     {
         try {
@@ -145,24 +177,19 @@ class VideoCourseController extends Controller
     
             if ($request->hasFile('image')) {
                 foreach ($request->file('image') as $video) {
-                    $destinationVideo = 'video';
-                    $videoFileName = time() . '_' . $video->getClientOriginalName();
-                    $video->move(public_path($destinationVideo), $videoFileName);
-    
-                    // Create a new entry in the videos table
-                    $videoCourse->videos()->create([
-                        'video_path' => $destinationVideo . '/' . $videoFileName
-                    ]);
+                    // Dispatch the job
+                    VideoUploadJob::dispatch($videoCourse, $video);
                 }
             }
     
-            return response()->json(['success' => 'Videos uploaded successfully'], 200);
-            // Alert::success('Success', 'Videos added successfully');
+            return response()->json(['success' => 'Video upload jobs dispatched successfully'], 200);
         } catch (\Exception $e) {
-            Log::error('Error uploading videos: ' . $e->getMessage());
-            return response()->json(['error' => 'An error occurred while uploading videos.'], 500);
+            Log::error('Error dispatching video upload jobs: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while dispatching video upload jobs.'], 500);
         }
     }
+
+    
     public function deleteMultiple(Request $request)
     {
         $videoIds = $request->input('videos', []);

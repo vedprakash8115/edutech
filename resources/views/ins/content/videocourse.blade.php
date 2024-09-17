@@ -134,7 +134,7 @@
 
 
         function addImage(courseId) {
-            // Trigger the hidden file input
+           
             const hiddenInput = document.getElementById('hiddenImageInput');
             const form = document.getElementById('imageUploadForm');
 
