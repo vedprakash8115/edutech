@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\LiveClassController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\user_frontend\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCourseController;
 
@@ -19,14 +20,14 @@ use App\Http\Controllers\VideoCourseController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('auth.login');
 });
 // Route::get('login', function () {
 //     return view('dashboard');
 // });
 
-
+Route::get('/',[HomeController::class,'index'])->name('index');
 
 Route::get('ins/content', [LiveClassController::class, 'index'])->name('liveclass');
 Route::post('ins/content', [LiveClassController::class, 'store'])->name('liveclass.store');
