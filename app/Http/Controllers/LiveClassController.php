@@ -31,7 +31,7 @@ class LiveClassController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error('Error in index method: ' . $e->getMessage());
-            Alert::error('Error', 'An error occurred while loading live classes.');
+            Alert::toast('An error occurred while loading live classes.', 'error');
             return redirect()->back();
         }
     }
@@ -75,7 +75,7 @@ class LiveClassController extends Controller
             return view('ins.content.liveclass');
         } catch (Exception $e) {
             Log::error('Error in create method: ' . $e->getMessage());
-            Alert::error('Error', 'An error occurred while loading the create form.');
+            Alert::toast('An error occurred while loading the create form.', 'error');
             return redirect()->back();
         }
     }
@@ -93,32 +93,17 @@ class LiveClassController extends Controller
                 $validatedData['banner'] = $destinationPath . '/' . $fileName;
             }
     
-            $fromDate = Carbon::parse($validatedData['from']);
-            $toDate = Carbon::parse($validatedData['to']);
-    
-           
-    
-            // Format duration as HH:MM:SS
-            // $courseDuration = sprintf('%02d:%02d:00', $hours, $minutes);
-    
-            // $validatedData['course_duration'] = $courseDuration;
             $validatedData['status'] = 1;
     
             LiveClass::create($validatedData);
     
-            Alert::success('Success', 'Live Class has been added successfully');
+            Alert::toast('Live Class has been added successfully', 'success');
             return redirect()->back();
         } catch (Exception $e) {
             Log::error('Error in store method: ' . $e->getMessage());
-            Alert::error('Error', 'An error occurred while creating the live class.');
-            return redirect()->back();
+            Alert::toast('An error occurred while creating the live class.', 'error');
+            return redirect()->back()->withInput();
         }
-    }
-    
-
-    public function show(LiveClass $liveClass) 
-    {
-        // Implementation if needed
     }
 
     public function edit($id, Request $request, LiveClassesDataTable $dataTable)
@@ -129,7 +114,7 @@ class LiveClassController extends Controller
             $single_data = LiveClass::findOrFail($id);
             $categories = CourseCategory0::all();
 
-            Alert::info('Info', 'You are editing a Live Class.');
+            Alert::toast('You are editing a Live Class.', 'info');
 
             return $dataTable->render('ins.content.liveclass', [
                 'liveClasses' => $liveClasses,
@@ -138,7 +123,7 @@ class LiveClassController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error('Error in edit method: ' . $e->getMessage());
-            Alert::error('Error', 'An error occurred while loading the edit form.');
+            Alert::toast('An error occurred while loading the edit form.', 'error');
             return redirect()->back();
         }
     }
@@ -146,7 +131,6 @@ class LiveClassController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // Validate the request data
             $validatedData = $request->validate([
                 'course_name' => 'required|string|max:255',
                 'language' => 'required|string|max:255',
@@ -162,36 +146,27 @@ class LiveClassController extends Controller
                 'course_duration' => 'required',
             ]);
     
-            // Check if is_paid is 0, set price and discount_price to null
             if ($request->input('is_paid') == 0) {
                 $validatedData['price'] = null;
                 $validatedData['discount_price'] = null;
             }
     
-            // Check if is_paid is 1, ensure price is provided
             if ($request->input('is_paid') == 1 && is_null($request->input('price'))) {
-                return redirect()->back()->withErrors([
-                    'price' => 'The price is required for paid courses.'
-                ])->withInput();
+                Alert::toast('The price is required for paid courses.', 'error');
+                return redirect()->back()->withInput();
             }
     
-            // Find the live class by ID
             $liveClass = LiveClass::findOrFail($id);
-    
-            // Update the live class with the validated data
             $liveClass->update($validatedData);
     
-            // Success alert
-            Alert::success('Success', 'Live Class updated successfully');
+            Alert::toast('Live Class updated successfully', 'success');
             return redirect()->route('liveclass');
-        } catch (\Exception $e) {
-            // Log the error and return with an error alert
+        } catch (Exception $e) {
             Log::error('Error in update method: ' . $e->getMessage());
-            Alert::error('Error', 'An error occurred while updating the live class.');
+            Alert::toast('An error occurred while updating the live class.', 'error');
             return redirect()->back()->withInput();
         }
     }
-    
 
     public function destroy($id)
     {
@@ -199,11 +174,11 @@ class LiveClassController extends Controller
             $liveClass = LiveClass::findOrFail($id);
             $liveClass->delete();
 
-            Alert::success('Success', 'Live Class deleted successfully');
+            Alert::toast('Live Class deleted successfully', 'success');
             return redirect()->route('liveclass');
         } catch (Exception $e) {
             Log::error('Error in destroy method: ' . $e->getMessage());
-            Alert::error('Error', 'An error occurred while deleting the live class.');
+            Alert::toast('An error occurred while deleting the live class.', 'error');
             return redirect()->back();
         }
     }
@@ -212,11 +187,11 @@ class LiveClassController extends Controller
     {
         try {
             $request->session()->forget('single_data');
-            Alert::success('Success', 'Session data cleared successfully');
+            Alert::toast('Session data cleared successfully', 'success');
             return redirect()->back();
         } catch (Exception $e) {
             Log::error('Error in resetSession method: ' . $e->getMessage());
-            Alert::error('Error', 'An error occurred while clearing session data.');
+            Alert::toast('An error occurred while clearing session data.', 'error');
             return redirect()->back();
         }
     }

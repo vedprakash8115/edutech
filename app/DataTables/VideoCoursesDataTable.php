@@ -136,8 +136,8 @@ class VideoCoursesDataTable extends DataTable
             Column::make('price')->title('Original Price'),
             Column::make('discount_price')->title('Discount Price'),
             Column::make('course_duration')->title('Duration (Days)'),
-            Column::make('banner')->title('Course Banner'),
-            Column::make('course_category_id')->title('Category'),
+            // Column::make('banner')->title('Course Banner'),
+            // Column::make('course_category_id')->title('Category'),
             Column::make('from')->title('Start Date'),
             Column::make('to')->title('End Date'),
             Column::computed('action')
