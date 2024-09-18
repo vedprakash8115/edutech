@@ -167,7 +167,7 @@
 {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
 <script>
-       AOS.init();
+    //    AOS.init();
 
 
        

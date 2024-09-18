@@ -175,10 +175,10 @@
 @endpush
 <script>
 
-AOS.init({
-            duration: 1000,
-            once: true
-        });
+// AOS.init({
+//             duration: 1000,
+//             once: true
+//         });
     // Utility functions
 const fetchCategoryData = async (url) => {
     try {
