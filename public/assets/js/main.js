@@ -116,3 +116,15 @@ let menu, animate;
   // Auto update menu collapsed/expanded based on the themeConfig
   window.Helpers.setCollapsed(true, false);
 })();
+
+
+// sidebar
+// Toggle the sidebar on large screens
+document.getElementById('sidebar-toggle-btn').addEventListener('click', function () {
+  if (window.innerWidth >= 992) { // Check for large screens
+    const sidebar = document.querySelector('.layout-menu');
+    const togglebtn = document.getElementById('sidebar-toggle-btn');
+    togglebtn.classList.toggle('active');
+    sidebar.classList.toggle('active'); // Add/remove 'active' class to show/hide sidebar
+  }
+});

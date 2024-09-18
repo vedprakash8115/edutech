@@ -10,4 +10,9 @@ class CourseCategory0 extends Model
 {
     use HasFactory,SoftDeletes;
     protected $guarded=[];
+    
+    public function Courses()
+    {
+        return $this->hasMany(CourseCategory::class);
+    }
 }

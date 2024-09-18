@@ -1,0 +1,340 @@
+/* For Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 10px; /* Scrollbar width */
+}
+
+::-webkit-scrollbar-track {
+    background: white; /* Track color */
+}
+
+::-webkit-scrollbar-thumb {
+    /* -webkit-border-radius: 1ex; */
+    background: rgb(12, 12, 62);
+}
+button:active, 
+.btn:active, a:active,button,a {
+  box-shadow: none !important;
+
+}
+
+/* Hero Section Styles */
+.hero {
+    background: url('../imgs/hero-section.svg') no-repeat center center/cover;
+    color: #fff;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 0 15px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: white;
+}
+#changing-word {
+    border-right: 2px solid; /* Blinking cursor */
+    white-space: nowrap;
+    display: inline-block;
+  }
+  
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
+  
+.hero p {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.hero .btn {
+    font-size: 1.125rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.3rem;
+    color: white;
+}
+
+.hero a[href="#discounts"]:hover{
+    color: black;
+
+}
+@media (max-width: 768px) {
+    #hero h1 {
+        margin-top: 2rem;
+        font-size: 2.5rem;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    #hero h1 {
+      font-size: 4rem;
+    }
+  }
+#popularCourses{
+    background-color: rgb(242, 240, 237);
+}
+#popularCourses ul{
+    padding: 1rem 0;
+    background-color: rgb(127 167 241 / 38%);;
+    border-radius: 2rem;
+}
+
+
+  
+.nav-pills .nav-link {
+    background-color: #f8f9fa; 
+    color: #333; 
+    border-radius: 30px;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+}
+
+/* Active state styling */
+.nav-pills .nav-link.active {
+    background-color: #165191; 
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: scale(1.1); 
+}
+
+/* Hover state for pills */
+.nav-pills .nav-link:hover {
+    background-color: #e2e6ea;
+}
+
+/* Add sliding effect */
+.nav-pills .nav-link {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Add background color slide effect */
+.nav-pills .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color); /* Blue sliding background */
+    transition: left 0.5s ease;
+    z-index: -1;
+}
+
+/* Activate sliding background when hovered */
+.nav-pills .nav-link:hover::before {
+    left: 0;
+    color: white;
+}
+
+/* Smooth transition for scaling effect */
+.nav-link {
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+/* Centering the pills */
+.nav-pills {
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+  
+  .show-more{
+    width: 10rem;
+    padding: 0.7rem .8rem;
+    background-color: transparent;
+    color: rgb(9, 28, 233) ;
+    border: 1px solid rgb(9, 28, 233);
+  }
+  .show-more:hover{
+    background-color: white;
+    color: blue;
+  }
+  .show-more i{
+    margin-left: .3rem;
+    vertical-align: middle;
+    transition: all .3s ease-in ;
+  }
+  .show-more:hover i{
+    margin-left: .6rem;
+  }
+  /*adjust spacing between items */
+  .scrollable-tabs .nav-item .nav-link {
+    margin-right: 10px;
+    padding: 0.75rem 1.5rem;
+    white-space: nowrap; /* Ensures buttons don’t wrap */
+  }
+  
+
+ .fixed-height-card{
+    height: 29rem;
+    cursor: pointer;
+ }
+ .fixed-height-card img{
+  height: 13rem;
+  width: auto;
+  object-fit: cover;
+  object-position: center;
+ }
+
+ #industry-experts{
+    background: url('../imgs/teachers-bg.svg') center/cover;
+    
+ }
+ #testimonials{
+    background: url('../imgs/testomonial-bg.svg') center/cover;
+
+    padding: 1rem 0;
+ }
+ #testimonials blockquote{
+    color: black;
+ }
+
+ #study-resources{
+ }
+ .icon-circle {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.find-course-section .container{
+  background: url('../imgs/bannerbg.png');
+  width: 80vw;
+  background-color: #05284b;
+  border-radius: 2rem;
+  padding: 1rem 3rem;
+}
+
+.image-container img {
+  max-width: 250px; 
+}
+
+.text-container {
+  border-radius: 15px;   
+  color: white;
+}
+.text-container button{
+  background-color: black;
+  color: white;
+  transition: all 0.3s ease;
+}
+.text-container button:hover{
+  background-color: white;
+  color: black;
+}
+
+
+
+/* course details css */
+.course-intro {
+  max-width: 1200px;
+  background-color:#35679cc0;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  color: white;
+}
+
+.course-intro h1 {
+  font-size: 2.5rem;
+  color: white;
+}
+
+h3 {
+  color: white;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.list-inline-item span {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+  .list-inline-item span {
+    font-size: 0.9rem;
+  }
+}
+
+.course-info .container{
+  padding: 1rem 0;
+  position: relative;
+  background-color: white;
+  box-shadow: 0 0 20px 2px rgba(59, 62, 114, 0.13);
+  /* border: 1px solid rgb(7, 7, 103); */
+  width: 70vw;
+  border-radius: 5px;
+  top: -5rem;
+}
+.course-info .container .col-md-2{
+  border-right: 1px solid rgba(181, 180, 180, 0.615);
+}
+.course-info .container .col-md-2:last-child{
+  border-right: none;
+}
+
+
+/* Nav Tabs Styling */
+.nav-tabs {
+  border-bottom: 2px solid #ddd; 
+}
+
+.nav-tabs .nav-link {
+  color: #555;
+  border: 1px solid transparent;
+  border-radius: 3px; 
+  font-weight: 500;
+  padding: 5px 20px; 
+  transition: all 0.3s ease; 
+}
+
+.nav-tabs .nav-link:hover {
+  color: #094585; 
+  background-color: #f8f9fa; 
+  border-bottom: 1px solid black;
+  border-color: #ddd #ddd #fff; 
+}
+
+.nav-tabs .nav-link.active {
+  color: #fff; 
+  background-color: #35679cc0; 
+  /* border-color: #007bff;/ */
+}
+
+/* Tab Content Styling */
+.course-details .tab-content {
+  border: 1px solid #dddddd; 
+  border-top: none; 
+  padding: 20px;
+  background-color: #fff; 
+  border-radius: 0 0 5px 5px; 
+}
+
+.course-details .tab-content h3 {
+  font-size: 1.5rem; 
+  color: #333; 
+  margin-bottom: 15px; 
+}
+
+.course-details .tab-content p {
+  font-size: 1rem; 
+  color: #666; 
+  line-height: 1.6; 
+  margin-bottom: 20px;
+}

@@ -27,7 +27,7 @@ class InstituteController extends Controller
         $request->validate([
             'name' => 'required|string|max:255|unique:course_category0s,name',
         ]);
-      CourseCategory0::create([
+        CourseCategory0::create([
             'name' => $request->name,
         ]);
         Alert::toast('Successfully added Category Level 0!', 'success');
@@ -62,7 +62,7 @@ class InstituteController extends Controller
     // }
     public function getLevel0Data()
     {
-        $categories =CourseCategory0::where('status', 1)->select('course_category0s.*');
+        $categories = CourseCategory0::where('status', 1)->select('course_category0s.*');
         return DataTables::of($categories)
             ->addColumn('actions', function ($category) {
                 return '<a href="' . route('edit_level0', $category->id) . '" class="btn btn-info btn-md">
@@ -82,7 +82,7 @@ class InstituteController extends Controller
     public function editLevel0($id)
     {
         try {
-            $single_data =CourseCategory0::findOrFail($id);
+            $single_data = CourseCategory0::findOrFail($id);
             return view('ins.categories.category_l0', compact('single_data'));
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->with('error', 'Course not found');

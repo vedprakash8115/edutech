@@ -15,16 +15,19 @@ return new class extends Migration
             $table->id();
             $table->string('course_name')->nullable();
             $table->string('language')->nullable();
-            $table->integer('original_price')->nullable();
-            $table->integer('discount_price')->nullable();
+            $table->boolean('is_paid')->default(false);
+        $table->decimal('price', 8, 2)->nullable();
+        $table->decimal('discount_price', 8, 2)->nullable();
+       
             $table->string('banner')->nullable();
-            $table->string('video')->nullable();
+          
             $table->integer('course_duration')->nullable();
-            $table->string('about_course')->nullable();
+            $table->text('about_course')->nullable();
             $table->string('course_category_id')->nullable();
-            $table->date('form')->nullable();
+            $table->date('from')->nullable();
             $table->date('to')->nullable();
             $table->string('status')->default(1);
+            $table->softdeletes();
             $table->timestamps();
         });
     }

@@ -22,14 +22,20 @@ class StoreliveClassRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'course_name' => 'required|string|max:255|min:3',
-            'language' => 'required|string',
-            'original_price' => 'required|numeric|min:2',
-            'discount_price' => 'nullable|numeric|min:2',
-            'upload_banner' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'course_duration' => 'required|string|min:2|max:255',
+            'course_name' => 'required|string|max:255',
+            'language' => 'required|integer',
+         'is_paid' => 'boolean',
+                'price' => 'nullable|numeric|min:0',
+                'discount_price' => 'nullable|numeric|min:0',
+           'course_duration' => 'required|date_format:H:i',  // Should be integer if you store it as integer
+            'cat_level_0' => 'required|integer',
+            'cat_level_1' => 'nullable|integer',
+            'cat_level_2' => 'nullable|integer',
+            'from' => 'required|date',
+            'to' => 'required|date',
             'about_course' => 'required|string',
-            'course_category' => 'required|string'
+            'discount_type' => 'required|string|in:fixed,percentage',
+            'banner' => 'required|file', // Ensure field name matches form input
         ];
     }
 }

@@ -13,10 +13,25 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@mail.com',
-            'password' => Hash::make('Admin@123'), // Replace with a secure password
-        ]);
+        $users = [
+            [
+                'name' => 'Admin',
+                'email' => 'admin@mail.com',
+                'password' => 'Admin@123',
+            ],
+            [
+                'name' => 'Super Admin',
+                'email' => 'superadmin@gmail.com',
+                'password' =>'superadmin@123',
+            ]
+        ];
+
+        foreach($users as $user) {
+            $created_user = User::create([
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'password' => Hash::make($user['password']),
+            ]);
+        }
     }
 }
