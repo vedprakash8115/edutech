@@ -1,4 +1,4 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
 
           <div class="app-brand demo">
             <a href="index.html" class="app-brand-link">
@@ -57,7 +57,7 @@
                   </g>
                 </svg>
               </span>
-              <span class="app-brand-text demo menu-text fw-bolder ms-2">EDUTECH</span>
+              <span class="app-brand-text demo menu-text fw-bolder ms-4">EDUTECH</span>
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -72,7 +72,7 @@
             <li class="menu-item {{ request()->routeIs('insdashboard') ? 'active' : '' }}">
               <a href="{{route('insdashboard')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Dashboard</div>
+                <div class="ms-2" data-i18n="Analytics">Dashboard</div>
               </a>
             </li>
             <!-- Layouts -->
@@ -80,28 +80,28 @@
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon fa fa-list" aria-hidden="true"></i>
                 <!-- <i class="menu-icon tf-icons bx bx-layout"></i> -->
-                <div data-i18n="Layouts">Categories</div>
+                <div class="ms-2" data-i18n="Layouts">Categories</div>
               </a>
 
               <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('addlevel0') ? 'active' : '' }}">
                     <a href="{{ route('addlevel0') }}" class="menu-link">
-                        <div data-i18n="Without menu">Add Category level 0</div>
+                        <div class="ms-2" data-i18n="Without menu">Add Category level 0</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->routeIs('category_level1') ? 'active' : '' }}">
                   <a href="{{route('category_level1')}}" class="menu-link">
-                    <div data-i18n="Without navbar">Add Category Level 1 </div>
+                    <div class="ms-2" data-i18n="Without navbar">Add Category Level 1 </div>
                   </a>
                 </li>
                 <li class="menu-item {{ request()->routeIs('course_subcategory') ? 'active' : '' }}">
                   <a href="{{route('course_subcategory')}}" class="menu-link">
-                    <div data-i18n="Container">Add Category Level 2</div>
+                    <div class="ms-2" data-i18n="Container">Add Category Level 2</div>
                   </a>
                 </li>
                 {{-- <li class="menu-item {{ request()->routeIs('course_list') ? 'active' : '' }}">
                   <a href="{{ route('course_list')}}" class="menu-link">
-                    <div data-i18n="Fluid">All Courses</div>
+                    <div class="ms-2" data-i18n="Fluid">All Courses</div>
                   </a>
                 </li> --}}
 
@@ -112,10 +112,11 @@
             <!-- Layouts -->
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="{{ route('liveclass') }}" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-                <div data-i18n="Authentications">Live and Webinar</div>
+                <i class="menu-icon fas fa-video"></i> <!-- Video icon -->
+
+                <div class="ms-2" data-i18n="Authentications" >Live and Webinar</div>
               </a>
             </li>
 
@@ -123,38 +124,38 @@
               <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class="menu-icon fa fa-book" aria-hidden="true"></i>
                 <!-- <i class="menu-icon tf-icons bx bx-layout"></i> -->
-                <div data-i18n="Layouts">Content</div>
+                <div class="ms-2" data-i18n="Layouts">Content</div>
               </a>
 
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a href="{{route('liveclass')}}" class="menu-link">
-                    <div data-i18n="Without menu">Courses</div>
+                    <div class="ms-2" data-i18n="Without menu">Courses</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="{{route('videocourse')}}" class="menu-link">
-                    <div data-i18n="Without navbar">News</div>
+                    <div class="ms-2" data-i18n="Without navbar">News</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="{{route('elibrary')}}" class="menu-link">
-                    <div data-i18n="Container">E-Library</div>
+                    <div class="ms-2" data-i18n="Container">E-Library</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="" class="menu-link">
-                    <div data-i18n="Fluid">Post</div>
+                    <div class="ms-2" data-i18n="Fluid">Post</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="" class="menu-link">
-                    <div data-i18n="Fluid">Quick Links</div>
+                    <div class="ms-2" data-i18n="Fluid">Quick Links</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="" class="menu-link">
-                    <div data-i18n="Fluid">Exam Category</div>
+                    <div class="ms-2" data-i18n="Fluid">Exam Category</div>
                   </a>
                 </li>
                
@@ -167,17 +168,17 @@
             <!-- <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">All students</div>
+                <div class="ms-2" data-i18n="Account Settings">All students</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a href="pages-account-settings-account.html" class="menu-link">
-                    <div data-i18n="Account">In Faculty Students</div>
+                    <div class="ms-2" data-i18n="Account">In Faculty Students</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="pages-account-settings-notifications.html" class="menu-link">
-                    <div data-i18n="Notifications">Outer Students</div>
+                    <div class="ms-2" data-i18n="Notifications">Outer Students</div>
                   </a>
                 </li>
 
@@ -187,22 +188,22 @@
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-                <div data-i18n="Authentications">User Management</div>
+                <div class="ms-2" data-i18n="Authentications">User Management</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a href="{{ route('users.index')}}" class="menu-link {{ request()->routeIs('users.index') ? 'active' : '' }}">
-                    <div data-i18n="Basic">All Users</div>
+                    <div class="ms-2" data-i18n="Basic">All Users</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="{{ route('users.create')}}" class="menu-link {{ request()->routeIs('users.create') ? 'active' : '' }}">
-                    <div data-i18n="Basic">Add Users</div>
+                    <div class="ms-2" data-i18n="Basic">Add Users</div>
                   </a>
                 </li>
                 <li class="menu-item">
                     <a href="{{ route('roles.index') }}" class="menu-link {{ request()->routeIs('roles.index') ? 'active' : '' }}">
-                      <div data-i18n="Basic">Add Roles</div>
+                      <div class="ms-2" data-i18n="Basic">Add Roles</div>
                     </a>
                   </li>
 
@@ -212,81 +213,89 @@
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-                <div data-i18n="Authentications">Marketing</div>
+                <i class="menu-icon fas fa-bullhorn"></i> <!-- Bullhorn icon -->
+
+                <div class="ms-2" data-i18n="Authentications">Marketing</div>
               </a>
             </li>
 
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-                <div data-i18n="Authentications">Sliders</div>
+                <i class=" menu-icon fas fa-sliders-h"></i> <!-- Sliders icon -->
+
+                <div class="ms-2" data-i18n="Authentications">Sliders</div>
               </a>
             </li>
 
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-                <div data-i18n="Authentications">Books</div>
+                <i class="menu-icon fas fa-book"></i> <!-- Book icon -->
+
+                <div class="ms-2" data-i18n="Authentications">Books</div>
               </a>
             </li>
 
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-                <div data-i18n="Authentications">Website</div>
+                <i class="menu-icon fas fa-globe"></i> <!-- Globe icon -->
+
+                <div class="ms-2" data-i18n="Authentications">Website</div>
               </a>
             </li>
 
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-                <div data-i18n="Authentications">Support</div>
+                <i class="menu-icon fas fa-headset"></i> <!-- Headset icon -->
+
+                <div class="ms-2" data-i18n="Authentications">Support</div>
               </a>
             </li>
 
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-                <div data-i18n="Authentications">Test Practicals</div>
+                <i class="menu-icon fas fa-flask"></i> <!-- Flask icon -->
+
+                <div class="ms-2" data-i18n="Authentications">Test Practicals</div>
               </a>
             </li>
 
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-                <div data-i18n="Authentications">Chat Support</div>
+                <i class="menu-icon fas fa-comments"></i> <!-- Comments icon -->
+
+                <div class="ms-2" data-i18n="Authentications">Chat Support</div>
               </a>
             </li>
 
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-                <div data-i18n="Authentications">Reports</div>
+                <i class="menu-icon fas fa-file-alt"></i> <!-- File icon -->
+
+                <div class="ms-2" data-i18n="Authentications">Reports</div>
               </a>
             </li>
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-cube-alt"></i> -->
-                <i class="menu-icon fa fa-cog fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                <div data-i18n="Misc">Setting</div>
+                <i class="menu-icon fas fa-cog"></i> <!-- Cog icon -->
+                <div class="ms-2" data-i18n="Misc">Setting</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a href="pages-misc-error.html" class="menu-link">
-                    <div data-i18n="Error">Update Side Info</div>
+                    <div class="ms-2" data-i18n="Error">Update Side Info</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="" class="menu-link">
-                    <div data-i18n="Under Maintenance">Social Logins & SSO</div>
+                    <div class="ms-2" data-i18n="Under Maintenance">Social Logins & SSO</div>
                   </a>
                 </li>
               </ul>

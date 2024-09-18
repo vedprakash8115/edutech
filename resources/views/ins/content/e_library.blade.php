@@ -10,14 +10,18 @@
                 @method('PUT')
             @endif
             <div class="row g-3">
-                <div class="col-md-12">
+                <!-- Title -->
+                <div class="col-md-12" data-aos="fade-up">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="Title" placeholder="Title" name="title" value="{{ old('title', $single_data->title ?? '') }}" required>
-                        <label for="Title" class="text-secondary">Title <span class="text-danger">*</span></label>
+                        <label for="Title" class="text-secondary">
+                            <i class="fas fa-heading"></i> Title <span class="text-danger">*</span>
+                        </label>
                     </div>
                 </div>
-    
-                <div class="col-12">
+        
+                <!-- Categories -->
+                <div class="col-12" data-aos="fade-up">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-floating mb-3">
@@ -29,7 +33,9 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <label for="CategoryLevel0" class="text-secondary">Main Category <span class="text-danger">*</span></label>
+                                <label for="CategoryLevel0" class="text-secondary">
+                                    <i class="fas fa-list-alt"></i> Main Category <span class="text-danger">*</span>
+                                </label>
                             </div>
                         </div>
                         <div class="col-md-4" id="category-level-1">
@@ -37,7 +43,9 @@
                                 <select class="form-select" id="CategoryLevel1" name="cat_level_1">
                                     <option value="">Select Subcategory</option>
                                 </select>
-                                <label for="CategoryLevel1" class="text-secondary">Subcategory</label>
+                                <label for="CategoryLevel1" class="text-secondary">
+                                    <i class="fas fa-list"></i> Subcategory
+                                </label>
                             </div>
                         </div>
                         <div class="col-md-4" id="category-level-2">
@@ -45,21 +53,30 @@
                                 <select class="form-select" id="CategoryLevel2" name="cat_level_2">
                                     <option value="">Select Sub-subcategory</option>
                                 </select>
-                                <label for="CategoryLevel2" class="text-secondary">Sub-subcategory</label>
+                                <label for="CategoryLevel2" class="text-secondary">
+                                    <i class="fas fa-list-ul"></i> Sub-subcategory
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+        
+                <!-- Duration -->
+                <div class="col-md-6" data-aos="fade-up">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" value="{{ isset($single_data->course_duration) ? ($single_data->course_duration) : '' }}" id="course_duration" name="course_duration" required>
-
-                        <label for="course_duration" class="text-secondary">Duration<span class="text-secondary">*</span></label>
+                        <label for="course_duration" class="text-secondary">
+                            <i class="fas fa-clock"></i> Duration <span class="text-danger">*</span>
+                        </label>
                     </div>
                 </div>
-                <div class="col-md-6">
+        
+                <!-- Banner Upload -->
+                <div class="col-md-6" data-aos="fade-up">
                     <div class="mb-3">
-                        <label for="UploadBanner" class="form-label text-secondary">Banner Image</label>
+                        <label for="UploadBanner" class="form-label text-secondary">
+                            <i class="fas fa-image"></i> Banner Image
+                        </label>
                         <input type="file" class="form-control" id="UploadBanner" name="banner" accept="image/*">
                         @if(isset($single_data) && $single_data->banner)
                             <div class="mt-2">
@@ -69,58 +86,62 @@
                         @endif
                     </div>
                 </div>
-    
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">Pricing</h5>
-                        
-                            <!-- Hidden field to ensure false value is sent when unchecked -->
-                            <input type="hidden" name="is_paid" value="0">
-                        
-                            <div class="form-check form-switch mb-3">
-                                <input class="form-check-input" type="checkbox" id="isPaid" name="is_paid" value="1" {{ old('is_paid', $single_data->is_paid ?? false) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="isPaid">Paid Item</label>
-                            </div>
-                        
-                            <div id="priceSection" style="{{ old('is_paid', $single_data->is_paid ?? false) ? 'display: block;' : 'display: none;' }}">
-                                <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="Price" name="price" value="{{ old('price', $single_data->price ?? '') }}" placeholder="Price" min="0" step="0.01">
-                                    <label for="Price" class="text-secondary">Regular Price</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="DiscountPrice" name="discount_price" value="{{ old('discount_price', $single_data->discount_price ?? '') }}" placeholder="Discount Price" min="0" step="0.01">
-                                    <label for="DiscountPrice" class="text-secondary">Discounted Price</label>
-                                </div>
-                            </div>
+        
+                <!-- Upload Files -->
+                @if(!isset($single_data))
+                <div class="col-md-6" data-aos="fade-up">
+                    <div class="mb-3">
+                        <label for="UploadFile" class="form-label text-secondary">
+                            <i class="fas fa-file-upload"></i> Upload E-Library Files
+                        </label>
+                        <input type="file" class="form-control" id="UploadFile" name="files[]" multiple>
+                    </div>
+                </div>
+                @endif
+        
+                <!-- Description -->
+                <div class="col-12" data-aos="fade-up">
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" id="Description" name="description" placeholder="Enter description here" style="height: 100px;">{{ old('description', $single_data->description ?? '') }}</textarea>
+                        <label for="Description" class="text-secondary">
+                            <i class="fas fa-align-left"></i> Description
+                        </label>
+                    </div>
+                </div>
+        
+                <!-- Pricing Section (Moved to the bottom) -->
+                <div class="col-md-12" data-aos="fade-up">
+                    <h5 class="mb-3"><i class="fas fa-dollar-sign"></i> Pricing</h5>
+        
+                    <input type="hidden" name="is_paid" value="0">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="isPaid" name="is_paid" value="1" {{ old('is_paid', $single_data->is_paid ?? false) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="isPaid">Paid Item</label>
+                    </div>
+        
+                    <div id="priceSection" style="{{ old('is_paid', $single_data->is_paid ?? false) ? 'display: block;' : 'display: none;' }}">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="Price" name="price" value="{{ old('price', $single_data->price ?? '') }}" placeholder="Price" min="0" step="0.01">
+                            <label for="Price" class="text-secondary">Regular Price</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="DiscountPrice" name="discount_price" value="{{ old('discount_price', $single_data->discount_price ?? '') }}" placeholder="Discount Price" min="0" step="0.01">
+                            <label for="DiscountPrice" class="text-secondary">Discounted Price</label>
                         </div>
                     </div>
                 </div>
-    
-                @if(!isset($single_data))
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="UploadFile" class="form-label text-secondary">Upload E-Library Files</label>
-                        <input type="file" class="form-control" id="UploadFile" name="files[]" multiple>
-                    </div>
-                    
-                </div>
-                @else
-               
-                @endif
-    
-                <div class="col-12">
-                    <div class="form-floating mb-3">
-                        <textarea class="form-control" id="Description" name="description" placeholder="Enter description here" style="height: 100px;">{{ old('description', $single_data->description ?? '') }}</textarea>
-                        <label for="Description" class="text-secondary">Description</label>
-                    </div>
-                </div>
             </div>
-            <div class="d-flex justify-content-end gap-2 mt-4">
+        
+            <!-- Buttons -->
+            <div class="d-flex justify-content-end gap-2 mt-4" data-aos="fade-up">
                 @if(!isset($single_data))
-                <button type="button" class="btn btn-secondary px-4" onclick="resetForm()">Reset</button>
+                <button type="button" class="btn btn-secondary px-4" onclick="resetForm()">
+                    <i class="fas fa-undo-alt"></i> Reset
+                </button>
                 @endif
-                <button type="submit" class="btn btn-primary px-4">{{ isset($single_data) ? 'Update' : 'Save' }}</button>
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="fas fa-save"></i> {{ isset($single_data) ? 'Update' : 'Save' }}
+                </button>
             </div>
         </form>
     </div>
@@ -146,6 +167,10 @@
 {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
 <script>
+       AOS.init();
+
+
+       
 // Utility functions
 const fetchCategoryData = async (url) => {
     try {

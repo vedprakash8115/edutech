@@ -16,9 +16,8 @@ class ElibraryController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index(ElibraryDataTable $dataTable, Request $request)
-{
-
+    public function index(ElibraryDataTable $dataTable, Request $request)
+    {
         // Fetch paginated elibrary items
         $perPage = $request->input('per_page', 10);
         $elibraryItems = Elibrary::paginate($perPage)->appends($request->query());
@@ -26,18 +25,9 @@ class ElibraryController extends Controller
         // Render the DataTable view with elibraryItems data
         return $dataTable->render('ins.content.e_library', [
             'elibraryItems' => $elibraryItems,
-            'categories'=>$categories,
+            'categories' => $categories,
         ]);
-    // } catch (\Exception $e) {
-    //     Log::error('Error in index method: ' . $e->getMessage());
-    //     Alert::error('Error', 'An error occurred while loading e-library items.');
-    //     return redirect()->back();
-    // }
-}
-
-    
-    
-    
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -68,7 +58,7 @@ class ElibraryController extends Controller
                 'files.*' => 'mimes:pdf,doc,docx,txt', // Validate multiple files
                 'description' => 'nullable|string',
             ]);
-    
+
             // Handle banner upload
             $bannerPath = null;
             if ($request->hasFile('banner')) {
@@ -78,7 +68,7 @@ class ElibraryController extends Controller
                 $bannerFile->move(public_path($bannerDestinationPath), $bannerFileName);
                 $bannerPath = $bannerDestinationPath . '/' . $bannerFileName;
             }
-    
+
             // Create eLibrary entry
             $eLibrary = Elibrary::create([
                 'title' => $validatedData['title'],
@@ -92,14 +82,14 @@ class ElibraryController extends Controller
                 'description' => $validatedData['description'],
                 'course_duration' => $validatedData['course_duration'],
             ]);
-    
+
             // Handle file uploads for multiple files
             if ($request->hasFile('files')) {
                 foreach ($request->file('files') as $file) {
                     $fileName = time() . '_' . $file->getClientOriginalName();
                     $fileDestinationPath = 'elibrary';
                     $file->move(public_path($fileDestinationPath), $fileName);
-    
+
                     // Store file data in a separate table (related to eLibrary)
                     ElibraryFile::create([
                         'elibrary_id' => $eLibrary->id,
@@ -107,27 +97,16 @@ class ElibraryController extends Controller
                     ]);
                 }
             }
-    
-            // Success notification with SweetAlert
-            Alert::success('Success', 'E-Library item added successfully.');
+
+            // Success notification with SweetAlert toast
+            Alert::toast('E-Library item added successfully.', 'success');
             return redirect()->route('elibrary');
-    
+
         } catch (Exception $e) {
-            // Error notification with SweetAlert
-            Alert::error('Error', 'Something went wrong. Please try again.');
+            // Error notification with SweetAlert toast
+            Alert::toast('Something went wrong. Please try again.', 'error');
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-    }
-    
-    
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -136,166 +115,139 @@ class ElibraryController extends Controller
     public function edit(ElibraryDataTable $dataTable, $id, Request $request)
     {
         $single_data = ELibrary::findOrFail($id);
-    
+
         // Fetch paginated elibrary items (similar to the index method)
         $perPage = $request->input('per_page', 10);
         $elibraryItems = Elibrary::paginate($perPage)->appends($request->query());
-        
+
         $categories = CourseCategory0::all(); // Assuming you have a Category model
-    
+
         // Render the DataTable view with elibraryItems data
         return $dataTable->render('ins.content.e_library', [
             'single_data' => $single_data,
             'elibraryItems' => $elibraryItems,
             'categories' => $categories,
         ]);
-
-
-        // $single_data = VideoCourse::with('videos')->findOrFail($id);
-    
-        // // Handle pagination for DataTables
-        // $perPage = $request->input('per_page', 10);
-        // $videoCourses = VideoCourse::with('videos')->paginate($perPage)->appends($request->query());
-
-        // return $dataTable->render('ins.content.videocourse', [
-        //     'single_data' => $single_data,
-        //     'videoCourses' => $videoCourses,
-        // ]);
     }
-    
-    
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
-       
-            // Find the E-Library item by ID or throw an exception if not found
-            $eLibrary = ELibrary::findOrFail($id);
-            $categories = CourseCategory0::all();
-            // Validate the request inputs
-            $validatedData = $request->validate([
-                'title' => 'required|max:255',
-                'cat_level_0' => 'required',
-                'cat_level_1' => 'required',
-                'cat_level_2' => 'required',
-                'is_paid' => 'boolean',
-                'price' => 'required_if:is_paid,1|nullable|numeric|min:0',
-                'discount_price' => 'nullable|numeric|min:0',
-                'banner' => 'nullable|image|max:2048', // 2MB Max
-                'course_duration' => 'required', // 2MB Max
-                'description' => 'nullable|string',
-            ]);
-    
-            // Handle banner upload if a new one is provided
-            if ($request->hasFile('banner')) {
-                // Store new banner in 'public/upload_banner' directory
-                $banner = $request->file('banner');
-                $bannerName = time() . '_' . $banner->getClientOriginalName();
-                $banner->move(public_path('upload_banner'), $bannerName);
-    
-                // Add the new banner path to the validated data
-                $validatedData['banner'] = 'upload_banner/' . $bannerName;
-    
-                // Optionally, delete the old banner if it exists
-                // if ($eLibrary->banner && Storage::exists(public_path($eLibrary->banner))) {
-                //     Storage::delete(public_path($eLibrary->banner));
-                // }
-            }
-    
-            // Update the E-Library item using the validated data
-            $eLibrary->update($validatedData);
-    
-            // Success alert and redirect
-            Alert::success('Success', 'E-Library item updated successfully.');
-            return redirect()->route('elibrary');
-            
-        
+        // Find the E-Library item by ID or throw an exception if not found
+        $eLibrary = ELibrary::findOrFail($id);
+        $categories = CourseCategory0::all();
+
+        // Validate the request inputs
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'cat_level_0' => 'required',
+            'cat_level_1' => 'required',
+            'cat_level_2' => 'required',
+            'is_paid' => 'boolean',
+            'price' => 'required_if:is_paid,1|nullable|numeric|min:0',
+            'discount_price' => 'nullable|numeric|min:0',
+            'banner' => 'nullable|image|max:2048',
+            'course_duration' => 'required',
+            'description' => 'nullable|string',
+        ]);
+
+        // Handle banner upload if a new one is provided
+        if ($request->hasFile('banner')) {
+            // Store new banner in 'public/upload_banner' directory
+            $banner = $request->file('banner');
+            $bannerName = time() . '_' . $banner->getClientOriginalName();
+            $banner->move(public_path('upload_banner'), $bannerName);
+
+            // Add the new banner path to the validated data
+            $validatedData['banner'] = 'upload_banner/' . $bannerName;
+        }
+
+        // Update the E-Library item using the validated data
+        $eLibrary->update($validatedData);
+
+        // Success alert and redirect with SweetAlert toast
+        Alert::toast('E-Library item updated successfully.', 'success');
+        return redirect()->route('elibrary');
     }
-    
+
+    /**
+     * Display files of a specific resource.
+     */
     public function files(Request $request, $id)
     {
         // Fetch the eLibrary item along with related files, filtered by the given ID, and paginate the result
         $elibraryItems = ELibrary::with('files')
             ->where('id', $id)
             ->paginate(10);  // Apply pagination after filtering by ID
-        
-        return view('ins.content.files', ['elibraryItems'=>$elibraryItems]);
+
+        return view('ins.content.files', ['elibraryItems' => $elibraryItems]);
     }
-    
-
-public function deleteMultiple(Request $request)
-{
-    $fileIds = $request->input('files');
-
-    if (!$fileIds) {
-        return redirect()->back()->with('error', 'No files selected for deletion.');
-    }
-
-    try {
-        $files = ELibraryFile::whereIn('id', $fileIds)->get();
-
-        foreach ($files as $file) {
-            // if ($file->file_path && Storage::exists($file->file_path)) {
-            //     Storage::delete($file->file_path);
-            // }
-            $file->delete();
-        }
-
-        Alert::success('Success', 'Selected files deleted successfully.');
-        return redirect()->route('elibrary');
-    } catch (\Exception $e) {
-        Log::error('Error deleting files: ' . $e->getMessage());
-        Alert::error('Error', 'An error occurred while deleting the files.');
-        return redirect()->back();
-    }
-}
-
 
     /**
-     * Remove the specified resource from storage.
+     * Delete multiple files.
      */
-    public function destroy(string $id)
+    public function deleteMultiple(Request $request)
     {
-        //
-    }
+        $fileIds = $request->input('files');
 
+        if (!$fileIds) {
+            return redirect()->back()->with('error', 'No files selected for deletion.');
+        }
 
-    public function uploadFiles(Request $request)
-{
-    // Validate that files are provided and an elibrary_id is given
-    $request->validate([
-        'image.*' => 'required|file', // Add file types as per your requirement
-        'elibrary_id' => 'required|exists:elibraries,id',
-    ]);
+        try {
+            $files = ELibraryFile::whereIn('id', $fileIds)->get();
 
-    $elibraryId = $request->elibrary_id;
-    $files = $request->file('image');
-    
-    if ($files) {
-        foreach ($files as $file) {
-            // Define the path where you want to move the file
-            $filePath = 'elibrary/';
-            $fileName = time() . '_' . $file->getClientOriginalName();
+            foreach ($files as $file) {
+                $file->delete();
+            }
 
-            // Move the file to the public path
-            $file->move($filePath, $fileName);
-
-            // Save the file path in the database
-            ElibraryFile::create([
-                'elibrary_id' => $elibraryId,
-                'file_path' => $filePath . $fileName,
-            ]);
+            // Success toast notification
+            Alert::toast('Selected files deleted successfully.', 'success');
+            return redirect()->route('elibrary');
+        } catch (Exception $e) {
+            Log::error('Error deleting files: ' . $e->getMessage());
+            // Error toast notification
+            Alert::toast('An error occurred while deleting the files.', 'error');
+            return redirect()->back();
         }
     }
 
-    // Using SweetAlert for success notification
-    alert()->success('Success', 'Files uploaded successfully!');
+    /**
+     * Handle file uploads.
+     */
+    public function uploadFiles(Request $request)
+    {
+        // Validate that files are provided and an elibrary_id is given
+        $request->validate([
+            'image.*' => 'required|file', // Add file types as per your requirement
+            'elibrary_id' => 'required|exists:elibraries,id',
+        ]);
 
-    return redirect()->back();
-}
+        $elibraryId = $request->elibrary_id;
+        $files = $request->file('image');
 
-    
+        if ($files) {
+            foreach ($files as $file) {
+                // Define the path where you want to move the file
+                $filePath = 'elibrary/';
+                $fileName = time() . '_' . $file->getClientOriginalName();
 
+                // Move the file to the public path
+                $file->move($filePath, $fileName);
+
+                // Save the file path in the database
+                ElibraryFile::create([
+                    'elibrary_id' => $elibraryId,
+                    'file_path' => $filePath . $fileName,
+                ]);
+            }
+
+            // Success alert with SweetAlert toast
+            Alert::toast('Files uploaded successfully.', 'success');
+        }
+
+        return response()->json(['message' => 'Files uploaded successfully.']);
+    }
 }

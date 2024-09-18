@@ -25,7 +25,7 @@ class VideoCourseController extends Controller
      */
     public function index(VideoCoursesDataTable $dataTable, Request $request)
     {
-        // try {
+        try {
             $perPage = $request->input('per_page', 10);
             $videoCourses = VideoCourse::with('videos')->paginate($perPage)->appends($request->query());
             $categories = CourseCategory0::all();
@@ -33,11 +33,12 @@ class VideoCourseController extends Controller
                 'videoCourses' => $videoCourses,
                 'categories' => $categories,
             ]);
-        // } catch (\Exception $e) {
-        //     Log::error('Error in index method: ' . $e->getMessage());
-        //     Alert::error('Error', 'An error occurred while loading video courses.');
-        //     return redirect()->back();
-        // }
+        } catch (\Exception $e) {
+            Log::error('Error in index method: ' . $e->getMessage());
+            // toast('An error occurred while loading video courses.', 'error');
+            Alert::toast('An error occurred while loading video courses.', 'error');
+            return redirect()->back();
+        }
     }
     
     /**
@@ -45,7 +46,14 @@ class VideoCourseController extends Controller
      */
     public function create(Request $request)
     {
-        return view('ins.content.videocourse');
+        try {
+            return view('ins.content.videocourse');
+        } catch (\Exception $e) {
+            Log::error('Error in create method: ' . $e->getMessage());
+            // toast('An error occurred while loading the create form.', 'error');
+            Alert::toast('Error in create method: ' . $e->getMessage());
+            return redirect()->back();
+        }
     }
 
     /**
@@ -54,46 +62,47 @@ class VideoCourseController extends Controller
     public function store(StoreVideoCourseRequest $request)
     {
         try {
-            // Validate the request data
+            DB::beginTransaction();
+
             $validatedData = $request->validated();
     
-            // Handle Banner Upload
             if ($request->hasFile('banner')) {
                 $bannerFile = $request->file('banner');
-                $destinationPath = 'upload_banner'; // Removed leading slash
+                $destinationPath = 'upload_banner';
                 $fileName = time() . '_' . $bannerFile->getClientOriginalName();
                 $bannerFile->move(public_path($destinationPath), $fileName);
                 $validatedData['banner'] = $destinationPath . '/' . $fileName;
             }
     
-            // Calculate Course Duration
             $fromDate = \Carbon\Carbon::parse($validatedData['from']);
             $toDate = \Carbon\Carbon::parse($validatedData['to']);
             $courseDuration = $fromDate->diffInDays($toDate);
             $validatedData['course_duration'] = $courseDuration;
     
-            // Create Video Course
             $videoCourse = VideoCourse::create($validatedData);
     
-            // Handle Multiple Video Uploads and store in the `videos` table
             if ($request->hasFile('videos')) {
                 foreach ($request->file('videos') as $video) {
-                    $destinationVideo = 'video'; // Removed leading slash
+                    $destinationVideo = 'video';
                     $videoFileName = time() . '_' . $video->getClientOriginalName();
                     $video->move(public_path($destinationVideo), $videoFileName);
     
-                    // Create a new entry in the videos table
                     $videoCourse->videos()->create([
                         'video_path' => $destinationVideo . '/' . $videoFileName
                     ]);
                 }
             }
     
-            Alert::success('Success', 'The Video Course has been created successfully.');
+            DB::commit();
+            // toast('The Video Course has been created successfully.', 'success');
+
+            Alert::toast('The Video Course has been created successfully.', 'success');
             return redirect()->back();
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Error storing video course: ' . $e->getMessage());
-            Alert::error('Error', 'An error occurred while creating the video course.');
+            // toast('An error occurred while creating the video course.', 'error');
+            Alert::toast('Error storing video course', 'error');
             return redirect()->back()->withInput();
         }
     }
@@ -103,7 +112,14 @@ class VideoCourseController extends Controller
      */
     public function show(VideoCourse $videoCourse)
     {
-        //
+        try {
+            return view('ins.content.videocourse-show', compact('videoCourse'));
+        } catch (\Exception $e) {
+            Log::error('Error in show method: ' . $e->getMessage());
+            // toast('An error occurred while displaying the video course.', 'error');
+            Alert::toast('Some error has occured in the show method', 'error');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -112,10 +128,8 @@ class VideoCourseController extends Controller
     public function edit($id, VideoCoursesDataTable $dataTable, Request $request)
     {
         try {
-            // Fetch the video course and associated videos
             $single_data = VideoCourse::with('videos')->findOrFail($id);
-    $categories = CourseCategory0::all();
-            // Handle pagination for DataTables
+            $categories = CourseCategory0::all();
             $perPage = $request->input('per_page', 10);
             $videoCourses = VideoCourse::with('videos')->paginate($perPage)->appends($request->query());
     
@@ -126,15 +140,22 @@ class VideoCourseController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error('Error in edit method: ' . $e->getMessage());
-            Alert::error('Error', 'An error occurred while loading video course details.');
+            // toast('An error occurred while loading video course details.', 'error');
+            Alert::toast('An error occurred while loading video course details.', 'error');
             return redirect()->back();
         }
     }
     
     public function showVideos($id)
     {
-        $videoCourse = VideoCourse::with('videos')->findOrFail($id);
-        return view('ins.content.videos', compact('videoCourse'));
+        try {
+            $videoCourse = VideoCourse::with('videos')->findOrFail($id);
+            return view('ins.content.videos', compact('videoCourse'));
+        } catch (\Exception $e) {
+            Log::error('Error in showVideos method: ' . $e->getMessage());
+            toast('An error occurred while loading videos.', 'error');
+            return redirect()->back();
+        }
     }
 
     public function uploadVideos(Request $request)
@@ -142,7 +163,7 @@ class VideoCourseController extends Controller
         try {
             $request->validate([
                 'course_id' => 'required|exists:video_courses,id',
-                'image.*' => 'required|file|mimes:mp4,mov,avi|max:102400', // 100MB max
+                'image.*' => 'required|file|mimes:mp4,mov,avi|max:102400',
             ]);
     
             $videoCourse = VideoCourse::findOrFail($request->course_id);
@@ -153,74 +174,43 @@ class VideoCourseController extends Controller
                     $videoFileName = time() . '_' . $video->getClientOriginalName();
                     $video->move(public_path($destinationVideo), $videoFileName);
     
-                    // Create a new entry in the videos table
                     $videoCourse->videos()->create([
                         'video_path' => $destinationVideo . '/' . $videoFileName
                     ]);
                 }
             }
     
-            return response()->json(['success' => 'Videos uploaded successfully'], 200);
-            // Alert::success('Success', 'Videos added successfully');
+            // return response()->json(['success' => 'Videos uploaded successfully'], 200);
+            Alert::toast('Videos uploaded successfully', 'success');
         } catch (\Exception $e) {
             Log::error('Error uploading videos: ' . $e->getMessage());
             return response()->json(['error' => 'An error occurred while uploading videos.'], 500);
         }
     }
 
-
-    // public function uploadVideos(Request $request)
-    // {
-    //     try {
-    //         $request->validate([
-    //             'course_id' => 'required|exists:video_courses,id',
-    //             'videos.*' => 'required|file|mimes:mp4,mov,avi|max:102400', // 100MB max
-    //         ]);
-    
-    //         $videoCourse = VideoCourse::findOrFail($request->course_id);
-    
-    //         if ($request->hasFile('videos')) {
-    //             foreach ($request->file('videos') as $video) {
-    //                 // Dispatch the job for each video
-    //                 VidUpload::dispatch($videoCourse, $video);
-    //             }
-    //             return response()->json(['success' => 'Video upload jobs dispatched successfully'], 200);
-    //         } else {
-    //             return response()->json(['error' => 'No videos were uploaded.'], 400);
-    //         }
-    //     } catch (\Illuminate\Validation\ValidationException $e) {
-    //         return response()->json(['error' => $e->errors()], 422);
-    //     } catch (\Exception $e) {
-    //         Log::error('Error dispatching video upload jobs: ' . $e->getMessage());
-    //         return response()->json(['error' => 'An error occurred while dispatching video upload jobs.'], 500);
-    //     }
-    // }
-
-    
     public function deleteMultiple(Request $request)
     {
-        $videoIds = $request->input('videos', []);
+        try {
+            $videoIds = $request->input('videos', []);
     
-        if (empty($videoIds)) {
-            return redirect()->back()->with('error', 'No videos selected for deletion');
+            if (empty($videoIds)) {
+                toast('No videos selected for deletion', 'warning');
+                return redirect()->back();
+            }
+    
+            $videos = Video::whereIn('id', $videoIds)->get();
+    
+            foreach ($videos as $video) {
+                $video->delete();
+            }
+    
+            toast('Videos deleted successfully', 'success');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            Log::error('Error in deleteMultiple method: ' . $e->getMessage());
+            toast('An error occurred while deleting videos.', 'error');
+            return redirect()->back();
         }
-    
-        // Fetch videos and soft delete each one
-        $videos = Video::whereIn('id', $videoIds)->get();
-    
-        foreach ($videos as $video) {
-            $video->delete(); // Soft delete the video record
-
-
-            // if (Storage::disk('public')->exists($video->video_path)) {
-            //     Storage::disk('public')->delete($video->video_path);
-            // }
-        }
-    
-        Alert::success('Success', 'Videos deleted successfully');
-        
-        return redirect()->back(); // Redirect to the video course page
-
     }
     
     /**
@@ -228,66 +218,58 @@ class VideoCourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Find the video course by ID
-        $videoCourse = VideoCourse::findOrFail($id);
+        try {
+            $videoCourse = VideoCourse::findOrFail($id);
     
-        // Validate the request data
-        $validatedData = $request->validate([
-            'course_name' => 'required|string|max:255',
-            'language' => 'required|in:1,2',
-            'is_paid' => 'boolean',
-            'price' => 'nullable|numeric|min:0',
-            'discount_price' => 'nullable|numeric|min:0',
-            'course_category_id' => 'required',
-            'from' => 'required|date',
-            'to' => 'required|date|after:from',
-            'about_course' => 'required|string',
-            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+            $validatedData = $request->validate([
+                'course_name' => 'required|string|max:255',
+                'language' => 'required|in:1,2',
+                'is_paid' => 'boolean',
+                'price' => 'nullable|numeric|min:0',
+                'discount_price' => 'nullable|numeric|min:0',
+                'course_category_id' => 'required',
+                'from' => 'required|date',
+                'to' => 'required|date|after:from',
+                'about_course' => 'required|string',
+                'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
     
-        // Logic for handling 'is_paid'
-        if ($request->input('is_paid') == 0) {
-            // If the course is not paid, set price and discount_price to null
-            $validatedData['price'] = null;
-            $validatedData['discount_price'] = null;
-        } elseif ($request->input('is_paid') == 1 && is_null($request->input('price'))) {
-            // If the course is paid but price is not provided, throw a validation error
-            return redirect()->back()->withErrors([
-                'price' => 'The price is required for paid courses.'
-            ])->withInput();
-        }
-    
-        // Handle banner upload if a new one is provided
-        if ($request->hasFile('banner')) {
-            // Delete the old banner if it exists
-            if ($videoCourse->banner && file_exists(public_path($videoCourse->banner))) {
-                unlink(public_path($videoCourse->banner));
+            if ($request->input('is_paid') == 0) {
+                $validatedData['price'] = null;
+                $validatedData['discount_price'] = null;
+            } elseif ($request->input('is_paid') == 1 && is_null($request->input('price'))) {
+                return redirect()->back()->withErrors([
+                    'price' => 'The price is required for paid courses.'
+                ])->withInput();
             }
     
-            $bannerFile = $request->file('banner');
-            $destinationPath = 'upload_banner';
-            $fileName = time() . '_' . $bannerFile->getClientOriginalName();
-            $bannerFile->move(public_path($destinationPath), $fileName);
+            if ($request->hasFile('banner')) {
+                if ($videoCourse->banner && file_exists(public_path($videoCourse->banner))) {
+                    unlink(public_path($videoCourse->banner));
+                }
     
-            // Update the banner path in the validated data
-            $validatedData['banner'] = $destinationPath . '/' . $fileName;
+                $bannerFile = $request->file('banner');
+                $destinationPath = 'upload_banner';
+                $fileName = time() . '_' . $bannerFile->getClientOriginalName();
+                $bannerFile->move(public_path($destinationPath), $fileName);
+    
+                $validatedData['banner'] = $destinationPath . '/' . $fileName;
+            }
+    
+            $fromDate = Carbon::parse($validatedData['from']);
+            $toDate = Carbon::parse($validatedData['to']);
+            $validatedData['course_duration'] = $fromDate->diffInDays($toDate);
+    
+            $videoCourse->update($validatedData);
+    
+            toast('Video Course updated successfully', 'success');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            Log::error('Error in update method: ' . $e->getMessage());
+            toast('An error occurred while updating the video course.', 'error');
+            return redirect()->back()->withInput();
         }
-    
-        // Calculate course duration
-        $fromDate = Carbon::parse($validatedData['from']);
-        $toDate = Carbon::parse($validatedData['to']);
-        $validatedData['course_duration'] = $fromDate->diffInDays($toDate);
-    
-        // Update the video course with the validated data
-        $videoCourse->update($validatedData);
-    
-        // Success alert and redirect
-        Alert::success('success', 'Video Course updated successfully');
-        return redirect()->back();
     }
-    
-
-    
 
     /**
      * Remove the specified resource from storage.
@@ -295,26 +277,64 @@ class VideoCourseController extends Controller
     public function destroy($id)
     {
         try {
-            // Find the video or throw an exception if not found
             $video = Video::findOrFail($id);
-    
-            // Delete the video file from the public storage if it exists
-            // if (Storage::disk('public')->exists($video->video_path)) {
-            //     Storage::disk('public')->delete($video->video_path);
-            // }
-            
-            // Soft delete the video record from the database
             $video->delete();
     
-            Alert::success('Success', 'Video deleted successfully');
+            toast('Video deleted successfully', 'success');
             return redirect()->back();
-        } catch (Exception $e) {
-            // Log the error and show an alert if something goes wrong
+        } catch (\Exception $e) {
             Log::error('Error in destroy method: ' . $e->getMessage());
-            Alert::error('Error', 'An error occurred while deleting the video.');
+            toast('An error occurred while deleting the video.', 'error');
             return redirect()->back();
         }
     }
-
-   
 }
+
+// Testing-----------------------------------------------------------------------------
+
+// public function store(StoreVideoCourseRequest $request)
+// {
+//     try {
+//         // Validate the request data
+//         $validatedData = $request->validated();
+
+//         // Extract only the necessary data for the course creation
+//         $courseData = [
+//             'course_name' => $validatedData['course_name'],
+//             'language' => $validatedData['language'],
+//             'is_paid' => $validatedData['is_paid'],
+//             'price' => $validatedData['price'] ?? null,
+//             'discount_price' => $validatedData['discount_price'] ?? null,
+//             'course_category_id' => $validatedData['course_category_id'],
+//             'from' => $validatedData['from'],
+//             'to' => $validatedData['to'],
+//             'about_course' => $validatedData['about_course'],
+//             // Add any other fields that are part of your VideoCourse model
+//         ];
+
+//         // Handle Banner Upload
+//         $bannerPath = null;
+//         if ($request->hasFile('banner')) {
+//             $bannerFile = $request->file('banner');
+//             $bannerPath = $bannerFile->store('tmp', 'public');
+//         }
+
+//         // Handle Video Uploads
+//         $videoPaths = [];
+//         if ($request->hasFile('videos')) {
+//             foreach ($request->file('videos') as $video) {
+//                 $videoPaths[] = $video->store('tmp', 'public');
+//             }
+//         }
+
+//         // Dispatch the job with course data and file paths
+//         ProcessVideoCourse::dispatch($courseData, $bannerPath, $videoPaths);
+
+//         Alert::success('Success', 'The Video Course is being processed.');
+//         return redirect()->back();
+//     } catch (\Exception $e) {
+//         Log::error('Error dispatching job: ' . $e->getMessage());
+//         Alert::error('Error', 'An error occurred while processing the video course.');
+//         return redirect()->back()->withInput();
+//     }
+// }

@@ -8,58 +8,38 @@
                     <h5 class="mb-0">Video Course</h5>
                     <small class="text-muted float-end">{{ isset($single_data) ? 'Edit Course' : 'Create New Course' }}</small>
                 </div>
-                <div class="card-body p-4">
+                <div class="card-body p-4" data-aos="fade-up" data-aos-duration="1000">
                     <form method="POST" action="{{ isset($single_data) ? route('videocourse.update', $single_data->id) : route('videocourse.store') }}" enctype="multipart/form-data" class="needs-validation">
                         @csrf
                         @if(isset($single_data))
                             @method('PUT')
                         @endif
+                
                         <div class="row g-3">
+                            <!-- Course Name with Icon -->
                             <div class="col-md-6">
-                                <div class="form-floating mb-3">
+                                <div class="form-floating mb-3" data-aos="fade-right" data-aos-duration="1000">
                                     <input type="text" class="form-control" id="CourseName" placeholder="Course Name" name="course_name" value="{{ old('course_name', $single_data->course_name ?? '') }}" required>
-                                    <label for="CourseName" class="text-secondary">Course Name <span class="text-secondary">*</span></label>
+                                    <label for="CourseName" class="text-secondary"><i class="fas fa-book-open"></i> Course Name <span class="text-secondary">*</span></label>
                                 </div>
                             </div>
+                
+                            <!-- Language Select with Icon -->
                             <div class="col-md-6">
-                                <div class="form-floating mb-3">
+                                <div class="form-floating mb-3" data-aos="fade-left" data-aos-duration="1000">
                                     <select class="form-select" id="Language" name="language" required>
                                         <option value="" selected disabled>Select Language</option>
                                         <option value="1" {{ (old('language', $single_data->language ?? '') == '1') ? 'selected' : '' }}>Hindi</option>
                                         <option value="2" {{ (old('language', $single_data->language ?? '') == '2') ? 'selected' : '' }}>English</option>
                                     </select>
-                                    <label for="Language" class="text-secondary">Language <span class="text-secondary">*</span></label>
+                                    <label for="Language" class="text-secondary"><i class="fas fa-language"></i> Language <span class="text-secondary">*</span></label>
                                 </div>
                             </div>
+                
+                            <!-- Banner Upload -->
                             <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title mb-3">Pricing</h5>
-                                    
-                                        <!-- Hidden field to ensure false value is sent when unchecked -->
-                                        <input type="hidden" name="is_paid" value="0">
-                                    
-                                        <div class="form-check form-switch mb-3">
-                                            <input class="form-check-input" type="checkbox" id="isPaid" name="is_paid" value="1" {{ old('is_paid', $single_data->is_paid ?? false) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="isPaid">Paid Item</label>
-                                        </div>
-                                    
-                                        <div id="priceSection" style="{{ old('is_paid', $single_data->is_paid ?? false) ? 'display: block;' : 'display: none;' }}">
-                                            <div class="form-floating mb-3">
-                                                <input type="number" class="form-control" id="Price" name="price" value="{{ old('price', $single_data->price ?? '') }}" placeholder="Price" min="0" step="0.01">
-                                                <label for="Price" class="text-secondary">Regular Price</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="number" class="form-control" id="DiscountPrice" name="discount_price" value="{{ old('discount_price', $single_data->discount_price ?? '') }}" placeholder="Discount Price" min="0" step="0.01">
-                                                <label for="DiscountPrice" class="text-secondary">Discounted Price</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="banner" class="form-label text-secondary">Upload Banner</label>
+                                <div class="mb-3" data-aos="fade-right" data-aos-duration="1000">
+                                    <label for="banner" class="form-label text-secondary"><i class="fas fa-image"></i> Upload Banner</label>
                                     <input type="file" class="form-control" id="banner" name="banner" accept="image/*">
                                     @if(isset($single_data) && $single_data->banner)
                                         <div class="mt-2">
@@ -69,49 +49,86 @@
                                     @endif
                                 </div>
                             </div>
+                
+                            <!-- Video Upload -->
                             @if(!isset($single_data))
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="videos" class="form-label text-secondary">Upload Videos</label>
+                                <div class="mb-3" data-aos="fade-left" data-aos-duration="1000">
+                                    <label for="videos" class="form-label text-secondary"><i class="fas fa-video"></i> Upload Videos</label>
                                     <input type="file" class="form-control" id="videos" name="videos[]" accept="video/*" multiple>
                                 </div>
                             </div>
                             @endif
+                
+                            <!-- Course Category -->
                             <div class="col-md-6">
-                                <div class="form-floating mb-3">
+                                <div class="form-floating mb-3" data-aos="fade-right" data-aos-duration="1000">
                                     <select class="form-select" id="CourseCategory" name="course_category_id" required>
                                         <option value="" selected disabled>Select Category</option>
                                         @foreach($categories as $option)
                                         <option value="{{ $option->id }}" {{ old('cat_level_0', $single_data->cat_level_0 ?? '') == $option->id ? 'selected' : '' }}>
                                             {{ $option->name }}
                                         </option>
-                                    @endforeach
+                                        @endforeach
                                     </select>
-                                    <label for="CourseCategory" class="text-secondary">Course Category <span class="text-secondary">*</span></label>
+                                    <label for="CourseCategory" class="text-secondary"><i class="fas fa-list-alt"></i> Course Category <span class="text-secondary">*</span></label>
                                 </div>
                             </div>
+                
+                            <!-- Date Fields -->
                             <div class="col-md-6">
-                                <div class="form-floating mb-3">
+                                <div class="form-floating mb-3" data-aos="fade-left" data-aos-duration="1000">
                                     <input type="date" class="form-control" id="from" name="from" value="{{ old('from', isset($single_data->from) ? \Carbon\Carbon::parse($single_data->from)->format('Y-m-d') : '') }}" required>
-                                    <label for="from" class="text-secondary">From <span class="text-secondary">*</span></label>
+                                    <label for="from" class="text-secondary"><i class="fas fa-calendar-alt"></i> From <span class="text-secondary">*</span></label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
+                
+                            <div class="col-md-12">
+                                <div class="form-floating mb-3" data-aos="fade-right" data-aos-duration="1000">
                                     <input type="date" class="form-control" id="to" name="to" value="{{ old('to', isset($single_data->to) ? \Carbon\Carbon::parse($single_data->to)->format('Y-m-d') : '') }}" required>
-                                    <label for="to" class="text-secondary">To <span class="text-secondary">*</span></label>
+                                    <label for="to" class="text-secondary"><i class="fas fa-calendar-alt"></i> To <span class="text-secondary">*</span></label>
                                 </div>
                             </div>
+                
+                            <!-- About Course -->
                             <div class="col-12">
-                                <div class="form-floating mb-3">
+                                <div class="form-floating mb-3" data-aos="fade-up" data-aos-duration="1000">
                                     <textarea class="form-control" id="AboutCourse" name="about_course" placeholder="Enter course details here" style="height: 100px;">{{ old('about_course', $single_data->about_course ?? '') }}</textarea>
-                                    <label for="AboutCourse" class="text-secondary">About Course</label>
+                                    <label for="AboutCourse" class="text-secondary"><i class="fas fa-info-circle"></i> About Course</label>
                                 </div>
                             </div>
+                
+                            <!-- Pricing Section - Full Width -->
+                            <div class="col-12">
+                                <div class="mb-3" data-aos="fade-up" data-aos-duration="1000">
+                                    <h5 class="mb-3"><i class="fas fa-dollar-sign"></i> Pricing</h5>
+                
+                                    <!-- Hidden field to ensure false value is sent when unchecked -->
+                                    <input type="hidden" name="is_paid" value="0">
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="isPaid" name="is_paid" value="1" {{ old('is_paid', $single_data->is_paid ?? false) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="isPaid">Paid Item</label>
+                                    </div>
+                
+                                    <div id="priceSection" style="{{ old('is_paid', $single_data->is_paid ?? false) ? 'display: block;' : 'display: none;' }}">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="Price" name="price" value="{{ old('price', $single_data->price ?? '') }}" placeholder="Price" min="0" step="0.01">
+                                            <label for="Price" class="text-secondary"><i class="fas fa-money-bill"></i> Regular Price</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="DiscountPrice" name="discount_price" value="{{ old('discount_price', $single_data->discount_price ?? '') }}" placeholder="Discount Price" min="0" step="0.01">
+                                            <label for="DiscountPrice" class="text-secondary"><i class="fas fa-percentage"></i> Discounted Price</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
                         </div>
+                
+                        <!-- Submit and Reset Buttons -->
                         <div class="d-flex justify-content-end gap-2 mt-4">
                             <button type="button" class="btn btn-danger px-4" onclick="resetForm()" style="display: {{ isset($single_data) ? 'none' : 'inline' }}">Reset</button>
-                            <button type="submit" class="btn btn-primary px-4">{{ isset($single_data) ? 'Update' : 'Save' }}</button>
+                            <button type="submit" class="btn btn-primary px-4">{{ isset($single_data) ? 'Update' : 'Submit' }}</button>
                         </div>
                     </form>
                 </div>
@@ -144,6 +161,8 @@
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
     <script>
+AOS.init();
+
         function resetForm() {
             document.querySelector('form').reset();
         }
