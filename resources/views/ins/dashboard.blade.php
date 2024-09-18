@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('content')
-<button id="sidebar-toggle-btn"><i class="fas fa-arrow-right"></i></button>
+<!-- <button id="theme-toggle-btn">Toggle Theme</button> -->
 
     {{-- <div class="container-xxl flex-grow-1 container-p-y"> --}}
 
@@ -11,7 +11,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">Live And Webinar</h>
+                                <h4 class="text- mb-2">Live And Webinar</h>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>
@@ -31,7 +31,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">Content</h4>
+                                <h4 class="text- mb-2">Content</h4>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>
@@ -52,7 +52,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">User Management</h4>
+                                <h4 class="text- mb-2">User Management</h4>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>
@@ -73,7 +73,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">Marketing</h4>
+                                <h4 class="text- mb-2">Marketing</h4>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>
@@ -94,7 +94,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">Sliders</h4>
+                                <h4 class="text- mb-2">Sliders</h4>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>
@@ -115,7 +115,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">Books</h4>
+                                <h4 class="text- mb-2">Books</h4>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>
@@ -136,7 +136,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">Website</h4>
+                                <h4 class="text- mb-2">Website</h4>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>
@@ -157,7 +157,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">Support</h4>
+                                <h4 class="text- mb-2">Support</h4>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>
@@ -178,7 +178,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">Test Practicals</h4>
+                                <h4 class="text- mb-2">Test Practicals</h4>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>
@@ -199,7 +199,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">Chat Support</h4>
+                                <h4 class="text- mb-2">Chat Support</h4>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>
@@ -220,7 +220,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">Reports</h4>
+                                <h4 class="text- mb-2">Reports</h4>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>
@@ -241,7 +241,7 @@
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                         <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                             <div class="card-title">
-                                <h4 class="text-nowrap mb-2">Setting</h4>
+                                <h4 class="text- mb-2">Setting</h4>
                             </div>
                             <div class="mt-sm-auto">
                                 <h5 class="mb-0">$84,686k</h5>

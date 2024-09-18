@@ -15067,7 +15067,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
   flex-direction: column;
 }
 .menu-vertical:not(.menu-no-animation) {
-  transition: width 0.3s;
+  /* transition: width 0.3s; */
 }
 .menu-vertical,
 .menu-vertical .menu-block,
@@ -15371,10 +15371,19 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
     z-index: 1080;
   }
 }
+/* changed code  */
+
 .layout-menu {
   position: relative;
+  width: 4.5rem;
   flex: 1 0 auto;
+  transition: all 0.3s cubic-bezier(0.75, 0.02, 0.26, 0.95); 
 }
+.layout-menu:hover {
+  width: 16rem; /* Width when expanded to show full content */
+}
+
+
 .layout-menu .menu {
   transform: translate3d(0, 0, 0);
 }
@@ -15396,7 +15405,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 @media (min-width: 1200px) {
   .layout-menu-fixed .layout-menu,
 .layout-menu-fixed-offcanvas .layout-menu {
-    position: fixed;
+    position: relative;
     top: 0;
     bottom: 0;
     left: 0;
@@ -15472,6 +15481,7 @@ html:not(.layout-footer-fixed) .content-wrapper {
     margin-left: 0 !important;
     transform: translate3d(-100%, 0, 0);
     will-change: transform, -webkit-transform;
+    width: 16rem;
   }
   .layout-menu-expanded .layout-menu {
     transform: translate3d(0, 0, 0) !important;

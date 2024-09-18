@@ -118,13 +118,15 @@ let menu, animate;
 })();
 
 
-// sidebar
-// Toggle the sidebar on large screens
-document.getElementById('sidebar-toggle-btn').addEventListener('click', function () {
-  if (window.innerWidth >= 992) { // Check for large screens
-    const sidebar = document.querySelector('.layout-menu');
-    const togglebtn = document.getElementById('sidebar-toggle-btn');
-    togglebtn.classList.toggle('active');
-    sidebar.classList.toggle('active'); // Add/remove 'active' class to show/hide sidebar
-  }
-});
+// theme handler 
+// document.addEventListener('DOMContentLoaded', () => {
+//   const savedTheme = localStorage.getItem('theme') || 'light';
+//   document.body.setAttribute('data-theme', savedTheme);
+// });
+
+// document.getElementById('theme-toggle-btn').addEventListener('click', () => {
+//   const currentTheme = document.body.getAttribute('data-theme');
+//   const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+//   document.body.setAttribute('data-theme', newTheme);
+//   localStorage.setItem('theme', newTheme);
+// });
