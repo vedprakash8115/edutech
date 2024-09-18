@@ -29,6 +29,10 @@ Route::get('/login', function () {
 //     return view('dashboard');
 // });
 
+Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
+
+Route::post('login', [LoginController::class, 'login'])->name('login');
+
 Route::get('/',[HomeController::class,'index'])->name('index');
 
 
@@ -62,9 +66,6 @@ Route::delete('/videos/{id}', [VideoCourseController::class, 'destroy'])->name('
 Route::post('ins/video/upload', [VideoCourseController::class, 'uploadVideos'])->name('videocourse.uploadVideos');
 Route::delete('/ins/video/delete_multiple', [VideoCourseController::class, 'deleteMultiple'])->name('videocourse.deleteMultiple');
 
-Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
-
-Route::post('login', [LoginController::class, 'login'])->name('login');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('ins/dashboard', [InstituteController::class, 'index'])->name('insdashboard');
     /***  For Course routes ***/
