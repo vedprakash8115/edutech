@@ -15377,8 +15377,11 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
   position: relative;
   width: 4.5rem;
   flex: 1 0 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   transition: all 0.3s cubic-bezier(0.75, 0.02, 0.26, 0.95); 
 }
+
 .layout-menu:hover {
   width: 16rem; /* Width when expanded to show full content */
 }
