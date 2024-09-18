@@ -105,3 +105,36 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+/* sidebar  */
+
+/* Hide sidebar on large screens by default */
+@media (min-width: 992px) {
+  .layout-menu {
+    left: -250px; /* Move sidebar off-screen */
+    transition: left 0.3s ease-in-out;
+  }
+
+  /* Sidebar when visible */
+  .layout-menu.active {
+    left: 0; /* Bring it back on-screen */
+  }
+}
+#sidebar-toggle-btn{
+  position: absolute;
+  left: 0;
+  top: 81px;
+  border: none;
+  outline: none;
+  background-color: #696cff;
+  height: 2.5rem;
+  width: 3rem;
+  border-radius: 5px;
+}
+#sidebar-toggle-btn.active{
+  left: 200px;
+}
+#sidebar-toggle-btn i{
+  color: white;
+  text-align: center;
+}

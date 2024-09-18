@@ -1,4 +1,5 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+
           <div class="app-brand demo">
             <a href="index.html" class="app-brand-link">
               <span class="app-brand-logo demo">
@@ -109,6 +110,15 @@
             <!-- end -->
 
             <!-- Layouts -->
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
+                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
+                <div data-i18n="Authentications">Live and Webinar</div>
+              </a>
+            </li>
+
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class="menu-icon fa fa-book" aria-hidden="true"></i>
@@ -119,32 +129,42 @@
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a href="{{route('liveclass')}}" class="menu-link">
-                    <div data-i18n="Without menu">Live Class</div>
+                    <div data-i18n="Without menu">Courses</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="{{route('videocourse')}}" class="menu-link">
-                    <div data-i18n="Without navbar">Video Course</div>
+                    <div data-i18n="Without navbar">News</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="" class="menu-link">
-                    <div data-i18n="Container">E-Library</div>
+                    <div data-i18n="Container">Job alert</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="" class="menu-link">
-                    <div data-i18n="Fluid">Mock Test</div>
+                    <div data-i18n="Fluid">Post</div>
                   </a>
                 </li>
-
+                <li class="menu-item">
+                  <a href="" class="menu-link">
+                    <div data-i18n="Fluid">Quick Links</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="" class="menu-link">
+                    <div data-i18n="Fluid">Exam Category</div>
+                  </a>
+                </li>
+               
               </ul>
             </li>
 
             <!-- <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Students</span>
             </li> -->
-            <li class="menu-item">
+            <!-- <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-dock-top"></i>
                 <div data-i18n="Account Settings">All students</div>
@@ -162,12 +182,12 @@
                 </li>
 
               </ul>
-            </li>
+            </li> -->
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-                <div data-i18n="Authentications">Manage Users</div>
+                <div data-i18n="Authentications">User Management</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
@@ -188,6 +208,69 @@
 
 
               </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
+                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
+                <div data-i18n="Authentications">Marketing</div>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
+                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
+                <div data-i18n="Authentications">Sliders</div>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
+                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
+                <div data-i18n="Authentications">Books</div>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
+                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
+                <div data-i18n="Authentications">Website</div>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
+                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
+                <div data-i18n="Authentications">Support</div>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
+                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
+                <div data-i18n="Authentications">Test Practicals</div>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
+                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
+                <div data-i18n="Authentications">Chat Support</div>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
+                <i class="menu-icon fa fa-user" aria-hidden="true"></i>
+                <div data-i18n="Authentications">Reports</div>
+              </a>
             </li>
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
