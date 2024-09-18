@@ -138,8 +138,8 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link">
-                    <div data-i18n="Container">Job alert</div>
+                  <a href="{{route('elibrary')}}" class="menu-link">
+                    <div data-i18n="Container">E-Library</div>
                   </a>
                 </li>
                 <li class="menu-item">

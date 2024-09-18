@@ -10,4 +10,8 @@ class Elibrary extends Model
 {
     use HasFactory,SoftDeletes;
     protected $guarded=[];
+    public function files()
+    {
+        return $this->hasMany(ElibraryFile::class);
+    }
 }

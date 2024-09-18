@@ -1,236 +1,269 @@
 @extends('layout.app')
+
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="mb-0">Video Course</h5>
-                    <small class="text-muted float-end">Default label</small>
+                    <small class="text-muted float-end">{{ isset($single_data) ? 'Edit Course' : 'Create New Course' }}</small>
                 </div>
-                <div class="card-body">
-                    <form method="POST" action="{{ route('videocourse.store') }}" enctype="multipart/form-data">
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ isset($single_data) ? route('videocourse.update', $single_data->id) : route('videocourse.store') }}" enctype="multipart/form-data" class="needs-validation">
                         @csrf
-                        <div class="row mb-2">
+                        @if(isset($single_data))
+                            @method('PUT')
+                        @endif
+                        <div class="row g-3">
                             <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="CourseName" class="form-label">Course Name</label>
-                                    <input type="text" class="form-control" id="CourseName" placeholder="Course Name"
-                                        name="course_name" value="{{ old('course_name') }}">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="CourseName" placeholder="Course Name" name="course_name" value="{{ old('course_name', $single_data->course_name ?? '') }}" required>
+                                    <label for="CourseName" class="text-secondary">Course Name <span class="text-secondary">*</span></label>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="Language" class="form-label">Language</label>
-                                    <select class="form-select" aria-label="Default select example" id="Language"
-                                        name="language">
-                                        <option selected>Select Language</option>
-                                        <option value="1">Hindi</option>
-                                        <option value="2">English</option>
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="Language" name="language" required>
+                                        <option value="" selected disabled>Select Language</option>
+                                        <option value="1" {{ (old('language', $single_data->language ?? '') == '1') ? 'selected' : '' }}>Hindi</option>
+                                        <option value="2" {{ (old('language', $single_data->language ?? '') == '2') ? 'selected' : '' }}>English</option>
                                     </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="OriginalPrice" class="form-label">Original Price</label>
-                                    <input type="text" class="form-control" id="OriginalPrice" name="original_price"
-                                        value="{{ old('original_price') }}" placeholder="Original Price">
-                                </div>
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="DiscountPrice" class="form-label">Discount Price</label>
-                                    <input type="text" class="form-control" id="DiscountPrice" name="discount_price"
-                                        value="{{ old('discount_price') }}" placeholder="Discount Price">
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="banner" class="form-label">Upload Banner</label>
-                                    <input type="file" class="form-control" id="banner" name="banner"
-                                        value="{{ old('banner') }}">
+                                    <label for="Language" class="text-secondary">Language <span class="text-secondary">*</span></label>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="video" class="form-label">Upload Video </label>
-                                    <input type="file" class="form-control" id="video" name="video">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-3">Pricing</h5>
+                                    
+                                        <!-- Hidden field to ensure false value is sent when unchecked -->
+                                        <input type="hidden" name="is_paid" value="0">
+                                    
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="isPaid" name="is_paid" value="1" {{ old('is_paid', $single_data->is_paid ?? false) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="isPaid">Paid Item</label>
+                                        </div>
+                                    
+                                        <div id="priceSection" style="{{ old('is_paid', $single_data->is_paid ?? false) ? 'display: block;' : 'display: none;' }}">
+                                            <div class="form-floating mb-3">
+                                                <input type="number" class="form-control" id="Price" name="price" value="{{ old('price', $single_data->price ?? '') }}" placeholder="Price" min="0" step="0.01">
+                                                <label for="Price" class="text-secondary">Regular Price</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="number" class="form-control" id="DiscountPrice" name="discount_price" value="{{ old('discount_price', $single_data->discount_price ?? '') }}" placeholder="Discount Price" min="0" step="0.01">
+                                                <label for="DiscountPrice" class="text-secondary">Discounted Price</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2">
-                            {{-- <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="CourseDuration" class="form-label">Course Duration </label>
-                                    <input type="text" class="form-control" id="CourseDuration" name="course_duration"
-                                        placeholder="Course Duration">
-                                </div>
-                            </div> --}}
                             <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="CourseCategory" class="form-label">Choose Course Category</label>
-                                    <select class="form-select" aria-label="Default select example" id="CourseCategory"
-                                        name="course_category_id">
-                                        <option selected>Select Category</option>
-                                        <option value="1">CCC</option>
-                                        <option value="2">PHP</option>
-                                        <option value="3">DRUPAL</option>
+                                <div class="mb-3">
+                                    <label for="banner" class="form-label text-secondary">Upload Banner</label>
+                                    <input type="file" class="form-control" id="banner" name="banner" accept="image/*">
+                                    @if(isset($single_data) && $single_data->banner)
+                                        <div class="mt-2">
+                                            <img src="{{ asset($single_data->banner) }}" alt="Current Banner" class="img-fluid img-thumbnail" style="max-width: 200px; max-height: 60px;">
+                                            <p class="text-muted small mt-1">Current banner image</p>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            @if(!isset($single_data))
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="videos" class="form-label text-secondary">Upload Videos</label>
+                                    <input type="file" class="form-control" id="videos" name="videos[]" accept="video/*" multiple>
+                                </div>
+                            </div>
+                            @endif
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="CourseCategory" name="course_category_id" required>
+                                        <option value="" selected disabled>Select Category</option>
+                                        @foreach($categories as $option)
+                                        <option value="{{ $option->id }}" {{ old('cat_level_0', $single_data->cat_level_0 ?? '') == $option->id ? 'selected' : '' }}>
+                                            {{ $option->name }}
+                                        </option>
+                                    @endforeach
                                     </select>
+                                    <label for="CourseCategory" class="text-secondary">Course Category <span class="text-secondary">*</span></label>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="from" class="form-label">Form</label>
-                                    <input type="date" class="form-control" id="from" name="form"
-                                        placeholder="from">
+                                <div class="form-floating mb-3">
+                                    <input type="date" class="form-control" id="from" name="from" value="{{ old('from', isset($single_data->from) ? \Carbon\Carbon::parse($single_data->from)->format('Y-m-d') : '') }}" required>
+                                    <label for="from" class="text-secondary">From <span class="text-secondary">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="date" class="form-control" id="to" name="to" value="{{ old('to', isset($single_data->to) ? \Carbon\Carbon::parse($single_data->to)->format('Y-m-d') : '') }}" required>
+                                    <label for="to" class="text-secondary">To <span class="text-secondary">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" id="AboutCourse" name="about_course" placeholder="Enter course details here" style="height: 100px;">{{ old('about_course', $single_data->about_course ?? '') }}</textarea>
+                                    <label for="AboutCourse" class="text-secondary">About Course</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-2">
-
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="to" class="form-label">To</label>
-                                    <input type="date" class="form-control" id="to" name="to"
-                                        placeholder="to">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="AboutCourse" class="form-label">About Course</label>
-                                    <textarea class="form-control" placeholder="Leave a comment here" id="AboutCourse" name="about_course"
-                                        value="{{ old('about_course') }}"></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row mb-2">
-                            <div class="col">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="button" class="btn btn-danger">Reset</button>
-                            </div>
-
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="button" class="btn btn-danger px-4" onclick="resetForm()" style="display: {{ isset($single_data) ? 'none' : 'inline' }}">Reset</button>
+                            <button type="submit" class="btn btn-primary px-4">{{ isset($single_data) ? 'Update' : 'Save' }}</button>
                         </div>
                     </form>
                 </div>
             </div>
+            
         </div>
     </div>
+
+    @if(!isset($single_data))
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="table" class="table table-bordered border-primary table-striped table-hover">
-                            <thead style="background-color: #566A7F;">
-                                <tr>
-                                    <th scope="col" class="text-white">Sr.No</th>
-                                    <th scope="col" class="text-white">Course Name</th>
-                                    <th scope="col" class="text-white">Language</th>
-                                    <th scope="col" class="text-white">Original Price</th>
-                                    <th scope="col" class="text-white">Discount Price</th>
-                                    <th scope="col" class="text-white">upload_banner</th>
-                                    <th scope="col" class="text-white">Course Duration</th>
-                                    <th scope="col" class="text-white">Course Category</th>
-                                    <th scope="col" class="text-white">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($videoCourseies as $videoCourse)
-                                    <tr>
-                                        <th scope="row">
-                                            {{ $loop->iteration + ($videoCourseies->currentPage() - 1) * $videoCourseies->perPage() }}
-                                        </th>
-                                        <td>{{ $videoCourse->course_name }}</td>
-                                        <td>{{ $videoCourse->language }}</td>
-                                        <td>{{ $videoCourse->original_price }}</td>
-                                        <td>{{ $videoCourse->discount_price }}</td>
-                                        <td>
-                                            <img src="{{ asset($videoCourse->banner) }}" width="100%" height="100%">
-                                        </td>
-                                        <td>{{ $videoCourse->course_duration }} days</td>
-                                        <td>{{ $videoCourse->course_category_id }}</td>
-                                        <td>
-                                            <button type="button" class="badge bg-primary" data-bs-toggle="modal"
-                                                data-bs-target="#view{{ $videoCourse->id }}">
-                                                View
-                                            </button>
-                                            <a class="badge bg-secondary"
-                                                href="{{ url('/videoCourseies/' . $videoCourse->id) }}">Edit</a>
-                                        </td>
-                                    </tr>
-
-                                    <div class="modal fade" id="view{{ $videoCourse->id }}" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel{{ $videoCourse->id }}" aria-hidden="true">
-                                        <div class="modal-dialog modal-xl">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel{{ $videoCourse->id }}">
-                                                        Modal title</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    {{-- {{$videoCourse->id}} --}}
-                                                    <div class="row">
-                                                        <div class="col-md-5 p-3 bg-light border rounded-3">
-                                                            <div class="row px-2">
-                                                                <div class="col-12 mb-2 bg-light rounded-3" id="banner"
-                                                                    style="width:100%; height:150px;">
-                                                                    <img src="{{ asset($videoCourse->banner) }}"
-                                                                        class="w-100 h-100 rounded-2" alt="">
-                                                                </div>
-                                                                <div class="col-12 mb-3 h3">
-                                                                    {{ $videoCourse->course_name }}</div>
-                                                                <hr class="hr">
-                                                                <div class="col-12 mb-1"><span class="h5">Course
-                                                                        Description:</span></div>
-                                                                <div class="col-12 mb-2" style="text-align:justify;">
-                                                                    {{ $videoCourse->about_course }}</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-7 rounded-3 p-2">
-                                                            <h5 class="h5">Course Contents</h5>
-                                                            <div
-                                                                class="video-container row d-flex align-items-center justify-content-center">
-                                                                <div class="col-1">
-                                                                    {{ $videoCourse->id }}
-                                                                </div>
-                                                                <div class="col-4">
-                                                                    <video controls muted
-                                                                        src="{{ asset($videoCourse->video) }}"
-                                                                        width="100%" height="100%"></video>
-                                                                </div>
-                                                                <div class="col-7">
-                                                                    {{ $videoCourse->about_course }}
-                                                                </div>
-                                                            </div>
-                                                            {{-- <video controls muted loop  poster="" width="100%" height="100%">
-                                                    <source src="{{ asset($videoCourse->video) }}">
-                                                </video> --}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        {{ $dataTable->table() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @endif
+     <!-- Hidden form for image upload -->
+     <form id="imageUploadForm" style="display: none;" method="POST" enctype="multipart/form-data">
+        @csrf
+        <input type="file" name="image[]" id="hiddenImageInput" multiple accept="video/*">
+        <input type="hidden" name="course_id" id="hiddenCourseId">
+    </form>
+
+    @push('scripts')
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+@endpush
+    <script>
+        function resetForm() {
+            document.querySelector('form').reset();
+        }
+        document.getElementById('isPaid').addEventListener('change', function() {
+        document.getElementById('priceSection').style.display = this.checked ? 'block' : 'none';
+    });
+
+
+        function addImage(courseId) {
+            // Trigger the hidden file input
+            const hiddenInput = document.getElementById('hiddenImageInput');
+            const form = document.getElementById('imageUploadForm');
+
+            document.getElementById('hiddenCourseId').value = courseId;
+            
+            hiddenInput.click();
+            
+            // When a file is selected, submit the form
+            hiddenInput.onchange = function() {
+                if (hiddenInput.files.length > 0) {
+                    // Perform AJAX to upload image
+                    const formData = new FormData(form);
+                    formData.append('course_id', courseId);
+
+                    $.ajax({
+    url: '{{ route("videocourse.uploadVideos") }}',
+    type: 'POST',
+    data: formData,
+    processData: false,
+    contentType: false,
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function(response) {
+        alert('Videos uploaded successfully!');
+        $('#videocourses-table').DataTable().ajax.reload();
+    },
+    error: function(response) {
+        if(response.responseJSON && response.responseJSON.errors) {
+            let errors = response.responseJSON.errors;
+            let errorMessage = '';
+            for (let field in errors) {
+                errorMessage += errors[field].join(', ') + '\n';
+            }
+            alert('Upload failed:\n' + errorMessage);
+        } else {
+            alert('Upload failed. Please try again.');
+        }
+    }
+});
+
+                }
+            };
+        }
+    </script>
+    <style>
+       
+#videocourses-table {
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+}
+
+#videocourses-table thead th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+#videocourses-table tbody tr:hover {
+    background-color: #f1f3f5;
+}
+.dataTables_wrapper .dataTables_length select
+{
+    width: 100px;
+}
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus,
+.dataTables_wrapper .dataTables_length select:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #007bff;
+    background-color: #ffffff;
+    /* box-shadow: 0px 2px 2px #007bff */
+    /* border: 1px solid #dee2e6; */
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: #0056b3;
+    text-decoration: none;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    z-index: 3;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.dt-buttons .btn {
+    margin-right: 5px;
+}
+    </style>
 @endsection
