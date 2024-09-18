@@ -67,7 +67,7 @@
                 </ul>
               </li>
               <!-- Right-aligned Navbar Links -->
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ route('/') }}">Home</a></li>
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ route('index') }}">Home</a></li>
               {{-- <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
               <li class="nav-item"><a class="nav-link" href="#">Another Link</a></li> --}}
             </ul>

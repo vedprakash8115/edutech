@@ -9,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\user_frontend\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCourseController;
+use App\Http\Controllers\UploadMonitorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,10 @@ Route::get('/login', function () {
 
 Route::get('/',[HomeController::class,'index'])->name('index');
 
-Route::get('ins/content', [LiveClassController::class, 'index'])->name('liveclass');
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('ins/content', [LiveClassController::class, 'index'])->name('liveclass');
 Route::post('ins/content', [LiveClassController::class, 'store'])->name('liveclass.store');
 Route::get('/live-classes/{id}', [LiveClassController::class, 'show'])->name('liveClasses.show');
 Route::get('/live-classes/data', [LiveClassController::class, 'getData'])->name('liveClasses.data');
@@ -61,7 +65,6 @@ Route::delete('/ins/video/delete_multiple', [VideoCourseController::class, 'dele
 Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
 
 Route::post('login', [LoginController::class, 'login'])->name('login');
-Route::middleware(['auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('ins/dashboard', [InstituteController::class, 'index'])->name('insdashboard');
     /***  For Course routes ***/
@@ -105,7 +108,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/delete-multiple', [ElibraryController::class, 'deleteMultiple'])->name('elibrary.deleteMultiple');
     Route::post('/elibrary/upload-files', [ElibraryController::class, 'uploadFiles'])->name('elibrary.uploadFiles');
     // Route::get('/ins/content/e-library', [ElibraryController::class, 'index'])->name('elibrary.store');
-    Route::get('/upload-monitor', [UploadMonitorController::class, 'index'])->name('upload.monitor');
+    // Route::get('/upload-monitor', [UploadMonitorController::class, 'index'])->name('upload.monitor');
     Route::resource('users', UserController::class);
 });
 

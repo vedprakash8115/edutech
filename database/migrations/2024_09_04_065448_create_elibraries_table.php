@@ -20,8 +20,9 @@ return new class extends Migration
         $table->string('banner')->nullable(); // Path to the banner image
         $table->boolean('is_paid')->default(false);
         $table->decimal('price', 8, 2)->nullable();
-        $table->decimal('discount_price', 8, 2)->nullable();
        
+        $table->decimal('discount_price', 8, 2)->nullable();
+        $table->integer('course_duration')->nullable();
         $table->text('description')->nullable();
         $table->softDeletes();
         $table->timestamps();

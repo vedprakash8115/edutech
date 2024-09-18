@@ -113,9 +113,11 @@ class liveClassesDataTable extends DataTable
             Column::make('id')->title('Sr. No.'), // Serial number
             Column::make('course_name')->title('Course Name'), // Course name
             Column::make('language')->title('Language'), // Language
+          // Discount type
+            Column::make('is_paid')->title('Paid'),
             Column::make('discount_type')->title('Discount Type'), // Discount type
             Column::make('discount_price')->title('Discount Price'), // Discount price
-            Column::make('original_price')->title('Original Price'), // Original price
+            Column::make('price')->title('Original Price'), // Original price
             Column::make('course_duration')->title('Course Duration'), // Course duration
             Column::make('from')->title('From'), // Start date
             Column::make('to')->title('To'), // End date

@@ -146,12 +146,14 @@ class LiveClassController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            // Validate the request data
             $validatedData = $request->validate([
                 'course_name' => 'required|string|max:255',
                 'language' => 'required|string|max:255',
                 'discount_type' => 'required|string|max:255',
-                'discount_price' => 'required|numeric',
-                'original_price' => 'required|numeric',
+                'is_paid' => 'boolean',
+                'price' => 'nullable|numeric|min:0',
+                'discount_price' => 'nullable|numeric|min:0',
                 'from' => 'required|date',
                 'to' => 'required|date',
                 'cat_level_0' => 'required|integer',
@@ -160,17 +162,36 @@ class LiveClassController extends Controller
                 'course_duration' => 'required',
             ]);
     
+            // Check if is_paid is 0, set price and discount_price to null
+            if ($request->input('is_paid') == 0) {
+                $validatedData['price'] = null;
+                $validatedData['discount_price'] = null;
+            }
+    
+            // Check if is_paid is 1, ensure price is provided
+            if ($request->input('is_paid') == 1 && is_null($request->input('price'))) {
+                return redirect()->back()->withErrors([
+                    'price' => 'The price is required for paid courses.'
+                ])->withInput();
+            }
+    
+            // Find the live class by ID
             $liveClass = LiveClass::findOrFail($id);
+    
+            // Update the live class with the validated data
             $liveClass->update($validatedData);
-
+    
+            // Success alert
             Alert::success('Success', 'Live Class updated successfully');
             return redirect()->route('liveclass');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            // Log the error and return with an error alert
             Log::error('Error in update method: ' . $e->getMessage());
             Alert::error('Error', 'An error occurred while updating the live class.');
-            return redirect()->back();
+            return redirect()->back()->withInput();
         }
     }
+    
 
     public function destroy($id)
     {

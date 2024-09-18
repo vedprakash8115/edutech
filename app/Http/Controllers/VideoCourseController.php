@@ -7,6 +7,7 @@ use App\Http\Requests\StoreVideoCourseRequest;
 use App\Http\Requests\UpdateVideoCourseRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\CourseCategory0;
 use DataTables;
 use App\Models\Video;
 use Illuminate\Support\Facades\Storage;
@@ -15,6 +16,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\DataTables\VideoCoursesDataTable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\VidUpload;
 
 class VideoCourseController extends Controller
 {
@@ -26,9 +28,10 @@ class VideoCourseController extends Controller
         // try {
             $perPage = $request->input('per_page', 10);
             $videoCourses = VideoCourse::with('videos')->paginate($perPage)->appends($request->query());
-           
+            $categories = CourseCategory0::all();
             return $dataTable->render('ins.content.videocourse', [
                 'videoCourses' => $videoCourses,
+                'categories' => $categories,
             ]);
         // } catch (\Exception $e) {
         //     Log::error('Error in index method: ' . $e->getMessage());
@@ -111,7 +114,7 @@ class VideoCourseController extends Controller
         try {
             // Fetch the video course and associated videos
             $single_data = VideoCourse::with('videos')->findOrFail($id);
-    
+    $categories = CourseCategory0::all();
             // Handle pagination for DataTables
             $perPage = $request->input('per_page', 10);
             $videoCourses = VideoCourse::with('videos')->paginate($perPage)->appends($request->query());
@@ -119,6 +122,7 @@ class VideoCourseController extends Controller
             return $dataTable->render('ins.content.videocourse', [
                 'single_data' => $single_data,
                 'videoCourses' => $videoCourses,
+                'categories' => $categories,
             ]);
         } catch (\Exception $e) {
             Log::error('Error in edit method: ' . $e->getMessage());
@@ -133,38 +137,6 @@ class VideoCourseController extends Controller
         return view('ins.content.videos', compact('videoCourse'));
     }
 
-    // public function uploadVideos(Request $request)
-    // {
-    //     try {
-    //         $request->validate([
-    //             'course_id' => 'required|exists:video_courses,id',
-    //             'image.*' => 'required|file|mimes:mp4,mov,avi|max:102400', // 100MB max
-    //         ]);
-    
-    //         $videoCourse = VideoCourse::findOrFail($request->course_id);
-    
-    //         if ($request->hasFile('image')) {
-    //             foreach ($request->file('image') as $video) {
-    //                 $destinationVideo = 'video';
-    //                 $videoFileName = time() . '_' . $video->getClientOriginalName();
-    //                 $video->move(public_path($destinationVideo), $videoFileName);
-    
-    //                 // Create a new entry in the videos table
-    //                 $videoCourse->videos()->create([
-    //                     'video_path' => $destinationVideo . '/' . $videoFileName
-    //                 ]);
-    //             }
-    //         }
-    
-    //         return response()->json(['success' => 'Videos uploaded successfully'], 200);
-    //         // Alert::success('Success', 'Videos added successfully');
-    //     } catch (\Exception $e) {
-    //         Log::error('Error uploading videos: ' . $e->getMessage());
-    //         return response()->json(['error' => 'An error occurred while uploading videos.'], 500);
-    //     }
-    // }
-
-
     public function uploadVideos(Request $request)
     {
         try {
@@ -177,17 +149,52 @@ class VideoCourseController extends Controller
     
             if ($request->hasFile('image')) {
                 foreach ($request->file('image') as $video) {
-                    // Dispatch the job
-                    VideoUploadJob::dispatch($videoCourse, $video);
+                    $destinationVideo = 'video';
+                    $videoFileName = time() . '_' . $video->getClientOriginalName();
+                    $video->move(public_path($destinationVideo), $videoFileName);
+    
+                    // Create a new entry in the videos table
+                    $videoCourse->videos()->create([
+                        'video_path' => $destinationVideo . '/' . $videoFileName
+                    ]);
                 }
             }
     
-            return response()->json(['success' => 'Video upload jobs dispatched successfully'], 200);
+            return response()->json(['success' => 'Videos uploaded successfully'], 200);
+            // Alert::success('Success', 'Videos added successfully');
         } catch (\Exception $e) {
-            Log::error('Error dispatching video upload jobs: ' . $e->getMessage());
-            return response()->json(['error' => 'An error occurred while dispatching video upload jobs.'], 500);
+            Log::error('Error uploading videos: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while uploading videos.'], 500);
         }
     }
+
+
+    // public function uploadVideos(Request $request)
+    // {
+    //     try {
+    //         $request->validate([
+    //             'course_id' => 'required|exists:video_courses,id',
+    //             'videos.*' => 'required|file|mimes:mp4,mov,avi|max:102400', // 100MB max
+    //         ]);
+    
+    //         $videoCourse = VideoCourse::findOrFail($request->course_id);
+    
+    //         if ($request->hasFile('videos')) {
+    //             foreach ($request->file('videos') as $video) {
+    //                 // Dispatch the job for each video
+    //                 VidUpload::dispatch($videoCourse, $video);
+    //             }
+    //             return response()->json(['success' => 'Video upload jobs dispatched successfully'], 200);
+    //         } else {
+    //             return response()->json(['error' => 'No videos were uploaded.'], 400);
+    //         }
+    //     } catch (\Illuminate\Validation\ValidationException $e) {
+    //         return response()->json(['error' => $e->errors()], 422);
+    //     } catch (\Exception $e) {
+    //         Log::error('Error dispatching video upload jobs: ' . $e->getMessage());
+    //         return response()->json(['error' => 'An error occurred while dispatching video upload jobs.'], 500);
+    //     }
+    // }
 
     
     public function deleteMultiple(Request $request)
@@ -221,19 +228,34 @@ class VideoCourseController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Find the video course by ID
         $videoCourse = VideoCourse::findOrFail($id);
     
+        // Validate the request data
         $validatedData = $request->validate([
             'course_name' => 'required|string|max:255',
             'language' => 'required|in:1,2',
-            'original_price' => 'required|numeric|min:0',
-            'discount_price' => 'required|numeric|min:0',
-            'course_category_id' => 'required|exists:course_categories,id',
+            'is_paid' => 'boolean',
+            'price' => 'nullable|numeric|min:0',
+            'discount_price' => 'nullable|numeric|min:0',
+            'course_category_id' => 'required',
             'from' => 'required|date',
             'to' => 'required|date|after:from',
             'about_course' => 'required|string',
             'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+    
+        // Logic for handling 'is_paid'
+        if ($request->input('is_paid') == 0) {
+            // If the course is not paid, set price and discount_price to null
+            $validatedData['price'] = null;
+            $validatedData['discount_price'] = null;
+        } elseif ($request->input('is_paid') == 1 && is_null($request->input('price'))) {
+            // If the course is paid but price is not provided, throw a validation error
+            return redirect()->back()->withErrors([
+                'price' => 'The price is required for paid courses.'
+            ])->withInput();
+        }
     
         // Handle banner upload if a new one is provided
         if ($request->hasFile('banner')) {
@@ -246,7 +268,8 @@ class VideoCourseController extends Controller
             $destinationPath = 'upload_banner';
             $fileName = time() . '_' . $bannerFile->getClientOriginalName();
             $bannerFile->move(public_path($destinationPath), $fileName);
-            
+    
+            // Update the banner path in the validated data
             $validatedData['banner'] = $destinationPath . '/' . $fileName;
         }
     
@@ -255,11 +278,14 @@ class VideoCourseController extends Controller
         $toDate = Carbon::parse($validatedData['to']);
         $validatedData['course_duration'] = $fromDate->diffInDays($toDate);
     
+        // Update the video course with the validated data
         $videoCourse->update($validatedData);
+    
+        // Success alert and redirect
         Alert::success('success', 'Video Course updated successfully');
         return redirect()->back();
-        // return redirect()->route('videocourse.index')->with('success', 'Video course updated successfully.');
     }
+    
 
     
 

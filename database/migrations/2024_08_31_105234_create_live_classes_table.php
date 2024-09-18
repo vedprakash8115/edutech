@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('course_name')->nullable();
             $table->string('language')->nullable();
             $table->enum('discount_type', ['fixed', 'percentage'])->default('fixed');
-            $table->integer('original_price')->nullable();
-            $table->integer('discount_price')->nullable();
-            
+            $table->boolean('is_paid')->default(false);
+            $table->decimal('price', 8, 2)->nullable();
+            $table->decimal('discount_price', 8, 2)->nullable();
+           
             $table->string('banner')->nullable();
             $table->string('course_duration')->nullable();
 

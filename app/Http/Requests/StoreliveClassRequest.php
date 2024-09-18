@@ -24,8 +24,9 @@ class StoreliveClassRequest extends FormRequest
         return [
             'course_name' => 'required|string|max:255',
             'language' => 'required|integer',
-            'original_price' => 'required|numeric',
-            'discount_price' => 'required|numeric',
+         'is_paid' => 'boolean',
+                'price' => 'nullable|numeric|min:0',
+                'discount_price' => 'nullable|numeric|min:0',
            'course_duration' => 'required|date_format:H:i',  // Should be integer if you store it as integer
             'cat_level_0' => 'required|integer',
             'cat_level_1' => 'nullable|integer',

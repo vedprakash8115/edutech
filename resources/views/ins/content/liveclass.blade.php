@@ -33,17 +33,32 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-floating mb-3">
-                                <input type="number" class="form-control" id="OriginalPrice" name="original_price" value="{{ old('original_price', $single_data->original_price ?? '') }}" placeholder="Original Price" required min="0" step="0.01">
-                                <label for="OriginalPrice" class="text-secondary">Original Price <span class="text-secondary">*</span></label>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-3">Pricing</h5>
+                                
+                                    <!-- Hidden field to ensure false value is sent when unchecked -->
+                                    <input type="hidden" name="is_paid" value="0">
+                                
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="isPaid" name="is_paid" value="1" {{ old('is_paid', $single_data->is_paid ?? false) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="isPaid">Paid Item</label>
+                                    </div>
+                                
+                                    <div id="priceSection" style="{{ old('is_paid', $single_data->is_paid ?? false) ? 'display: block;' : 'display: none;' }}">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="Price" name="price" value="{{ old('price', $single_data->price ?? '') }}" placeholder="Price" min="0" step="0.01">
+                                            <label for="Price" class="text-secondary">Regular Price</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="DiscountPrice" name="discount_price" value="{{ old('discount_price', $single_data->discount_price ?? '') }}" placeholder="Discount Price" min="0" step="0.01">
+                                            <label for="DiscountPrice" class="text-secondary">Discounted Price</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-floating mb-3">
-                                <input type="number" class="form-control" id="DiscountPrice" name="discount_price" value="{{ old('discount_price', $single_data->discount_price ?? '') }}" placeholder="Discount Price" required min="0" step="0.01">
-                                <label for="DiscountPrice" class="text-secondary">Discount Price <span class="text-secondary">*</span></label>
-                            </div>
-                        </div>
+                        
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="UploadBanner" class="form-label text-secondary">Upload Banner</label>
@@ -169,6 +184,11 @@ const resetDropdown = (selectElement) => {
     selectElement.innerHTML = '<option value="">Select Category</option>';
 };
 
+
+
+document.getElementById('isPaid').addEventListener('change', function() {
+        document.getElementById('priceSection').style.display = this.checked ? 'block' : 'none';
+    });
 // Category management
 class CategoryManager {
     constructor() {

@@ -50,7 +50,13 @@
                         </div>
                     </div>
                 </div>
-    
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" value="{{ isset($single_data->course_duration) ? ($single_data->course_duration) : '' }}" id="course_duration" name="course_duration" required>
+
+                        <label for="course_duration" class="text-secondary">Duration<span class="text-secondary">*</span></label>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="UploadBanner" class="form-label text-secondary">Banner Image</label>

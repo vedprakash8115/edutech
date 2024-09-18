@@ -64,6 +64,7 @@ class ElibraryController extends Controller
                 'price' => 'nullable|numeric|min:0',
                 'discount_price' => 'nullable|numeric|min:0',
                 'files' => 'nullable',
+                'course_duration' => 'required',
                 'files.*' => 'mimes:pdf,doc,docx,txt', // Validate multiple files
                 'description' => 'nullable|string',
             ]);
@@ -89,6 +90,7 @@ class ElibraryController extends Controller
                 'price' => $validatedData['price'],
                 'discount_price' => $validatedData['discount_price'],
                 'description' => $validatedData['description'],
+                'course_duration' => $validatedData['course_duration'],
             ]);
     
             // Handle file uploads for multiple files
@@ -182,6 +184,7 @@ class ElibraryController extends Controller
                 'price' => 'required_if:is_paid,1|nullable|numeric|min:0',
                 'discount_price' => 'nullable|numeric|min:0',
                 'banner' => 'nullable|image|max:2048', // 2MB Max
+                'course_duration' => 'required', // 2MB Max
                 'description' => 'nullable|string',
             ]);
     
