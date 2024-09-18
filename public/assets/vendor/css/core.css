@@ -15381,6 +15381,9 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
   overflow-x: hidden;
   transition: all 0.3s cubic-bezier(0.75, 0.02, 0.26, 0.95); 
 }
+.content-wrapper{
+  overflow-y: auto;
+}
 
 .layout-menu:hover {
   width: 16rem; /* Width when expanded to show full content */
