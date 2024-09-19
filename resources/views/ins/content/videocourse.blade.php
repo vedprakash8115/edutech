@@ -161,7 +161,7 @@
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
     <script>
-AOS.init();
+// AOS.init();
 
         function resetForm() {
             document.querySelector('form').reset();
