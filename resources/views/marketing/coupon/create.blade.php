@@ -62,35 +62,31 @@
                                 <label for="discount_type">Product</label>
                                 <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="product">
                                     <option selected value="" disabled>...Please Select...</option>
-                                    <option value="live_content">live Content</option>
-                                    <option value="video_content">Video Content</option>
-                                    <option value="mocktest_content">Mock-Test Content</option>
-                                    <option value="elibrary_content">E-Library Content</option>
-                                    <option value="bundle_content">Bundle Content</option>
+                                    <option value="live_content">live Course</option>
+                                    <option value="video_content">Video Course</option>
+                                    <option value="mocktest_content">Mock-Test Course</option>
+                                    <option value="elibrary_content">E-Library Course</option>
+                                    <option value="bundle_content">Bundle Course</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
-                                <label for="discount_type">Inspirant Applicant</label>
+                                <label for="discount_type">Aspirants Applicant</label>
                                 <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="inspirant_applicant">
                                     <option selected value="" disabled>...Please Select...</option>
-                                    <option value="100-200">100-200</option>
-                                    <option value="200-300">200-300</option>
-                                    <option value="300-400">300-400</option>
-                                    <option value="500-600">500-600</option>
-                                    <option value="500-600">500-600</option>
-                                    <option value="600-700">600-700</option>
-                                    <option value="700-800">700-800</option>
-                                    <option value="800-900">800-900</option>
+                                    <option value="100-200">0-200</option>
+                                    <option value="300-400">200-400</option>
+                                    <option value="500-600">400-600</option>
+                                    <option value="700-800">600-800</option>
                                     <option value="800-1000">800-1000</option>
                                     <option value="1000">Above 1k+</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
-                    
+
 
                     <button type="submit" class="btn btn-primary mt-3">{{ isset($single_data) ? 'Update Coupon' : 'Add Coupon' }}</button>
                 </form>
@@ -102,7 +98,7 @@
 
     <script>
         $(document).ready(function() {
-            
+
         });
 
     </script>

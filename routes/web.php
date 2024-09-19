@@ -7,6 +7,7 @@ use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\LiveClassController;
 use App\Http\Controllers\ElibraryController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\user_frontend\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCourseController;
@@ -114,6 +115,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
 
     Route::resource('coupons',CouponController::class);
+    Route::resource('testimonials',TestimonialController::class);
 });
 
 // Auth::routes();

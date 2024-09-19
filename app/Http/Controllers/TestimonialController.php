@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
-class CouponController extends Controller
+class TestimonialController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        return view('marketing.coupon.index');
+        return view('marketing.testimonial.index');
     }
 
     /**
@@ -20,7 +21,9 @@ class CouponController extends Controller
      */
     public function create()
     {
-        return view('marketing.coupon.create');
+        $users_list = User::orderBy('id','desc')->get();
+        $roles = Role::orderBy('id','desc')->get();
+        return view('marketing.testimonial.create', compact('users_list','roles'));
     }
 
     /**

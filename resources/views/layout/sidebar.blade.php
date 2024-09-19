@@ -220,8 +220,8 @@
                             <div class="ms-2" data-i18n="Without menu">Sliders</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
-                        <a href="#" class="menu-link">
+                    <li class="menu-item {{ request()->routeIs('testimonials.index') ? 'active' : '' }}">
+                        <a href="{{ route('testimonials.index') }}" class="menu-link">
                             <div class="ms-2" data-i18n="Without menu">Tesimonial</div>
                         </a>
                     </li>
