@@ -4,9 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateQuestionsTable extends Migration
+return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
@@ -14,15 +17,19 @@ class CreateQuestionsTable extends Migration
             $table->foreignId('subject_id')->constrained()->onDelete('cascade');
             $table->text('question_text');
             $table->enum('question_type', ['multiple_choice', 'true_false', 'short_answer', 'essay']);
-            $table->enum('difficulty_level', ['easy', 'medium', 'hard']);
+            $table->enum('difficulty_level', ['easy', 'medium', 'hard'])->nullable();
             $table->integer('marks');
             $table->string('image')->nullable();
+            $table->boolean('is_optional')->default(false);
             $table->timestamps();
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('questions');
     }
-}
+};

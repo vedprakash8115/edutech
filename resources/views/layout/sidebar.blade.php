@@ -112,7 +112,7 @@
             <!-- Layouts -->
 
             <li class="menu-item">
-              <a href="{{ route('liveclass') }}" class="menu-link menu-toggle">
+              <a href="{{ route('liveclass') }}" class="menu-link ">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-video"></i> <!-- Video icon -->
 
@@ -129,7 +129,7 @@
 
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="{{route('liveclass')}}" class="menu-link">
+                  <a href="{{route('videocourse')}}" class="menu-link">
                     <div class="ms-2" data-i18n="Without menu">Courses</div>
                   </a>
                 </li>
