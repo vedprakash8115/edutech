@@ -2,13 +2,13 @@
 @section('title', 'Add Category Level 1')
 @section('content')
 <div class="row">
-    <div class="col-12">
+    <!-- <div class="col-12">
         <div class="card mb-4">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Categories</h5>
             </div>
             <div class="card-body">
-                <!-- Nav tabs -->
+                
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item col-sm-4" role="presentation">
                         <a class="nav-link {{ request()->routeIs('addlevel0') ? 'active' : '' }}" href="{{ route('addlevel0') }}">Course Category-0</a>
@@ -22,12 +22,43 @@
                 </ul>
             </div>
         </div>
+    </div> -->
+    <div class="position-relative mb-4" style="height:2rem;">
+    <div class="w-100 position-absolute top-50 start-50 translate-middle">
+        <!-- Progress Bar -->
+        <div class="progress" style="height:.25rem;">
+            <div class="progress-bar bg-primary" id="progress-tab" role="progressbar"
+                @if (request()->routeIs('addlevel0'))
+                    style="width: 0%;"
+                @elseif (request()->routeIs('category_level1'))
+                    style="width: 50%;"
+                @elseif (request()->routeIs('course_subcategory'))
+                    style="width: 100%;"
+                @endif
+                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-tabs border-0 w-100 hstack justify-content-between position-absolute top-50 start-50 translate-middle" id="skk-tabs">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {{ request()->routeIs('addlevel0') ? 'active' : '' }}" href="{{ route('addlevel0') }}">Level 0</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {{ request()->routeIs('category_level1') ? 'active' : '' }}" href="{{ route('category_level1') }}">Level 1</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {{ request()->routeIs('course_subcategory') ? 'active' : '' }}" href="{{ route('course_subcategory') }}">Level 2</a>
+            </li>
+        </ul>
     </div>
+</div>
 </div>
 
 <div class="row">
-    <div class="col-12">
-        <div class="card mb-4">
+    <!-- First Card (Form) -->
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">{{ isset($single_data) ? 'Edit Category Level 1' : 'Add Category Level 1' }}</h5>
             </div>
@@ -35,7 +66,7 @@
                 <form id="level1Form" method="post" action="{{ isset($single_data) ? route('update_level1', $single_data->id) : route('store_level1') }}">
                     @csrf
                     @if(isset($single_data))
-                        @method('PUT') <!-- This is needed for update operations -->
+                        @method('PUT')
                     @endif
                     <div class="row mb-3">
                         <div class="col-sm-6">
@@ -55,10 +86,6 @@
                             <label class="col-form-label" for="level1">Category Level 1 Name</label>
                             <input type="text" name="name" class="form-control" id="level1" placeholder="Enter Category Level 1 Name" value="{{ isset($single_data->name) ? $single_data->name : '' }}" />
                         </div>
-                        {{-- <div class="col-sm-12">
-                            <label class="col-form-label" for="description">Description</label>
-                            <textarea name="description" class="form-control" id="description" rows="3" placeholder="Enter Description">{{ isset($single_data->description) ? $single_data->description : '' }}</textarea>
-                        </div> --}}
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-6 d-flex align-items-end">
@@ -69,11 +96,10 @@
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-12">
-        <div class="card mb-4">
+    <!-- Second Card (Table) -->
+    <div class="col-lg-8 col-md-6 mb-4">
+        <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Level 1 Categories</h5>
             </div>
@@ -83,8 +109,7 @@
                         <tr>
                             <th>Sr.no</th>
                             <th>Category Level 0 Name</th>
-                            <th>Category level 1 Name</th>
-                            {{-- <th>Description</th> --}}
+                            <th>Category Level 1 Name</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -120,6 +145,7 @@
         });
     });
 </script>
+
 @endpush
 
 @endsection

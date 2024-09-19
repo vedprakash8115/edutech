@@ -150,3 +150,48 @@
 .toggle-btn:hover{
   box-shadow: 0 0 7px 4px #5f5f5f89;
 }
+
+/* nav tabs  */
+/* Normal state */
+.nav-tabs .nav-link {
+  color: #ffffff; /* Normal text color */
+  background-color: #f8f9fa; /* Background for normal state */
+  padding: 10px 15px;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+.nav-tabs .nav-item{
+  border-radius: 50%;
+
+}
+
+/* Hover state */
+.nav-tabs .nav-link:hover {
+  background-color: #e9ecef; /* Lighter background on hover */
+  color: #343a40; /* Darker text color on hover */
+}
+
+/* Active state */
+.nav-tabs .nav-link.active {
+  color: #fff; /* Active text color */
+  background-color: #007bff; /* Active background color */
+}
+
+/* Remove border from other sides of active tab (for visual effect) */
+.nav-tabs .nav-link.active {
+  border-bottom-color: transparent; /* To visually separate the active tab */
+}
+
+/* Focus state */
+.nav-tabs .nav-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+
+.card-header{
+  background-color: #cfc3ff;
+  margin-bottom: 1rem;
+}
+.pagination{
+  margin-top: 1rem;
+}

@@ -7114,7 +7114,7 @@ button:focus {
 .nav-tabs .nav-item .nav-link {
   color: #566a7f;
   border: 0;
-  border-radius: 0;
+  border-radius: 20px;
 }
 .nav-tabs .nav-item .nav-link:hover, .nav-tabs .nav-item .nav-link:focus {
   color: #566a7f;
