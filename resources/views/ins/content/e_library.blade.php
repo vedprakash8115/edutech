@@ -168,6 +168,9 @@
 @endpush
 <script>
        AOS.init();
+
+
+       
 // Utility functions
 const fetchCategoryData = async (url) => {
     try {
