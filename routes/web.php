@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\LiveClassController;
 use App\Http\Controllers\ElibraryController;
+use App\Http\Controllers\ContentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\user_frontend\HomeController;
 use App\Http\Controllers\UserController;
@@ -31,11 +32,16 @@ Route::get('/login', function () {
 
 Route::get('/',[HomeController::class,'index'])->name('index');
 
+Route::post('login', [LoginController::class, 'login'])->name('login');
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('ins/content', [LiveClassController::class, 'index'])->name('liveclass');
-Route::post('ins/content', [LiveClassController::class, 'store'])->name('liveclass.store');
+Route::get('ins/content', [ContentController::class, 'index'])->name('content');
+
+Route::get('ins/content/liveclass', [LiveClassController::class, 'index'])->name('liveclass');
+Route::post('ins/content/liveclass', [LiveClassController::class, 'store'])->name('liveclass.store');
+
+
 Route::get('/live-classes/{id}', [LiveClassController::class, 'show'])->name('liveClasses.show');
 Route::get('/live-classes/data', [LiveClassController::class, 'getData'])->name('liveClasses.data');
 // Route for editing a live class
@@ -64,7 +70,6 @@ Route::delete('/ins/video/delete_multiple', [VideoCourseController::class, 'dele
 
 Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
 
-Route::post('login', [LoginController::class, 'login'])->name('login');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('ins/dashboard', [InstituteController::class, 'index'])->name('insdashboard');
     /***  For Course routes ***/

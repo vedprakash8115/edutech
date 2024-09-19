@@ -112,7 +112,7 @@
             <!-- Layouts -->
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="{{route('liveclass')}}" class="menu-link">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-video"></i> <!-- Video icon -->
 

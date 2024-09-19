@@ -23,13 +23,29 @@
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{asset('assets/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
+
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/apex-charts/apex-charts.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
+    <link id="dark-theme-stylesheet" href="{{ asset('assets/css/dark-theme.css') }}" rel="stylesheet" disabled>
+    <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'light'; // Default to 'light' if not set
+      document.documentElement.setAttribute('data-bs-theme', savedTheme);
+      
+      // Handle dark theme stylesheets
+      const darkThemeStylesheet = document.getElementById('dark-theme-stylesheet');
+      if (darkThemeStylesheet) {
+        darkThemeStylesheet.disabled = savedTheme === 'light';
+      }
+    })();
+  </script>
+
     <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
     <script src="{{asset('assets/js/config.js')}}"></script>
+    
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script> --}}
 
@@ -102,7 +118,60 @@
 <!-- Tempus Dominus JS (CDN) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.0.0-beta1/js/tempus-dominus.min.js"></script>
 
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const darkThemeStylesheet = document.getElementById('dark-theme-stylesheet');
+    const toggleThemeButton = document.getElementById('toggle-theme');
+    const icon = toggleThemeButton.querySelector('i'); // Select the icon inside the button
 
+    // Function to update theme and icon
+    function updateTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-bs-theme', 'light');
+            darkThemeStylesheet.disabled = true;
+            icon.classList.remove('fa-sun'); // Remove sun icon
+            icon.classList.add('fa-moon'); // Add moon icon
+        } else {
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+            darkThemeStylesheet.disabled = false;
+
+            icon.classList.remove('fa-moon'); // Remove moon icon
+            icon.classList.add('fa-sun'); // Add sun icon
+        }
+    }
+
+    // Initialize the theme based on saved user preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+        darkThemeStylesheet.disabled = savedTheme === 'light';
+        // Set the icon based on saved theme
+        if (savedTheme === 'dark') {
+          icon.classList.add('fa-sun');
+          icon.classList.remove('fa-moon');
+        } else {
+
+            icon.classList.add('fa-moon');
+            icon.classList.remove('fa-sun');
+        }
+    } else {
+        // Default to light theme if no preference is saved
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+        darkThemeStylesheet.disabled = true;
+        icon.classList.add('fa-sun');
+        icon.classList.remove('fa-moon');
+    }
+
+    // Toggle theme and save user preference
+    toggleThemeButton.addEventListener('click', function() {
+        updateTheme();
+        const theme = document.documentElement.getAttribute('data-bs-theme');
+        localStorage.setItem('theme', theme);
+    });
+});
+
+    </script>
     @include('sweetalert::alert')
 
     @stack('scripts')
