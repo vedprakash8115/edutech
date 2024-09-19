@@ -27,8 +27,10 @@
               </div>
               <!-- /Search -->
 
+
+
               <ul class="navbar-nav flex-row align-items-center ms-auto">
-                <!-- Place this tag where you want the button to render. -->
+                <!-- Place this tag where you want the button to render.
                 <li class="nav-item lh-1 me-3">
                   <a
                     class="github-button"
@@ -38,7 +40,10 @@
                     data-show-count="true"
                     aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
                     >Star</a
-                  >
+                  > -->
+                  <button id="toggle-theme" class="toggle-btn me-2">
+                    <i class="fa-solid fa-sun"></i>
+                </button>
                 </li>
 
                 <!-- User -->

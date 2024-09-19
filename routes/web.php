@@ -6,13 +6,16 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\LiveClassController;
 use App\Http\Controllers\ElibraryController;
+use App\Http\Controllers\ContentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\user_frontend\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCourseController;
 use App\Http\Controllers\UploadMonitorController;
-
+use App\Http\Controllers\MockTestController;
+// use App\Livewire\Test;
+// use livewire\livewire;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,7 +39,7 @@ Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/',[HomeController::class,'index'])->name('index');
-
+// Route::post('login', [LoginController::class, 'login'])->name('login');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -114,6 +117,14 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/upload-monitor', [UploadMonitorController::class, 'index'])->name('upload.monitor');
     Route::resource('users', UserController::class);
 
+
+
+
+    // ----------------------------Mock test ------------------------------------------------------------------
+    Route::get('/ins/content/mock', [MockTestController::class, 'index'])->name('mock');
+    Route::get('/ins/content/mock/submit-form', [MockTestController::class, 'form'])->name('mock.subject_form');
+    Route::get('/ins/content/mock/question-form', [MockTestController::class, 'question'])->name('mock.question_form');
+    // Route::livewire('/ins/content/test', [Test::class])->name('mock');
     Route::resource('coupons',CouponController::class);
     Route::resource('testimonials',TestimonialController::class);
 });

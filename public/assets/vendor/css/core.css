@@ -7114,7 +7114,7 @@ button:focus {
 .nav-tabs .nav-item .nav-link {
   color: #566a7f;
   border: 0;
-  border-radius: 0;
+  border-radius: 20px;
 }
 .nav-tabs .nav-item .nav-link:hover, .nav-tabs .nav-item .nav-link:focus {
   color: #566a7f;
@@ -15222,7 +15222,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 .content-wrapper,
 .content-wrapper > *,
 .layout-menu {
-  min-height: 1px;
+  /* min-height: 1px; */
 }
 
 .layout-navbar,

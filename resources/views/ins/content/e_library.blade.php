@@ -135,7 +135,7 @@
             <!-- Buttons -->
             <div class="d-flex justify-content-end gap-2 mt-4" data-aos="fade-up">
                 @if(!isset($single_data))
-                <button type="button" class="btn btn-secondary px-4" onclick="resetForm()">
+                <button type="button" class="btn btn-danger px-4" onclick="resetForm()">
                     <i class="fas fa-undo-alt"></i> Reset
                 </button>
                 @endif
@@ -167,7 +167,7 @@
 {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
 <script>
-       AOS.init();
+    //    AOS.init();
 
 
        

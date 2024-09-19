@@ -1,0 +1,175 @@
+/* Define dark theme colors */
+:root {
+    --background-color: #373738;
+    --text-color: #ffffffa6;
+    --primary-color: #bb86fc;
+    --secondary-color: #03dac6;
+    --border-color: #a8a8a8b8;
+    --card-bg: #1f1f1ff3;
+    --card-text: white;
+    --card-border: #6c6b6b;
+    --input-bg: #1e1e1e;
+    --input-border: #444444;
+    --link-color: #bb86fc;
+    --layout-menu-color: #1f1f1ff3; 
+    --navbar-bg: #1f1f1ff3;
+    --bg-footer: #1f1f1ff3;
+}
+
+/* General body styles */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Bootstrap Overrides */
+.bg-dark {
+    background-color: var(--background-color) !important;
+}
+
+.text-light {
+    color: var(--text-color) !important;
+}
+
+
+.navbar-light .navbar-nav .nav-link {
+    color: var(--text-color);
+}
+
+.navbar-light .navbar-toggler-icon {
+    background-image: url(data:image/svg+xml;base64,...); /* Example, replace with actual icon */
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #9c4dcc;
+    border-color: #9c4dcc;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+    background-color: #03bfa0;
+    border-color: #03bfa0;
+}
+
+
+/* Cards */
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border)
+
+}
+.card-hover:hover{
+    background-color: #343434f3 ;
+}
+
+.card-title h4{
+    color: var(--text-color);
+}
+
+.card-body {
+
+    color: var(--text-color);
+}
+
+/* Inputs */
+.form-control, .form-select {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-color);
+}
+
+.form-control::placeholder {
+    color: #666666;
+}
+
+/* Links */
+a {
+    color: var(--link-color);
+}
+
+a:hover {
+    color: #9c4dcc;
+}
+
+/* Tables */
+.table {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+.table thead th {
+    background-color: var(--card-border);
+}
+
+/* Modals */
+.modal-content {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--card-border);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--card-border);
+}
+
+/* Alerts */
+.alert {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--card-border);
+}
+
+/* Pagination */
+.pagination .page-link {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-color);
+}
+
+.pagination .page-link:hover {
+    background-color: var(--input-border);
+    color: var(--text-color);
+}
+.layout-menu{
+    background-color: var(--layout-menu-color);
+}
+.navbar-detached{
+    box-shadow: none;
+}
+.layout-menu .menu-item div{
+    color: var(--text-color);
+}
+.layout-menu .app-brand-text{
+    color: var(--text-color);
+}
+.layout-navbar{
+    background-color: var(--navbar-bg);
+}
+.footer{
+    background-color: var(--bg-footer);
+}
+
+.toggle-btn{
+    background-color: rgb(144, 196, 209);
+    color: black;
+
+}
+.progress{
+    background-color: rgb(255 255 255 / 53%);
+}
+table th{
+    color: var(--text-color);
+}
