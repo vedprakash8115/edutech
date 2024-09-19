@@ -80,31 +80,15 @@
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon fa fa-list" aria-hidden="true"></i>
                 <!-- <i class="menu-icon tf-icons bx bx-layout"></i> -->
-                <div class="ms-2" data-i18n="Layouts">Categories</div>
+                <div class="ms-2" data-i18n="Layouts">Manage Categories</div>
               </a>
 
               <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('addlevel0') ? 'active' : '' }}">
                     <a href="{{ route('addlevel0') }}" class="menu-link">
-                        <div class="ms-2" data-i18n="Without menu">Add Category level 0</div>
+                        <div class="ms-2" data-i18n="Without menu">Add Categories</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->routeIs('category_level1') ? 'active' : '' }}">
-                  <a href="{{route('category_level1')}}" class="menu-link">
-                    <div class="ms-2" data-i18n="Without navbar">Add Category Level 1 </div>
-                  </a>
-                </li>
-                <li class="menu-item {{ request()->routeIs('course_subcategory') ? 'active' : '' }}">
-                  <a href="{{route('course_subcategory')}}" class="menu-link">
-                    <div class="ms-2" data-i18n="Container">Add Category Level 2</div>
-                  </a>
-                </li>
-                {{-- <li class="menu-item {{ request()->routeIs('course_list') ? 'active' : '' }}">
-                  <a href="{{ route('course_list')}}" class="menu-link">
-                    <div class="ms-2" data-i18n="Fluid">All Courses</div>
-                  </a>
-                </li> --}}
-
               </ul>
             </li>
             <!-- end -->
@@ -158,7 +142,7 @@
                     <div class="ms-2" data-i18n="Fluid">Exam Category</div>
                   </a>
                 </li>
-               
+
               </ul>
             </li>
 
@@ -210,13 +194,58 @@
 
               </ul>
             </li>
-            <li class="menu-item">
+            {{-- <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-bullhorn"></i> <!-- Bullhorn icon -->
 
                 <div class="ms-2" data-i18n="Authentications">Marketing</div>
               </a>
+            </li> --}}
+
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon fas fa-bullhorn"></i>
+                    <div class="ms-2" data-i18n="Authentications">Marketing</div>
+                </a>
+
+                <ul class="menu-sub">
+                    <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
+                        <a href="{{ route('coupons.index') }}" class="menu-link">
+                            <div class="ms-2" data-i18n="Without menu">Coupon</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
+                        <a href="#" class="menu-link">
+                            <div class="ms-2" data-i18n="Without menu">Sliders</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
+                        <a href="#" class="menu-link">
+                            <div class="ms-2" data-i18n="Without menu">Tesimonial</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
+                        <a href="#" class="menu-link">
+                            <div class="ms-2" data-i18n="Without menu">Notification</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
+                        <a href="#" class="menu-link">
+                            <div class="ms-2" data-i18n="Without menu">Email</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
+                        <a href="#" class="menu-link">
+                            <div class="ms-2" data-i18n="Without menu">Whatsapp</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
+                        <a href="#" class="menu-link">
+                            <div class="ms-2" data-i18n="Without menu">SMS</div>
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             <li class="menu-item">
