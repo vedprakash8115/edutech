@@ -1,6 +1,31 @@
 @extends('layout.app')
 @section('title', isset($single_data) ? 'Edit Category L0' : 'Add Category L0')
 @section('content')
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="mb-0">Categories</h5>
+            </div>
+            <div class="card-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item col-sm-4" role="presentation">
+                        <a class="nav-link {{ request()->routeIs('addlevel0') ? 'active' : '' }}" href="{{ route('addlevel0') }}">Course Category-0</a>
+                    </li>
+                    <li class="nav-item col-sm-4" role="presentation">
+                        <a class="nav-link {{ request()->routeIs('category_level1') ? 'active' : '' }}" href="{{route('category_level1')}}" >Course Category-1</a>
+                    </li>
+                    <li class="nav-item col-sm-4" role="presentation">
+                        <a class="nav-link {{ request()->routeIs('course_subcategory') ? 'active' : '' }}" href="{{route('course_subcategory')}}" >Course Category-2</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-8 offset-2">
         <div class="card mb-4">
@@ -31,6 +56,7 @@
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-12">
         <div class="card mb-4">
