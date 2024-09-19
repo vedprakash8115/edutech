@@ -15,10 +15,11 @@
       href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
     />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{asset('assets/vendor/fonts/boxicons.css')}}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{asset('assets/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
@@ -29,7 +30,8 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/apex-charts/apex-charts.css')}}" />
     <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
     <script src="{{asset('assets/js/config.js')}}"></script>
-
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script> --}}
 
     <style>
         .toast {
@@ -65,7 +67,8 @@
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
@@ -75,6 +78,7 @@
     <script src="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
 
     <script src="{{asset('assets/vendor/js/menu.js')}}"></script>
+    <script src="{{asset('assets/js/live_class.js')}}"></script>
     <!-- endbuild -->
 
     <!-- Vendors JS -->
@@ -93,6 +97,10 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.0.0-beta1/css/tempus-dominus.min.css" />
+
+<!-- Tempus Dominus JS (CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.0.0-beta1/js/tempus-dominus.min.js"></script>
 
 
     @include('sweetalert::alert')
