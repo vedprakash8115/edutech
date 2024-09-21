@@ -9,10 +9,7 @@ class Question extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'test_id', 'subject_id', 'question_text', 'question_type', 'difficulty_level',
-        'marks', 'image'
-    ];
+    protected $guarded = [];
 
     public function test()
     {

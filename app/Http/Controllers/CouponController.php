@@ -12,7 +12,7 @@ class CouponController extends Controller
     public function index()
     {
 
-        return view('coupon.index');
+        return view('marketing.coupon.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class CouponController extends Controller
      */
     public function create()
     {
-        return view('coupon.create');
+        return view('marketing.coupon.create');
     }
 
     /**

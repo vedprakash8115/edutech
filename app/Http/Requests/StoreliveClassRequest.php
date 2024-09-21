@@ -32,10 +32,11 @@ class StoreliveClassRequest extends FormRequest
             'cat_level_1' => 'nullable|integer',
             'cat_level_2' => 'nullable|integer',
             'from' => 'required|date',
-            'to' => 'required|date',
+            'to' => 'nullable|date',
             'about_course' => 'nullable|string',
-            'discount_type' => 'required|string|in:fixed,percentage',
-            'banner' => 'required|file', // Ensure field name matches form input
+        //    'course_pdfs.*' => 'nullable|file|mimes:pdf|max:2048',
+
+            'banner' => 'nullable|file', // Ensure field name matches form input
         ];
     }
 }

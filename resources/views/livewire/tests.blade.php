@@ -1,33 +1,9 @@
 <div class="col-md-12">
+    {{-- @livewire('navbar')
+    @livewire('sidebar') --}}
+    @livewire('header')
+   
     
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="card-title">Flow Chart for mock test creation</div>
-            <div class="card-text">
-                <button class="btn btn-primary"><a href="{{route('mock')}}" wire:navigate class="text-white">Create Test</a></button>
-                <i class="fas fa-arrow-right"></i>
-
-                <button class="btn btn-secondary"><a href="{{route('mock.subject_form')}} " class="text-white" wire:navigate>Create Subjects</a></button>
-                <i class="fas fa-arrow-right"></i>
-
-<button class="btn btn-info">Create Questions</button>
-<i class="fas fa-arrow-right"></i>
-
-<button class="btn btn-success">Create Options</button>
-
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="card-title">Hints</div>
-            <ul class="list-group">
-                <li class="list-item">Create the test section firstly</li>
-                <li class="list-item">Create the subjects section for the test </li>
-                <li class="list-item">Create questions for the test</li>
-                <li class="list-item">Create options for the test (only in mcq)</li>
-              </ul>
-              
-        </div>
-    </div>
 <div class="card ">
     <div class="card-body">
        
@@ -162,20 +138,20 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <script>
-                window.addEventListener('swal',function(e) {
-                    Swal.fire({
-                        title:  e.detail.title,
-                        icon: e.detail.icon,
-                        iconColor: e.detail.iconColor,
-                        timer: 3000,
-                        toast: true,
-                        position: 'top-right',
-                        toast:  true,
-                        showConfirmButton:  false,
-                    });
-                });
-            </script>
+           <!-- SweetAlert script to listen for events -->
+    <script>
+        window.addEventListener('swal', function(e) {
+            Swal.fire({
+                title: e.detail.title,
+                icon: e.detail.icon,
+                iconColor: e.detail.iconColor,
+                timer: 3000,
+                toast: true,
+                position: 'top-right',
+                showConfirmButton: false,
+            });
+        });
+    </script>
             </div>
         </div>
     </div>

@@ -22,9 +22,9 @@ class Test extends Model
         return $this->hasMany(Question::class);
     }
 
-    public function testSubjects()
+    public function subjects()
     {
-        return $this->hasMany(TestSubject::class);
+        return $this->hasMany(Subject::class);
     }
 
     public function studentTestAttempts()

@@ -3,6 +3,6 @@
 @section('content')
 @livewireStyles
 @livewireScripts
-@livewire('tests')
-{{-- {{ $slot }} --}}
+{{-- @livewire('tests') --}}
+{{ $slot }}
 @endsection
