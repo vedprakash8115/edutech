@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Testimonials')
+@section('title', 'Sliders')
 <style>
     .switch {
         position: relative;
@@ -52,18 +52,18 @@
     <div class="container mt-4">
         <div class="card">
             <div class="card-header bg-secondary d-flex justify-content-between">
-                <h3 class="card-title">Testimonials List</h3>
-                <a class="btn btn-success" href="{{ route('testimonials.create') }}">Add Testimonials</a>
+                <h3 class="card-title">Sliders List</h3>
+                <a class="btn btn-success" href="{{ route('sliders.create') }}">Add Sliders</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="testimonials-table" class="table table-bordered table-striped">
+                    <table id="sliders-table" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>Sr.no.</th>
-                                <th>Name</th>
+                                <th>Title</th>
                                 <th>Image</th>
-                                <th>Role</th>
+                                <th>Position</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -83,15 +83,15 @@
 
     <script>
         $(document).ready(function() {
-            $('#testimonials-table').DataTable({
+            $('#sliders-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route('testimonials.index') }}', // Set the route to fetch data
+                ajax: '{{ route('sliders.index') }}', // Set the route to fetch data
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'user.name', name: 'user.name' }, // Adjust according to your relationships
+                    { data: 'title', name: 'title' }, // Adjust according to your relationships
                     { data: 'image', name: 'image' },
-                    { data: 'role.name', name: 'role.name' }, // Adjust according to your relationships
+                    { data: 'position', name: 'position' },
                     { data: 'status', name: 'status' },
                     { data: 'actions', name: 'actions', orderable: false, searchable: false }
                 ]
@@ -100,11 +100,11 @@
 
         // Handle the status switch change
         $(document).on('change', '.status-switch', function() {
-            let testimonialId = $(this).data('id');
+            let sliderID = $(this).data('id');
             let status = $(this).is(':checked') ? 1 : 0;
 
             $.ajax({
-                url: '/testimonials/' + testimonialId + '/status',
+                url: '/sliders/' + sliderID + '/status',
                 type: 'PUT',
                 data: { status: status, _token: '{{ csrf_token() }}' },
                 success: function(response) {
@@ -112,7 +112,7 @@
                     Swal.fire({
                         icon: 'success',
                         title: 'Status Updated',
-                        text: 'The testimonial status has been updated successfully!',
+                        text: 'The Slider status has been updated successfully!',
                         confirmButtonText: 'OK'
                     });
                 },
