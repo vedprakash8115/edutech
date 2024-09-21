@@ -1,7 +1,7 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
 
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href="index.html" class="app-brand-link" >
               <span class="app-brand-logo demo">
                 <svg
                   width="25"
@@ -60,7 +60,7 @@
               <span class="app-brand-text demo menu-text fw-bolder ms-4">EDUTECH</span>
             </a>
 
-            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none" >
               <i class="bx bx-chevron-left bx-sm align-middle"></i>
             </a>
           </div>
@@ -70,7 +70,7 @@
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
             <li class="menu-item {{ request()->routeIs('insdashboard') ? 'active' : '' }}">
-              <a href="{{route('insdashboard')}}" class="menu-link">
+              <a href="{{route('insdashboard')}}"  class="menu-link" >
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div class="ms-2" data-i18n="Analytics">Dashboard</div>
               </a>
@@ -85,7 +85,7 @@
 
               <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('addlevel0') ? 'active' : '' }}">
-                    <a href="{{ route('addlevel0') }}" class="menu-link">
+                    <a href="{{ route('addlevel0') }}" class="menu-link" >
                         <div class="ms-2" data-i18n="Without menu">Add Categories</div>
                     </a>
                 </li>
@@ -96,7 +96,7 @@
             <!-- Layouts -->
 
             <li class="menu-item">
-              <a href="{{ route('liveclass') }}" class="menu-link ">
+              <a href="{{ route('liveclass') }}" class="menu-link " >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-video"></i> <!-- Video icon -->
 
@@ -113,32 +113,32 @@
 
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="{{route('videocourse')}}" class="menu-link">
+                  <a href="{{route('videocourse')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Without menu">Courses</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="{{route('videocourse')}}" class="menu-link">
+                  <a href="{{route('videocourse')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Without navbar">News</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="{{route('elibrary')}}" class="menu-link">
+                  <a href="{{route('elibrary')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Container">E-Library</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link">
+                  <a href="" class="menu-link" >
                     <div class="ms-2" data-i18n="Fluid">Post</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link">
+                  <a href="" class="menu-link" >
                     <div class="ms-2" data-i18n="Fluid">Quick Links</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link">
+                  <a href="" class="menu-link" >
                     <div class="ms-2" data-i18n="Fluid">Exam Category</div>
                   </a>
                 </li>
@@ -176,17 +176,17 @@
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="{{ route('users.index')}}" class="menu-link {{ request()->routeIs('users.index') ? 'active' : '' }}">
+                  <a href="{{ route('users.index')}}" class="menu-link {{ request()->routeIs('users.index') ? 'active' : '' }}" >
                     <div class="ms-2" data-i18n="Basic">All Users</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="{{ route('users.create')}}" class="menu-link {{ request()->routeIs('users.create') ? 'active' : '' }}">
+                  <a href="{{ route('users.create')}}" class="menu-link {{ request()->routeIs('users.create') ? 'active' : '' }}" >
                     <div class="ms-2" data-i18n="Basic">Add Users</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('roles.index') }}" class="menu-link {{ request()->routeIs('roles.index') ? 'active' : '' }}">
+                    <a href="{{ route('roles.index') }}" class="menu-link {{ request()->routeIs('roles.index') ? 'active' : '' }}" >
                       <div class="ms-2" data-i18n="Basic">Add Roles</div>
                     </a>
                   </li>
@@ -204,44 +204,44 @@
             </li> --}}
 
             <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <a href="javascript:void(0);" class="menu-link menu-toggle" >
                     <i class="menu-icon fas fa-bullhorn"></i>
                     <div class="ms-2" data-i18n="Authentications">Marketing</div>
                 </a>
 
                 <ul class="menu-sub">
                     <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
-                        <a href="{{ route('coupons.index') }}" class="menu-link">
+                        <a href="{{ route('coupons.index') }}" class="menu-link" >
                             <div class="ms-2" data-i18n="Without menu">Coupon</div>
                         </a>
                     </li>
                     <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
-                        <a href="#" class="menu-link">
+                        <a href="#" class="menu-link" >
                             <div class="ms-2" data-i18n="Without menu">Sliders</div>
                         </a>
                     </li>
                     <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
-                        <a href="#" class="menu-link">
-                            <div class="ms-2" data-i18n="Without menu">Tesimonial</div>
+                        <a href="#" class="menu-link" >
+                            <div class="ms-2" data-i18n="Without menu">Testimonial</div>
                         </a>
                     </li>
                     <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
-                        <a href="#" class="menu-link">
+                        <a href="#" class="menu-link" >
                             <div class="ms-2" data-i18n="Without menu">Notification</div>
                         </a>
                     </li>
                     <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
-                        <a href="#" class="menu-link">
+                        <a href="#" class="menu-link" >
                             <div class="ms-2" data-i18n="Without menu">Email</div>
                         </a>
                     </li>
                     <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
-                        <a href="#" class="menu-link">
+                        <a href="#" class="menu-link" >
                             <div class="ms-2" data-i18n="Without menu">Whatsapp</div>
                         </a>
                     </li>
                     <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
-                        <a href="#" class="menu-link">
+                        <a href="#" class="menu-link" >
                             <div class="ms-2" data-i18n="Without menu">SMS</div>
                         </a>
                     </li>
@@ -258,7 +258,7 @@
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="javascript:void(0);" class="menu-link menu-toggle" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-book"></i> <!-- Book icon -->
 
@@ -267,7 +267,7 @@
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="javascript:void(0);" class="menu-link menu-toggle" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-globe"></i> <!-- Globe icon -->
 
@@ -276,7 +276,7 @@
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="javascript:void(0);" class="menu-link menu-toggle" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-headset"></i> <!-- Headset icon -->
 
@@ -285,16 +285,26 @@
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="{{route('mock_test')}}" class="menu-link menu-toggle" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-flask"></i> <!-- Flask icon -->
 
                 <div class="ms-2" data-i18n="Authentications">Test Practicals</div>
+
+
+                <ul class="menu-sub">
+                  <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
+                      <a href="{{ route('mock_test') }}" class="menu-link" >
+                          <div class="ms-2" data-i18n="Without menu">Mock Tests</div>
+                      </a>
+                  </li>
+                 
+              </ul>
               </a>
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="javascript:void(0);" class="menu-link menu-toggle" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-comments"></i> <!-- Comments icon -->
 
@@ -303,7 +313,7 @@
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="javascript:void(0);" class="menu-link menu-toggle" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-file-alt"></i> <!-- File icon -->
 
@@ -311,19 +321,19 @@
               </a>
             </li>
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="javascript:void(0);" class="menu-link menu-toggle" >
                 <!-- <i class="menu-icon tf-icons bx bx-cube-alt"></i> -->
                 <i class="menu-icon fas fa-cog"></i> <!-- Cog icon -->
                 <div class="ms-2" data-i18n="Misc">Setting</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="pages-misc-error.html" class="menu-link">
+                  <a href="pages-misc-error.html" class="menu-link" >
                     <div class="ms-2" data-i18n="Error">Update Side Info</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link">
+                  <a href="" class="menu-link" >
                     <div class="ms-2" data-i18n="Under Maintenance">Social Logins & SSO</div>
                   </a>
                 </li>

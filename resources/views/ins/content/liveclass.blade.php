@@ -20,7 +20,7 @@
                             <div class="form-floating">
                                 <i class="fas fa-book form-icon"></i>
                                 <input type="text" class="form-control" id="CourseName" placeholder="Course Name" name="course_name" value="{{ old('course_name', $single_data->course_name ?? '') }}" required>
-                                <label for="CourseName" class="text-secondary">Course Name <span class="text-danger">*</span></label>
+                                <label for="CourseName" class="text-secondary">Course Title <span class="text-danger">*</span></label>
                             </div>
                         </div>
                         <div class="col-md-6" data-aos="fade-left" data-aos-delay="200">
@@ -38,7 +38,7 @@
                             <div class="form-floating">
                                 <i class="fas fa-image form-icon"></i>
                                 <input type="file" class="form-control" id="UploadBanner" name="banner" accept="image/*">
-                                <label for="UploadBanner" class="text-secondary">Upload Banner</label>
+                                <label for="UploadBanner" class="text-secondary">Upload Banner (Optional)</label>
                             </div>
                             @if(isset($single_data) && $single_data->banner)
                                 <div class="mt-2">
@@ -48,7 +48,7 @@
                             @endif
                         </div>
                         <div class="col-md-6" data-aos="fade-left" data-aos-delay="400">
-                            <div class="form-floating">
+                            {{-- <div class="form-floating">
                                 <i class="fas fa-percent form-icon"></i>
                                 <select class="form-select" id="DiscountType" name="discount_type" required>
                                     <option value="" selected disabled>Select Discount Type</option>
@@ -56,7 +56,7 @@
                                     <option value="percentage" {{ (old('discount_type', $single_data->discount_type ?? '') == 'percentage') ? 'selected' : '' }}>Percentage</option>
                                 </select>
                                 <label for="DiscountType" class="text-secondary">Discount Type <span class="text-danger">*</span></label>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="col-md-6" data-aos="fade-right" data-aos-delay="500">
                             <div class="form-floating">
@@ -79,7 +79,7 @@
                                 <label for="CategoryLevel0" class="text-secondary">Course Category <span class="text-danger">*</span></label>
                             </div>
                         </div>
-                        <div class="col-md-6" id="category-level-1" style="{{ isset($single_data->cat_level_0) ? 'display: block;' : 'display: none;' }}" data-aos="fade-right" data-aos-delay="700">
+                        {{-- <div class="col-md-6" id="category-level-1" style="{{ isset($single_data->cat_level_0) ? 'display: block;' : 'display: none;' }}" data-aos="fade-right" data-aos-delay="700">
                             <div class="form-floating">
                                 <i class="fas fa-list-ol form-icon"></i>
                                 <select class="form-select" id="CategoryLevel1" name="cat_level_1">
@@ -96,7 +96,7 @@
                                 </select>
                                 <label for="CategoryLevel2" class="text-secondary">Category Level 2</label>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-6" data-aos="fade-right" data-aos-delay="900">
                             <div class="form-floating">
                                 <i class="fas fa-calendar-alt form-icon"></i>
@@ -107,17 +107,32 @@
                         <div class="col-md-6" data-aos="fade-left" data-aos-delay="1000">
                             <div class="form-floating">
                                 <i class="fas fa-calendar-check form-icon"></i>
-                                <input type="date" class="form-control" id="to" name="to" value="{{ old('from', isset($single_data->to) ? \Carbon\Carbon::parse($single_data->to)->format('Y-m-d') : '') }}" required>
-                                <label for="To" class="text-secondary">To <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="to" name="to" value="{{ old('from', isset($single_data->to) ? \Carbon\Carbon::parse($single_data->to)->format('Y-m-d') : '') }}" >
+                                <label for="To" class="text-secondary">To <span class="text-danger">(optional)</span></label>
                             </div>
                         </div>
-                        <div class="col-12" data-aos="fade-up" data-aos-delay="1100">
+
+                        {{-- <div class="col-12" data-aos="fade-up" data-aos-delay="1100">
                             <div class="form-floating">
                                 <i class="fas fa-align-left form-icon"></i>
                                 <textarea class="form-control" id="AboutCourse" name="about_course" placeholder="Enter course details here" style="height: 100px;">{{ old('about_course', $single_data->about_course ?? '') }}</textarea>
                                 <label for="AboutCourse" class="text-secondary">About Course</label>
                             </div>
+                        </div> --}}
+                        @if(!isset($single_data))
+                        <div class="col-12" data-aos="fade-up" data-aos-delay="1100">
+                            <div class="form-floating">
+                                <i class="fas fa-file-pdf form-icon"></i>
+                                <input class="form-control" type="file" id="CourseFiles" name="course_pdfs[]" accept=".pdf" multiple>
+                                <label for="CourseFiles" class="text-secondary">Upload Course PDFs</label>
+                            </div>
                         </div>
+                    @else
+                        <div class="col-12" data-aos="fade-up" data-aos-delay="1100">
+                           
+                        </div>
+                    @endif
+                    
                         <div class="col-12" data-aos="fade-up" data-aos-delay="1200">
                             <div class="mb-3">
                                 <h5 class="mb-3">Pricing</h5>

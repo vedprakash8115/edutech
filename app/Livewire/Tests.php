@@ -17,6 +17,7 @@ class Tests extends Component
     public $total_marks;
     public $total_questions;
     public $available_questions;
+    public $optional_questions;
     public $passing_score;
     public $is_active = false;
     public $test_type = 'mcq';
@@ -88,6 +89,7 @@ class Tests extends Component
             'allow_optional_questions' => $this->allow_optional_questions,
             'question_attempt' => $this->question_attempt,
          'number_of_subjects'=>$this->number_of_subjects,
+         'optional_questions'=>$this->total_questions - $this->question_attempt,
         ]);
 
         // Reset the form inputs
@@ -104,6 +106,11 @@ class Tests extends Component
     //     'icon'=>'success',
     // 'iconColor'=>'blue',
     // ]);
+    $this->dispatch('swal', [
+        'title' => 'Test Created Successfully!',
+        'icon' => 'success',
+        'iconColor' => 'blue',
+    ]);
 
     }
 
@@ -111,4 +118,5 @@ class Tests extends Component
     {
         return view('livewire.tests');
     }
+    
 }

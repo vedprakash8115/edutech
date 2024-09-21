@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\LiveClassController;
+use App\Http\Controllers\LiveClassPdfController;
 use App\Http\Controllers\ElibraryController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\RoleController;
@@ -13,7 +14,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCourseController;
 use App\Http\Controllers\UploadMonitorController;
 use App\Http\Controllers\MockTestController;
-// use App\Livewire\Test;
+
+use App\Livewire\Tests;
+use App\Livewire\SubjectForm;
+use App\Livewire\QuestionForm;
 // use livewire\livewire;
 /*
 |--------------------------------------------------------------------------
@@ -123,10 +127,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ins/content/mock', [MockTestController::class, 'index'])->name('mock');
     Route::get('/ins/content/mock/submit-form', [MockTestController::class, 'form'])->name('mock.subject_form');
     Route::get('/ins/content/mock/question-form', [MockTestController::class, 'question'])->name('mock.question_form');
-    // Route::livewire('/ins/content/test', [Test::class])->name('mock');
+    Route::get('/ins/content/mock/test', Tests::class)->name('mock_test');
+    Route::get('/ins/content/mock/subjects', SubjectForm::class)->name('mock_subjects');
+    Route::get('/ins/content/mock/question', QuestionForm::class)->name('mock_questions');
     Route::resource('coupons',CouponController::class);
+
+
+    // ----------------------------------testing--------------------------------------
+    // Route::get('/ins/content/test')
+
+    // ----------------------------------------------------------------------------------
+
+
+    Route::prefix('live-class-pdfs')->group(function () {
+        Route::get('/live-class-pdf/{id}', [LiveClassPdfController::class,'index'])->name('live-class-pdfs.index');
+        Route::post('/upload', [LiveClassPdfController::class , 'upload'])->name('live-class-pdfs.upload');
+        Route::delete('/delete/{id}', [LiveClassPdfController::class , 'delete'])->name('live-class-pdfs.delete');
+        Route::post('/delete-multiple', [LiveClassPdfController::class , 'deleteMultiple'])->name('live-class-pdfs.deleteMultiple');
+    });
 });
 
 // Auth::routes();
-
+// Route::get('/check' , Check::class);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

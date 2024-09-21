@@ -10,6 +10,7 @@ use App\Models\CourseCategory;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\DataTables\LiveClassesDataTable;
 use App\Models\CourseSubCategory;
+use App\Models\LiveClassPdf;
 use App\Http\Requests\StoreLiveClassRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -83,8 +84,10 @@ class LiveClassController extends Controller
     public function store(StoreLiveClassRequest $request)
     {
         try {
+            // Validate the input data
             $validatedData = $request->validated();
     
+            // Handle banner upload (as before)
             if ($request->hasFile('banner')) {
                 $bannerFile = $request->file('banner');
                 $destinationPath = 'upload_banner';
@@ -93,19 +96,41 @@ class LiveClassController extends Controller
                 $validatedData['banner'] = $destinationPath . '/' . $fileName;
             }
     
+            // Set the status to active
             $validatedData['status'] = 1;
     
-            LiveClass::create($validatedData);
+            // Create the live class entry in the database
+            $liveClass = LiveClass::create($validatedData);
     
+            // Handle multiple PDF uploads and store in `live_class_pdfs` table
+            if ($request->hasFile('course_pdfs')) {
+                foreach ($request->file('course_pdfs') as $pdfFile) {
+                    $fileName = time() . '_' . $pdfFile->getClientOriginalName();
+                    $destinationPath = 'pdfs'; // Folder for storing PDFs
+                    $pdfFile->move(public_path($destinationPath), $fileName);
+    
+                    // Save each PDF path to the live_class_pdfs table
+                    LiveClassPdf::create([
+                        'live_class_id' => $liveClass->id,
+                        'pdf_path' => $destinationPath . '/' . $fileName
+                    ]);
+                }
+            }
+    
+            // Show success message
             Alert::toast('Live Class has been added successfully', 'success');
             return redirect()->back();
         } catch (Exception $e) {
+            // Log error for debugging
             Log::error('Error in store method: ' . $e->getMessage());
+    
+            // Show error message
             Alert::toast('An error occurred while creating the live class.', 'error');
             return redirect()->back()->withInput();
         }
     }
-
+    
+    
     public function edit($id, Request $request, LiveClassesDataTable $dataTable)
     {
         try {
@@ -134,12 +159,12 @@ class LiveClassController extends Controller
             $validatedData = $request->validate([
                 'course_name' => 'required|string|max:255',
                 'language' => 'required|string|max:255',
-                'discount_type' => 'required|string|max:255',
+               
                 'is_paid' => 'boolean',
                 'price' => 'nullable|numeric|min:0',
                 'discount_price' => 'nullable|numeric|min:0',
                 'from' => 'required|date',
-                'to' => 'required|date',
+                'to' => 'nullable|date',
                 'cat_level_0' => 'required|integer',
                 'cat_level_1' => 'nullable|integer',
                 'cat_level_2' => 'nullable|integer',
@@ -151,6 +176,19 @@ class LiveClassController extends Controller
                 $validatedData['discount_price'] = null;
             }
     
+               if ($request->hasFile('course_pdfs')) {
+                foreach ($request->file('course_pdfs') as $pdfFile) {
+                    $fileName = time() . '_' . $pdfFile->getClientOriginalName();
+                    $destinationPath = 'pdfs'; // Folder for storing PDFs
+                    $pdfFile->move(public_path($destinationPath), $fileName);
+    
+                    // Save each PDF path to the live_class_pdfs table
+                    LiveClassPdf::create([
+                        'live_class_id' => $liveClass->id,
+                        'pdf_path' => $destinationPath . '/' . $fileName
+                    ]);
+                }
+            }
             if ($request->input('is_paid') == 1 && is_null($request->input('price'))) {
                 Alert::toast('The price is required for paid courses.', 'error');
                 return redirect()->back()->withInput();

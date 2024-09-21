@@ -14,6 +14,7 @@ class CreateSubjectsTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->boolean('has_optional')->default(false);
+            $table->integer('number_optional_questions')->nullable();
             $table->integer('number_of_questions');
             $table->timestamps();
         });

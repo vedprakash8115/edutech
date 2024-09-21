@@ -18,11 +18,14 @@ return new class extends Migration
             $table->text('question_text');
             $table->enum('question_type', ['multiple_choice', 'true_false', 'short_answer', 'essay']);
             $table->enum('difficulty_level', ['easy', 'medium', 'hard'])->nullable();
-            $table->integer('marks');
-            $table->string('image')->nullable();
+            $table->unsignedInteger('marks');
+            $table->boolean('is_true')->nullable();
             $table->boolean('is_optional')->default(false);
+            $table->string('image')->nullable();
+            $table->string('answer')->nullable();
             $table->timestamps();
         });
+        
     }
 
     /**

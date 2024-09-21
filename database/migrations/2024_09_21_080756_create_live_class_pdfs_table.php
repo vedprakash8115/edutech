@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('options', function (Blueprint $table) {
+        Schema::create('live_class_pdfs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('question_id')->constrained()->onDelete('cascade');
-            $table->string('key', 1);
-            $table->text('text');
-            $table->string('image')->nullable();
+            $table->foreignId('live_class_id')->constrained('live_classes')->onDelete('cascade');
+            $table->string('pdf_path'); // Path to the uploaded PDF
             $table->timestamps();
         });
-        
     }
 
     /**
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('options');
+        Schema::dropIfExists('live_class_pdfs');
     }
 };

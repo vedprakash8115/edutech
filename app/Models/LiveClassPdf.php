@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Option extends Model
+class LiveClassPdf extends Model
 {
     use HasFactory;
-
     protected $guarded = [];
 
-    public function question()
+    public function liveClass()
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(LiveClass::class);
     }
 }
