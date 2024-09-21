@@ -123,9 +123,6 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/upload-monitor', [UploadMonitorController::class, 'index'])->name('upload.monitor');
     Route::resource('users', UserController::class);
 
-
-
-
     // ----------------------------Mock test ------------------------------------------------------------------
     Route::get('/ins/content/mock', [MockTestController::class, 'index'])->name('mock');
     Route::get('/ins/content/mock/submit-form', [MockTestController::class, 'form'])->name('mock.subject_form');

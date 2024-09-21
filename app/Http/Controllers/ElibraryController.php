@@ -53,9 +53,9 @@ class ElibraryController extends Controller
                 'is_paid' => 'boolean',
                 'price' => 'nullable|numeric|min:0',
                 'discount_price' => 'nullable|numeric|min:0',
-                'files' => 'nullable',
+                'files' => 'required',
                 'course_duration' => 'required',
-                'files.*' => 'mimes:pdf,doc,docx,txt', // Validate multiple files
+                'files.*' => 'required|mimes:pdf,doc,docx,txt', // Validate multiple files
                 'description' => 'nullable|string',
             ]);
 
@@ -105,7 +105,7 @@ class ElibraryController extends Controller
         } catch (Exception $e) {
             // Error notification with SweetAlert toast
             Alert::toast('Something went wrong. Please try again.', 'error');
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+            return redirect()->route('elibrary')->withErrors(['error' => $e->getMessage()]);
         }
     }
 

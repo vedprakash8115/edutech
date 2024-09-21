@@ -1,16 +1,41 @@
 @extends('layout.app')
 
 @section('content')
+<div class="btn-container">
+<button class="float-end btn-style" id="toggleBtn1" onclick="window.location.href='{{ isset($single_data) ? url('ins/content') : 'javascript:void(0)' }}'">
+{{ isset($single_data) ? 'View classes' : 'Create Live class' }} 
 
-<div class="row">
+<!-- Conditionally render the icon -->
+@if(isset($single_data))
+    <i class="fa-solid fa-video"></i>
+@else
+    <i class="fa-solid fa-circle-plus"></i>
+@endif
+</button>
+
+</div>
+@if(!isset($single_data))
+<div class="row" id="table-container1">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="mb-0">Live Classes</h5>
+            </div>
+            <div class="card-body">
+               {{ $dataTable->table() }}
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+<div class="row" id="toggleDiv1" style="{{ isset($single_data) ? 'display: block;' : 'display: none;' }}">
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Live Class</h5>
-                <small class="text-muted float-end">Manage Live Classes</small>
             </div>
             <div class="card-body p-4">
-                <form method="POST" id="live_class_form" action="{{ isset($single_data) ? route('liveclass.update', $single_data->id) : route('liveclass.store') }}" enctype="multipart/form-data" class="needs-validation" data-aos="fade-up">
+            <form method="POST" id="live_class_form" action="{{ isset($single_data) ? route('liveclass.update', $single_data->id) : route('liveclass.store') }}" enctype="multipart/form-data" class="needs-validation" data-aos="fade-up">
                     @csrf
                     @if(isset($single_data))
                         @method('PUT')
@@ -170,20 +195,26 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-12">
-        <div class="card mb-4">
-            <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Live Classes</h5>
-            </div>
-            <div class="card-body">
-               {{ $dataTable->table() }}
-            </div>
-        </div>
-    </div>
-</div>
 
 
+<Script>
+    const createLiveBtn = document.getElementById('toggleBtn1');
+    createLiveBtn.addEventListener('click', function() {
+        var dataTable = document.getElementById('table-container1');
+        var toggleDiv1 = document.getElementById('toggleDiv1');
+        if (toggleDiv1.style.display === "none" || toggleDiv1.style.display === "") {
+            toggleDiv1.style.display = "block";
+            createLiveBtn.innerHTML = "View classes <i class='fa-solid fa-video'></i>"
+            dataTable.style.display = "none";
+
+        } else {
+            toggleDiv1.style.display = "none";   // Hide the div
+            dataTable.style.display = "block";
+            createLiveBtn.innerHTML = "Create Live class <i class='fa-solid fa-circle-plus'></i>"
+        }
+        
+    });
+</script>
 
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}

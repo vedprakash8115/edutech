@@ -247,15 +247,14 @@
                     </li>
                 </ul>
             </li>
-
+<!-- 
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class=" menu-icon fas fa-sliders-h"></i> <!-- Sliders icon -->
+                <i class=" menu-icon fas fa-sliders-h"></i> 
 
                 <div class="ms-2" data-i18n="Authentications">Sliders</div>
               </a>
-            </li>
+            </li> -->
 
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle" >

@@ -263,11 +263,11 @@ class VideoCourseController extends Controller
             $videoCourse->update($validatedData);
     
             toast('Video Course updated successfully', 'success');
-            return redirect()->back();
+            return redirect()->route('videocourse');
         } catch (\Exception $e) {
             Log::error('Error in update method: ' . $e->getMessage());
             toast('An error occurred while updating the video course.', 'error');
-            return redirect()->back()->withInput();
+            return redirect()->route('videocourse')->withInput();
         }
     }
 

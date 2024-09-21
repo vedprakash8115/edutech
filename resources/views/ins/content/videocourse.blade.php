@@ -1,12 +1,43 @@
 @extends('layout.app')
 
 @section('content')
-    <div class="row">
+
+<div class="btn-container">
+<button class="float-end btn-style" id="toggleBtn" onclick="window.location.href='{{ isset($single_data) ? url('ins/video') : 'javascript:void(0)' }}'">
+    {{ isset($single_data) ? 'View Courses' : 'Create New Course' }} 
+
+    <!-- Conditionally render the icon -->
+    @if(isset($single_data))
+        <i class="fa-solid fa-video"></i>
+    @else
+        <i class="fa-solid fa-circle-plus"></i>
+    @endif
+</button>
+
+</div>
+
+@if(!isset($single_data))
+
+    <div class="row" id="table-container">
+        
+        <div class="col-12">
+            <div class="card">
+                
+                <div class="card-body">
+
+                    <div class="table-responsive dataTables_wrapper" id="dataTables_wrapper">
+                        {{ $dataTable->table() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+<div class="row" id="toggleDiv" style="{{ Request::is('ins/video/edit/*') ? 'display: block;' : 'display: none;' }}">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="mb-0">Video Course</h5>
-                    <small class="text-muted float-end">{{ isset($single_data) ? 'Edit Course' : 'Create New Course' }}</small>
                 </div>
                 <div class="card-body p-4" data-aos="fade-up" data-aos-duration="1000">
                     <form method="POST" action="{{ isset($single_data) ? route('videocourse.update', $single_data->id) : route('videocourse.store') }}" enctype="multipart/form-data" class="needs-validation">
@@ -20,7 +51,7 @@
                             <div class="col-md-6">
                                 <div class="form-floating mb-3" data-aos="fade-right" data-aos-duration="1000">
                                     <input type="text" class="form-control" id="CourseName" placeholder="Course Name" name="course_name" value="{{ old('course_name', $single_data->course_name ?? '') }}" required>
-                                    <label for="CourseName" class="text-secondary"><i class="fas fa-book-open"></i> Course Name <span class="text-secondary">*</span></label>
+                                    <label for="CourseName" class="text-secondary"><i class="fas fa-book-open"></i> Title <span class="text-secondary">*</span></label>
                                 </div>
                             </div>
                 
@@ -39,12 +70,12 @@
                             <!-- Banner Upload -->
                             <div class="col-md-6">
                                 <div class="mb-3" data-aos="fade-right" data-aos-duration="1000">
-                                    <label for="banner" class="form-label text-secondary"><i class="fas fa-image"></i> Upload Banner</label>
+                                    <label for="banner" class="form-label text-secondary"><i class="fas fa-image"></i> Upload thumbnail</label>
                                     <input type="file" class="form-control" id="banner" name="banner" accept="image/*">
                                     @if(isset($single_data) && $single_data->banner)
                                         <div class="mt-2">
                                             <img src="{{ asset($single_data->banner) }}" alt="Current Banner" class="img-fluid img-thumbnail" style="max-width: 200px; max-height: 60px;">
-                                            <p class="text-muted small mt-1">Current banner image</p>
+                                            <p class="text-muted small mt-1">Current thumbnail</p>
                                         </div>
                                     @endif
                                 </div>
@@ -137,19 +168,7 @@
         </div>
     </div>
 
-    @if(!isset($single_data))
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        {{ $dataTable->table() }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
+
      <!-- Hidden form for image upload -->
      <form id="imageUploadForm" style="display: none;" method="POST" enctype="multipart/form-data">
         @csrf
@@ -160,6 +179,26 @@
     @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
+
+<Script>
+    const createCourseBtn = document.getElementById('toggleBtn');
+    createCourseBtn.addEventListener('click', function() {
+        var dataTable = document.getElementById('table-container');
+        var toggleDiv = document.getElementById('toggleDiv');
+        if (toggleDiv.style.display === "none" || toggleDiv.style.display === "") {
+            toggleDiv.style.display = "block";  // Show the div
+            createCourseBtn.innerHTML = "View Courses <i class='fa-solid fa-video'></i>"
+            dataTable.style.display = "none";
+
+        } else {
+            toggleDiv.style.display = "none";   // Hide the div
+            dataTable.style.display = "block";
+            createCourseBtn.innerHTML = "Create new classes <i class='fa-solid fa-circle-plus'></i>"
+        }
+        
+    });
+</script>
+
     <script>
 // AOS.init();
 
@@ -232,9 +271,6 @@
     text-transform: uppercase;
 }
 
-#videocourses-table tbody tr:hover {
-    background-color: #f1f3f5;
-}
 .dataTables_wrapper .dataTables_length select
 {
     width: 100px;
@@ -259,18 +295,19 @@
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 0.5rem 0.75rem;
     margin-left: -1px;
-    line-height: 1.25;
+    /* line-height: 1.25; */
     color: #007bff;
-    background-color: #ffffff;
+    cursor: pointer;
+    /* background-color: #ffffff; */
     /* box-shadow: 0px 2px 2px #007bff */
     /* border: 1px solid #dee2e6; */
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    color: #0056b3;
+    /* color: #0056b3;
     text-decoration: none;
     background-color: #e9ecef;
-    border-color: #dee2e6;
+    border-color: #dee2e6; */
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current,
