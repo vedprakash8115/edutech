@@ -15,7 +15,7 @@
                     <thead>
                         <tr>
                             <th>Sr.no.</th>
-                            <th>Coupon Type</th>
+                            <th>User Type</th>
                             <th>Start</th>
                             <th>Expiry</th>
                             <th>Discount Type</th>

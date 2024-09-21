@@ -215,14 +215,14 @@
                             <div class="ms-2" data-i18n="Without menu">Coupon</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
-                        <a href="#" class="menu-link" >
+                    <li class="menu-item {{ request()->routeIs('sliders.index') ? 'active' : '' }}">
+                        <a href="{{ route('sliders.index') }}" class="menu-link">
                             <div class="ms-2" data-i18n="Without menu">Sliders</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
-                        <a href="#" class="menu-link" >
-                            <div class="ms-2" data-i18n="Without menu">Testimonial</div>
+                    <li class="menu-item {{ request()->routeIs('testimonials.index') ? 'active' : '' }}">
+                        <a href="{{ route('testimonials.index') }}" class="menu-link">
+                            <div class="ms-2" data-i18n="Without menu">Tesimonial</div>
                         </a>
                     </li>
                     <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">

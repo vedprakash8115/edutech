@@ -9,15 +9,18 @@ use App\Http\Controllers\LiveClassPdfController;
 use App\Http\Controllers\ElibraryController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\user_frontend\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCourseController;
 use App\Http\Controllers\UploadMonitorController;
 use App\Http\Controllers\MockTestController;
-
 use App\Livewire\Tests;
 use App\Livewire\SubjectForm;
 use App\Livewire\QuestionForm;
+use App\Http\Controllers\SliderController;
+
+// use App\Livewire\Test;
 // use livewire\livewire;
 /*
 |--------------------------------------------------------------------------
@@ -93,12 +96,12 @@ Route::middleware(['auth'])->group(function () {
     Route::put('edit_level1/{id}', [InstituteController::class, 'updateLevel1'])->name('update_level1');
     Route::delete('delete_level1/{id}', [InstituteController::class, 'deleteLevel1'])->name('delete_level1');
     /***  For Sub Category routes ***/
-    Route::get('course_subcategory', [InstituteController::class, 'courseSubCategory'])->name('course_subcategory');
-    Route::post('store_subcategory', [InstituteController::class, 'StoreSubCategory'])->name('store_subcategory');
-    Route::get('course_subcategory/data', [InstituteController::class, 'getSubcategoriesData'])->name('subcategory.data');
-    Route::get('edit_subcategory/{id}', [InstituteController::class, 'editSubCategory'])->name('edit_subcategory');
-    Route::put('update_subcategory/{id}', [InstituteController::class, 'updateSubcategory'])->name('update_subcategory');
-    Route::delete('delete_subcategory/{id}', [InstituteController::class, 'deleteSubcategory'])->name('delete_subcategory');
+    // Route::get('course_subcategory', [InstituteController::class, 'courseSubCategory'])->name('course_subcategory');
+    // Route::post('store_subcategory', [InstituteController::class, 'StoreSubCategory'])->name('store_subcategory');
+    // Route::get('course_subcategory/data', [InstituteController::class, 'getSubcategoriesData'])->name('subcategory.data');
+    // Route::get('edit_subcategory/{id}', [InstituteController::class, 'editSubCategory'])->name('edit_subcategory');
+    // Route::put('update_subcategory/{id}', [InstituteController::class, 'updateSubcategory'])->name('update_subcategory');
+    // Route::delete('delete_subcategory/{id}', [InstituteController::class, 'deleteSubcategory'])->name('delete_subcategory');
 
     Route::resource('roles', RoleController::class);
 
@@ -145,6 +148,12 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/delete/{id}', [LiveClassPdfController::class , 'delete'])->name('live-class-pdfs.delete');
         Route::post('/delete-multiple', [LiveClassPdfController::class , 'deleteMultiple'])->name('live-class-pdfs.deleteMultiple');
     });
+    Route::resource('testimonials',TestimonialController::class);
+    Route::put('/testimonials/{id}/status', [TestimonialController::class, 'updateStatus'])->name('testimonials.updateStatus');
+    Route::resource('sliders',SliderController::class);
+    Route::put('/sliders/{id}/status', [SliderController::class, 'updateStatus'])->name('sliders.updateStatus');
+
+
 });
 
 // Auth::routes();
