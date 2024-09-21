@@ -1,7 +1,34 @@
 @extends('layout.app')
 
 @section('content')
-<div class="card">
+
+<div class="btn-container">
+<button class="float-end btn-style" id="toggleBtn2" onclick="window.location.href='{{ isset($single_data) ? url('ins/content/e-library') : 'javascript:void(0)' }}'">
+    {{ isset($single_data) ? 'View E-library' : 'Create New item' }} 
+
+    <!-- Conditionally render the icon -->
+    @if(isset($single_data))
+        <i class="fa-solid fa-file-pdf"></i>
+    @else
+        <i class="fa-solid fa-circle-plus"></i>
+    @endif
+</button>
+</div>
+
+@if(!isset($single_data))
+<div class="row my-4" id="table-container2">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    {{ $dataTable->table() }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+<div class="card" id = "toggleDiv2" style="{{ isset($single_data) ? 'display: block;' : 'display: none;' }}">
     <div class="card-body p-4">
         <h5 class="card-title mb-4">{{ isset($single_data) ? 'Edit E-Library Item' : 'Add New E-Library Item' }}</h5>
         <form method="POST" id="e_library_form" action="{{ isset($single_data) ? route('elibrary.update', $single_data->id) : route('elibrary.store') }}" enctype="multipart/form-data" class="needs-validation">
@@ -75,13 +102,13 @@
                 <div class="col-md-6" data-aos="fade-up">
                     <div class="mb-3">
                         <label for="UploadBanner" class="form-label text-secondary">
-                            <i class="fas fa-image"></i> Banner Image
+                            <i class="fas fa-image"></i> Thumbnail
                         </label>
                         <input type="file" class="form-control" id="UploadBanner" name="banner" accept="image/*">
                         @if(isset($single_data) && $single_data->banner)
                             <div class="mt-2">
                                 <img src="{{ asset($single_data->banner) }}" alt="Current Banner" class="img-fluid img-thumbnail" style="max-width: 200px; max-height: 60px;">
-                                <p class="text-muted small mt-1">Current banner image</p>
+                                <p class="text-muted small mt-1">Current thumbnail</p>
                             </div>
                         @endif
                     </div>
@@ -94,7 +121,7 @@
                         <label for="UploadFile" class="form-label text-secondary">
                             <i class="fas fa-file-upload"></i> Upload E-Library Files
                         </label>
-                        <input type="file" class="form-control" id="UploadFile" name="files[]" multiple>
+                        <input type="file" class="form-control" id="UploadFile" name="files[]" multiple required>
                     </div>
                 </div>
                 @endif
@@ -147,17 +174,7 @@
     </div>
 </div>
 {{-- <h1>Hi</h1> --}}
-<div class="row my-4">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    {{ $dataTable->table() }}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <form id="imageUploadForm" style="display: none;" method="POST" enctype="multipart/form-data">
     @csrf
     <input type="file" name="image[]" id="hiddenImageInput" multiple accept="video/*">
@@ -166,6 +183,27 @@
 @push('scripts')
 {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
+
+
+<Script>
+    const createItem = document.getElementById('toggleBtn2');
+    createItem.addEventListener('click', function() {
+        var dataTable = document.getElementById('table-container2');
+        var toggleDiv1 = document.getElementById('toggleDiv2');
+        if (toggleDiv1.style.display === "none" || toggleDiv1.style.display === "") {
+            toggleDiv1.style.display = "block";
+            createItem.innerHTML = "View E-library <i class='fa-solid fa-file-pdf'></i>"
+            dataTable.style.display = "none";
+
+        } else {
+            toggleDiv1.style.display = "none";   // Hide the div
+            dataTable.style.display = "block";
+            createItem.innerHTML = "Create E-library Item <i class='fa-solid fa-circle-plus'></i>"
+        }
+        
+    });
+</script>
+
 <script>
     //    AOS.init();
 

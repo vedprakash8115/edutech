@@ -92,7 +92,7 @@
     <div class="col-lg-8 col-md-6 mb-4">
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Level 1 Categories</h5>
+                <h5 class="mb-0">Level 0 Categories</h5>
             </div>
             <div class="card-body">
                 <table class="table table-bordered table-striped shadow-sm" id="categoriesL1Table">

@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCourseController;
 use App\Http\Controllers\UploadMonitorController;
 use App\Http\Controllers\MockTestController;
+use App\Http\Controllers\SliderController;
 // use App\Livewire\Test;
 // use livewire\livewire;
 /*
@@ -115,9 +116,6 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/ins/content/e-library', [ElibraryController::class, 'index'])->name('elibrary.store');
     // Route::get('/upload-monitor', [UploadMonitorController::class, 'index'])->name('upload.monitor');
     Route::resource('users', UserController::class);
-
-
-
 
     // ----------------------------Mock test ------------------------------------------------------------------
     Route::get('/ins/content/mock', [MockTestController::class, 'index'])->name('mock');

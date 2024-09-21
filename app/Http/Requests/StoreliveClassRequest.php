@@ -33,7 +33,7 @@ class StoreliveClassRequest extends FormRequest
             'cat_level_2' => 'nullable|integer',
             'from' => 'required|date',
             'to' => 'required|date',
-            'about_course' => 'required|string',
+            'about_course' => 'nullable|string',
             'discount_type' => 'required|string|in:fixed,percentage',
             'banner' => 'required|file', // Ensure field name matches form input
         ];

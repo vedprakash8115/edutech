@@ -173,3 +173,7 @@ a:hover {
 table th{
     color: var(--text-color);
 }
+
+.dataTables_wrapper tr:hover{
+    background-color: black;
+  }

@@ -18,7 +18,7 @@
                     <div class="row mb-2">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="coupon_type">Coupon Type</label>
+                                <label for="coupon_type">User Type</label>
                                 <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="coupon_type">
                                     <option selected value="" disabled>...Please Select...</option>
                                     <option value="1">Purchased User</option>
