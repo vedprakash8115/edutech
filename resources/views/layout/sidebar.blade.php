@@ -327,13 +327,23 @@
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="pages-misc-error.html" class="menu-link" >
-                    <div class="ms-2" data-i18n="Error">Update Side Info</div>
+                  <a href="{{route('admin.profile')}}" class="menu-link" >
+                    <div class="ms-2" data-i18n="Error">Profile</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="" class="menu-link" >
-                    <div class="ms-2" data-i18n="Under Maintenance">Social Logins & SSO</div>
+                    <div class="ms-2" data-i18n="Under Maintenance">Blocked Users</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="" class="menu-link" >
+                    <div class="ms-2" data-i18n="Under Maintenance">Sub-admin</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="" class="menu-link" >
+                    <div class="ms-2" data-i18n="Under Maintenance">Application Categories</div>
                   </a>
                 </li>
               </ul>

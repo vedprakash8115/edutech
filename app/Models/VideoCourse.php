@@ -15,4 +15,5 @@ class VideoCourse extends Model
     {
         return $this->hasMany(Video::class);
     }
+
 }

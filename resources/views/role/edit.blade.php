@@ -27,7 +27,7 @@
                                         <div class="form-check">
                                             <input type="checkbox" name="permissions[]" value="{{ $permission->id }}" class="form-check-input" id="permission{{ $permission->id }}"
                                                 @if($role->permissions->contains($permission->id)) checked @endif>
-                                            <label class="form-check-label" for="permission{{ $permission->id }}">{{ $formattedKeyTitle = ucwords(str_replace(['.', '_'], ' ', $permission->name)); }}</label>
+                                            <label class="form-check-label" for="permission{{ $permission->id }}">{{ $formattedKeyTitle = ucwords(str_replace(['.', '_'], ' ', $permission->name)) }}</label>
                                         </div>
                                     </div>
                                 @endforeach

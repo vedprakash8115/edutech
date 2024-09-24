@@ -22,12 +22,26 @@ class LiveClassController extends Controller
     {
         try {
             $perPage = $request->input('per_page', 10);
+        
+            // Get all live classes for Yajra data table
             $liveClasses = LiveClass::paginate($perPage)->appends($request->query());
+    
+            // Fetch current classes (i.e., classes currently ongoing)
+            $currentClasses = LiveClass::where('from', '<=', now())
+                                       ->where('to', '>=', now())
+                                       ->get(); // No pagination needed for current/upcoming classes
+    
+            // Fetch upcoming classes (i.e., classes that will start in the future)
+            $upcomingClasses = LiveClass::where('from', '>', now())->get();
+    
             $categories = CourseCategory0::all();
             $request->session()->forget('single_data');
-
+    
+            // Pass both current and upcoming classes along with the Yajra data table
             return $dataTable->render('ins.content.liveclass', [
-                'liveClasses' => $liveClasses,
+                'liveClasses' => $liveClasses,       // For the Yajra data table
+                'currentClasses' => $currentClasses, // For the current live classes box
+                'upcomingClasses' => $upcomingClasses, // For the upcoming classes box
                 'categories' => $categories
             ]);
         } catch (Exception $e) {
@@ -139,11 +153,20 @@ class LiveClassController extends Controller
             $single_data = LiveClass::findOrFail($id);
             $categories = CourseCategory0::all();
 
+            $currentClasses = LiveClass::where('from', '<=', now())
+            ->where('to', '>=', now())
+            ->get(); // No pagination needed for current/upcoming classes
+
+            // Fetch upcoming classes (i.e., classes that will start in the future)
+            $upcomingClasses = LiveClass::where('from', '>', now())->get();
+
             Alert::toast('You are editing a Live Class.', 'info');
 
             return $dataTable->render('ins.content.liveclass', [
                 'liveClasses' => $liveClasses,
                 'categories' => $categories,
+                'currentClasses' => $currentClasses, // For the current live classes box
+                'upcomingClasses' => $upcomingClasses, // For the upcoming classes box
                 'single_data' => $single_data
             ]);
         } catch (Exception $e) {
