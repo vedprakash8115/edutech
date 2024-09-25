@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CouponController;
@@ -151,6 +152,16 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/testimonials/{id}/status', [TestimonialController::class, 'updateStatus'])->name('testimonials.updateStatus');
     Route::resource('sliders',SliderController::class);
     Route::put('/sliders/{id}/status', [SliderController::class, 'updateStatus'])->name('sliders.updateStatus');
+
+    route::prefix('setting')->group(function () {
+        Route::get('profile', [AdminProfileController::class,'show'])->name('admin.profile');
+        Route::post('profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
+        Route::post('user/add', [AdminProfileController::class, 'addUser'])->name('admin.user.add');
+        route::post('user/bulk-add-users', [AdminProfileController::class, 'bulkAddUsers'])->name('admin.bulkAddUsers');
+
+    });
+
+
 
 
 });

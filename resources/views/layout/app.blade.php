@@ -18,6 +18,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{asset('assets/vendor/fonts/boxicons.css')}}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <!-- Core CSS -->
@@ -29,6 +30,8 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/apex-charts/apex-charts.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
+
+    <!-- dark theme  -->
     <link id="dark-theme-stylesheet" href="{{ asset('assets/css/dark-theme.css') }}" rel="stylesheet" disabled>
     <script>
     (function() {
@@ -45,7 +48,7 @@
 
     <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
     <script src="{{asset('assets/js/config.js')}}"></script>
-    
+
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script> --}}
     <style>

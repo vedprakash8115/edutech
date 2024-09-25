@@ -15,4 +15,8 @@ class CourseCategory0 extends Model
     {
         return $this->hasMany(CourseCategory::class);
     }
+    public function VideoCourses()
+    {
+        return $this->hasMany(VideoCourse::class, 'course_category_id');
+    }
 }

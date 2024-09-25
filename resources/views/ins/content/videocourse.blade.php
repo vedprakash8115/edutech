@@ -124,6 +124,7 @@
                             <!-- About Course -->
                             <div class="col-12">
                                 <div class="form-floating mb-3" data-aos="fade-up" data-aos-duration="1000">
+                                    
                                     <textarea class="form-control" id="AboutCourse" name="about_course" placeholder="Enter course details here" style="height: 100px;">{{ old('about_course', $single_data->about_course ?? '') }}</textarea>
                                     <label for="AboutCourse" class="text-secondary"><i class="fas fa-info-circle"></i> About Course</label>
                                 </div>

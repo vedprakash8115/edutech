@@ -68,6 +68,7 @@ class liveClassesDataTable extends DataTable
             ->setTableId('liveclasses-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->responsive(true)
             ->dom("<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" .
                  "<'row'<'col-sm-12'tr>>" .
                  "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>")
