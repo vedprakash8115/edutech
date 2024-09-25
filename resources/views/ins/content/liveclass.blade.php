@@ -209,7 +209,7 @@
         <div class="col-md-3">
             <!-- Current Live Classes -->
             <div class="card">
-                <h5 class="card-header">Current Live Classes</h5>
+                <h5 class="card-header text-black">Current Live Classes</h5>
                 @foreach($currentClasses as $class)
                         <div class="card-body">
                             <h5 class="card-title ">{{ $class->course_name }}
@@ -234,7 +234,7 @@
 
             <!-- Upcoming Classes -->
             <div class="card">
-                <h5 class="card-header">Upcoming Classes</h5>
+                <h5 class="card-header text-black">Upcoming Classes</h5>
                 @foreach($upcomingClasses as $class)
                         <div class="card-body">
                             <h5 class="card-title ">{{ $class->course_name }}

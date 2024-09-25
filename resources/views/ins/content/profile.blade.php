@@ -56,7 +56,11 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="m-0"><i class="bi bi-file-earmark-arrow-up me-2"></i>Bulk Add Users</h3>
+                        <h3 class="m-0 d-inline"><i class="bi bi-file-earmark-arrow-up me-2"></i>Bulk Add Users</h3>
+                                        <!-- Button to Open Modal -->
+                        <button type="button" class="btn btn-info float-end" data-bs-toggle="modal" data-bs-target="#instructionsModal">
+                            Read Instructions
+                        </button>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('admin.bulkAddUsers') }}" method="POST" enctype="multipart/form-data">
@@ -71,6 +75,76 @@
                         </form>
                     </div>
                 </div>
+
+
+                <!-- Modal Structure -->
+                <div class="modal fade" id="instructionsModal" tabindex="-1" aria-labelledby="instructionsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="instructionsModalLabel">Bulk Add Users Instructions</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            
+                            <!-- Modal Body with Instructions -->
+                            <div class="modal-body">
+                                <p>When bulk adding users, ensure your CSV file follows the format below:</p>
+                                
+                                <!-- Instructions Table -->
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Column</th>
+                                            <th>Requirement</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Name</strong></td>
+                                            <td>Required (Full Name of the User)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Email</strong></td>
+                                            <td>Required (Must be a valid and unique email)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Mob ile Number</strong></td>
+                                            <td>Required (Valid number, e.g. 123-456-7890)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>City</strong></td>
+                                            <td>Optional (Max 100 characters)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>State</strong></td>
+                                            <td>Optional (Max 100 characters)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Country</strong></td>
+                                            <td>Optional (Max 100 characters)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <p><strong>Note:</strong></p>
+                                <ul>
+                                    <li>Ensure the file format is CSV (comma-separated values).</li>
+                                    <li>The first row should contain the column headers: <code>Name, Email, Mobile, City, State, Country</code>.</li>
+                                    <li>Name, Email, and Mobile are mandatory fields.</li>
+                                    <li>Ensure no duplicate email addresses exist within the file.</li>
+                                    <li>Empty fields in the optional columns (City, State, Country) are acceptable.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Modal Footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="col-md-3">
                 <div class="card">
