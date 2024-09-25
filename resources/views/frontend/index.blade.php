@@ -438,46 +438,28 @@
 
     <!-- testimonials  -->
 
-    <section id="testimonials">
-
-      <div class="testimonial">
-      <h2 class="text-center">Our Testimonials</h2>
-      <p class="text-center mb-5">See what our clients have been saying about us </p>
+    <section class="testimonial-section">
         <div class="container">
-        <div class="testimonial__inner">
-          <div class="testimonial-slider">
-
-            @foreach ($testimonials as $testimonial)
-                  <div class="testimonial-slide">
-                    <div class="testimonial_box">
-                      <div class="testimonial_box-inner">
-                        <div class="testimonial_box-top">
-                          <div class="testimonial_box-icon">
-                            <i class="fas fa-quote-right"></i>
-                          </div>
-                          <div class="testimonial_box-text">
-                            <p>{{$testimonial-> description}}</p>
-                          </div>
-                          <div class="testimonial_box-img">
-                            <img src="https://i.ibb.co/hKgs8gm/profile.jpg" alt="profile">
-                          </div>
-                          <div class="testimonial_box-name">
-                            <h4>{{$testimonial -> user -> name}}</h4>
-                        </div>
-                        <div class="testimonial_box-job">
-                          <p>{{$testimonial -> role -> name}}</p>
-                        </div>
-                        </div>
-                      </div>
+            <h2 class="text-center mb-5">What Our Clients Say</h2>
+            <div class="testimonial-grid">
+                @foreach($testimonials as $testimonial)
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                    <div class="testimonial-header">
+                        <img src="{{ $testimonial->image ?? 'https://via.placeholder.com/80' }}" alt="{{ $testimonial->user->name }}" class="testimonial-image">
                     </div>
-                  </div>
-            @endforeach
-            
-          </div>
+                    <div class="testimonial-body">
+                        <h5 class="testimonial-name">{{ $testimonial->user->name }}</h5>
+                        <p class="testimonial-role">{{ $testimonial->role->name }}</p>
+                        <p class="testimonial-text">"{{ $testimonial->description }}"</p>
+                    </div>
+                </div>
+                @endforeach
+            </div>
         </div>
-        </div>
-      </div>
     </section>
+
+
+
 
     <!-- testimonials  -->
 
@@ -497,7 +479,7 @@
               >
                 <div class="card-hover-content">
                   <h5 class="card-title">Videos</h5>
-                  <p class="card-text">
+                  <p class="card-text text-wrap">
                     Access a library of educational videos.
                   </p>
                   <a href="#video-link" class="arrow-link">

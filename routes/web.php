@@ -44,7 +44,6 @@ Route::get('/login', function () {
 // });
 
 Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
-
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/',[HomeController::class,'index'])->name('index');
@@ -159,6 +158,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('user/add', [AdminProfileController::class, 'addUser'])->name('admin.user.add');
         route::post('user/bulk-add-users', [AdminProfileController::class, 'bulkAddUsers'])->name('admin.bulkAddUsers');
 
+    });
+
+    Route::prefix('student')->group(function () {
+        Route::view('/dashboard','student.dashboard');
     });
 
 

@@ -303,7 +303,6 @@
                     </div>
                     <div class="modal-body">
                         @include('modals.marketing')
-
                     </div>
                 </div>
             </div>

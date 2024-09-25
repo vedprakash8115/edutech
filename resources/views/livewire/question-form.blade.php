@@ -64,10 +64,10 @@
                     <div class="form-group mb-3">
                         <label for="question_entry_type">How would you like to add questions?</label>
                         <div>
-                            <input type="radio" id="manual" value="manual" wire:model.live="question_entry_type">
+                            <input type="radio" name = "question_entry_type" id="manual" value="manual" wire:model.live="question_entry_type">
                             <label for="manual">Manually</label>
                 
-                            <input type="radio" id="csv" value="csv" wire:model.live="question_entry_type" style="margin-left: 20px;">
+                            <input type="radio" name = "question_entry_type" id="csv" value="csv" wire:model.live="question_entry_type" style="margin-left: 20px;">
                             <label for="csv">CSV Import</label>
                         </div>
                         @error('question_entry_type') <span class="text-danger">{{ $message }}</span> @enderror

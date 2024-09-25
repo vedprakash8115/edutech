@@ -236,7 +236,7 @@ class QuestionForm extends Component
 
     public function store()
     {
-        // $this->validate();
+        $this->validate();
         $this->validateMultipleChoiceQuestions();
     
         // Find the chosen subject based on the stored subject_id

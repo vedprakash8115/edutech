@@ -23,7 +23,7 @@
         </div>
         <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="App sliders">
             <div class="card-hover card">
-                <a href="{{route('liveclass')}}">
+            <a href="{{route('sliders.index')}}">
                     <div class="card-body" >
                         <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                             <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
@@ -44,7 +44,7 @@
         </div>
         <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Emails">
             <div class="card-hover card">
-                <a href="{{route('liveclass')}}">
+                <a href="{{ route('liveclass') }}">
                     <div class="card-body" >
                         <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                             <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
