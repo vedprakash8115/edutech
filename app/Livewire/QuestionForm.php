@@ -9,9 +9,10 @@ use App\Models\Option;
 use App\Models\Subject;
 use App\Models\Test;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use League\Csv\Reader;
+use Illuminate\Support\Facades\Log;
 class QuestionForm extends Component
 {
     use WithFileUploads;
@@ -25,10 +26,11 @@ class QuestionForm extends Component
     public $quesarray = [];
     public $activeQuestion = null;
     public $csv_file;
+    public $question_entry_type = ''; // Default to 'manual'
     // Properties for file uploads
     public $question_images = [];
     public $option_images = [];
-
+    public $showModal = false;
     // Validation rules
     protected function rules()
     {
@@ -48,8 +50,18 @@ class QuestionForm extends Component
             'csv_file' => 'required|file|mimes:csv,txt|max:2048',
         ];
     }
-
-
+    public function closeModal()
+    {
+        $this->showModal = false; // Function to close the modal
+    }
+    public function updatedQuestionEntryType($value)
+    {
+        if ($value === 'csv') {
+            $this->showModal = true; // Show modal when csv is selected
+        } else {
+            $this->showModal = false; // Hide modal otherwise
+        }
+    }
     protected $messages = [
         'quesarray.*.question_text.required' => 'The question text is required.',
         'quesarray.*.question_text.max' => 'The question text must not exceed 1000 characters.',
@@ -70,25 +82,33 @@ class QuestionForm extends Component
     }
 
     private function getDefaultQuestion()
-    {
-        return [
-            'subject_id' => $this->subject_id,  // Add this line to ensure subject_id is included
-            'question_text' => '',
-            'question_type' => 'multiple_choice',
-            'difficulty_level' => 'easy',
-            'marks' => 1,
-            'is_optional' => false,
-            'is_true' => null,
-            'image' => '',
-            'options' => [
-                'a' => ['text' => '', 'image' => ''],
-                'b' => ['text' => '', 'image' => ''],
-                'c' => ['text' => '', 'image' => ''],
-                'd' => ['text' => '', 'image' => '']
-            ],
-            'answer' => null,
-        ];
-    }
+{
+    // Fetch the subject based on the subject_id
+    $subject = Subject::find($this->subject_id);
+
+    return [
+        'subject_id' => $this->subject_id,  // Ensure subject_id is included
+        'question_text' => '',
+    'question_type' => in_array($subject->question_type, ['multiple_choice', 'true_false', 'short_answer', 'essay']) 
+                    ? $subject->question_type 
+                    : '',
+ // Set to null if subject's question type is null
+        'difficulty_level' => 'easy',
+        'marks' => 1,
+        'is_optional' => false,
+        'is_true' => null,
+        'image' => '',
+        'options' => [
+            'a' => ['text' => '', 'image' => ''],
+            'b' => ['text' => '', 'image' => ''],
+            'c' => ['text' => '', 'image' => ''],
+            'd' => ['text' => '', 'image' => '']
+        ],
+        'answer' => null,
+    ];
+}
+
+    
     
 
     public function setActiveQuestion($index)
@@ -105,6 +125,26 @@ class QuestionForm extends Component
         $this->question_images = [];
         $this->option_images = [];
     }
+    private function getDefaultQuestionFromCSV($csvData)
+{
+    return [
+        'subject_id' => $this->subject_id,
+        'question_text' => $csvData['question_text'] ?? '',
+        'question_type' => $csvData['question_type'] ?? 'multiple_choice', // Assuming multiple_choice is the default type
+        'difficulty_level' => $csvData['difficulty_level'] ?? 'easy',
+        'marks' => $csvData['marks'] ?? 1,
+        'is_optional' => $csvData['is_optional'] ?? false,
+        'is_true' => null,
+        'options' => [
+            'a' => ['text' => $csvData['option_a'] ?? '', 'image' => null],
+            'b' => ['text' => $csvData['option_b'] ?? '', 'image' => null],
+            'c' => ['text' => $csvData['option_c'] ?? '', 'image' => null],
+            'd' => ['text' => $csvData['option_d'] ?? '', 'image' => null],
+        ],
+        'answer' => $csvData['answer'] ?? null,
+    ];
+}
+
 
     public function updatedSubjectId($subjectId)
     {
@@ -145,7 +185,8 @@ class QuestionForm extends Component
             'question_type' => $question->question_type,
             'difficulty_level' => $question->difficulty_level,
             'marks' => $question->marks,
-            'is_optional' => $question->is_optional,
+           'is_optional' => $question->is_optional == 1 ? true : false,
+
             'is_true' => $question->question_type === 'true_false' ? $question->is_true : null,
             'answer' => $question->answer,
             'options' => [
@@ -195,20 +236,25 @@ class QuestionForm extends Component
 
     public function store()
     {
-        $this->validate();
+        // $this->validate();
         $this->validateMultipleChoiceQuestions();
     
-        // Loop through each subject and count optional questions
-        foreach ($this->subjects as $subjectIndex => $subject) {
+        // Find the chosen subject based on the stored subject_id
+        $subject = collect($this->subjects)->firstWhere('id', $this->subject_id);
+    
+        if ($subject) {
             $optionalQuestionCount = 0;
+            $totalMarks = 0;
     
             // Loop through the questions related to the current subject
             foreach ($this->quesarray as $index => $questionData) {
-                if ($questionData['subject_id'] == $subject['id']) {
+                if ($questionData['subject_id'] == $this->subject_id) {
                     // Count the number of optional questions
                     if (isset($questionData['is_optional']) && $questionData['is_optional']) {
                         $optionalQuestionCount++;
                     }
+                    // Sum up the marks
+                    $totalMarks += $questionData['marks'];
                 }
             }
     
@@ -217,6 +263,15 @@ class QuestionForm extends Component
                 session()->flash('error', "Subject {$subject['name']} requires {$subject['number_optional_questions']} optional questions, but {$optionalQuestionCount} were provided.");
                 return; // Stop execution if there's a mismatch
             }
+    
+            // Check if the total marks exceed the subject's total marks
+            if ($totalMarks > $subject['total_marks']) {
+                session()->flash('error', "The total marks ({$totalMarks}) for subject {$subject['name']} exceed the allowed total marks ({$subject['total_marks']}).");
+                return; // Stop execution if the total marks are exceeded
+            }
+        } else {
+            session()->flash('error', 'Selected subject not found.');
+            return;
         }
     
         DB::beginTransaction();
@@ -277,7 +332,7 @@ class QuestionForm extends Component
     
             DB::commit();
             session()->flash('message', 'Questions and options saved successfully.');
-            $this->resetForm();
+            // $this->resetForm();
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error saving questions: ' . $e->getMessage());
@@ -322,57 +377,140 @@ class QuestionForm extends Component
     // -----------------------------------------------csv insert--------------------------------------------
 
 
-    // public function importCsv()
-    // {
-    //     // $this->validate();
+  
+    public function importCsv()
+{
+    try {
+        // Validate the CSV file input inside the function
+        $this->validate([
+            'csv_file' => 'required|mimes:csv,txt|max:2048', // Max file size of 2MB
+        ]);
 
-    //     try {
-    //         $csv = Reader::createFromPath($this->csv_file->getRealPath())->setHeaderOffset(0);
+        // Store the uploaded CSV file temporarily
+        $filePath = $this->csv_file->store('csv_files');
 
-    //         DB::beginTransaction();
+        // Load the CSV file using League\Csv
+        $csv = Reader::createFromPath(storage_path('app/' . $filePath), 'r');
+        $csv->setHeaderOffset(0); // Set the first row as the header
 
-    //         foreach ($csv as $row) {
-    //             $question = Question::create([
-    //                 'test_id' => $this->test_id,
-    //                 'subject_id' => $this->subject_id,
-    //                 'question_text' => $row['question_text'],
-    //                 'question_type' => $row['question_type'],
-    //                 'difficulty_level' => $row['difficulty_level'],
-    //                 'marks' => $row['marks'],
-    //                 'is_true' => $row['question_type'] === 'true_false' ? $row['is_true'] : null,
-    //                 'is_optional' => $row['is_optional'] ?? false,
-    //                 'answer' => $row['answer'] ?? null,
-    //             ]);
+        // Get records from the CSV file
+        $records = $csv->getRecords();
 
-    //             if ($row['question_type'] === 'multiple_choice') {
-    //                 foreach (['a', 'b', 'c', 'd'] as $key) {
-    //                     if (isset($row["option_{$key}"])) {
-    //                         Option::create([
-    //                             'question_id' => $question->id,
-    //                             'key' => $key,
-    //                             'text' => $row["option_{$key}"],
-    //                         ]);
-    //                     }
-    //                 }
-    //             }
-    //         }
+        // Find the chosen subject based on the stored subject_id
+        $subject = collect($this->subjects)->firstWhere('id', $this->subject_id);
 
-    //         DB::commit();
-    //         session()->flash('message', 'CSV imported successfully.');
-    //         $this->reset(['csv_file']);
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         session()->flash('error', 'Error importing CSV: ' . $e->getMessage());
-    //     }
-    //     // session()->flash('message', 'Questions and options saved successfully.');
-    // }
+        if (!$subject) {
+            session()->flash('error', 'Selected subject not found.');
+            return;
+        }
 
+        $optionalQuestionCount = 0;
+        $totalMarks = 0;
+        $i = 0;
 
+        // Process the CSV records
+        foreach ($records as $row) {
+            // Basic validation for required fields in each row
+            if (!isset($row['question_text'], $row['question_type'], $row['marks'])) {
+                throw new \Exception('Missing required fields in the CSV row.');
+            }
+
+            // Handle optional questions (convert any truthy values to 1, others to 0)
+            $isOptional = isset($row['is_optional']) && in_array(strtolower($row['is_optional']), ['1', 'true', 'yes']) ? 1 : 0;
+
+            // Count the number of optional questions
+            if ($isOptional) {
+                $optionalQuestionCount++;
+            }
+
+            // Sum up the marks
+            $totalMarks += (int)$row['marks'];
+
+            if ($optionalQuestionCount !== $subject['number_optional_questions']) {
+                session()->flash('error', "Subject {$subject['name']} requires {$subject['number_optional_questions']} optional questions, but {$optionalQuestionCount} were provided.");
+                return; // Stop execution if there's a mismatch
+            }
+    
+            // Validate total marks against the subject's total marks
+            if ($totalMarks > $subject['total_marks']) {
+                session()->flash('error', "The total marks ({$totalMarks}) for subject {$subject['name']} exceed the allowed total marks ({$subject['total_marks']}).");
+                return; // Stop execution if the total marks are exceeded
+            }
+            // Create the Question with boolean values converted to integers
+            $question = Question::create([
+                'test_id' => $this->test_id,
+                'subject_id' => $this->subject_id,
+                'question_text' => $row['question_text'],
+                'question_type' => $row['question_type'],
+                'difficulty_level' => $row['difficulty_level'] ?? 'medium',
+                'marks' => $row['marks'],
+                'is_true' => $row['question_type'] === 'true_false' ? (int)$row['is_true'] : null,
+                'is_optional' => $isOptional, // Set the properly processed value here
+                'answer' => $row['answer'] ?? null,
+            ]);
+
+            // Handle options for multiple-choice questions
+            if ($row['question_type'] === 'multiple_choice') {
+                foreach (['a', 'b', 'c', 'd'] as $key) {
+                    if (isset($row["option_{$key}"])) {
+                        Option::create([
+                            'question_id' => $question->id,
+                            'key' => $key,
+                            'text' => $row["option_{$key}"],
+                        ]);
+                    }
+                }
+            }
+            $i++;
+        }
+
+        // Validate optional question count against the subject's number of optional questions
+    
+
+        // Add any additional placeholder questions if needed
+        for ($i; $i < $this->questions; $i++) {
+            // Create the default/placeholder question
+            $question = Question::create([
+                'test_id' => $this->test_id,
+                'subject_id' => $this->subject_id,
+                'question_text' => 'question_text', // Default or placeholder text
+                'question_type' => 'true_false', // Set to a default type if needed
+                'difficulty_level' => 'medium',
+                'marks' => 0,
+                'is_true' => null,
+                'is_optional' => 0, // Default to 0
+                'answer' => null,
+            ]);
+
+            // Handle options for multiple-choice questions
+            if ($question->question_type === 'multiple_choice') {
+                foreach (['a', 'b', 'c', 'd'] as $key) {
+                    Option::create([
+                        'question_id' => $question->id,
+                        'key' => $key,
+                        'text' => null,
+                    ]);
+                }
+            }
+        }
+
+        // Success message
+        session()->flash('message', 'Questions and options saved successfully.');
+    } catch (\Exception $e) {
+        // Log the error message
+        Log::error('CSV Import Error: ' . $e->getMessage());
+
+        // Display an error message to the user
+        session()->flash('error', 'Error occurred during import: ' . $e->getMessage());
+    }
+}
+
+   
     public function render()
     {
         return view('livewire.question-form', [
             'tests' => $this->tests,
             'subjects' => $this->subjects,
-        ]);
+        ])->extends('layout.app');;
     }
 }

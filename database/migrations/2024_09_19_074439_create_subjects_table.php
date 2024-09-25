@@ -13,8 +13,10 @@ class CreateSubjectsTable extends Migration
             $table->foreignId('test_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->text('description')->nullable();
+            $table->integer('total_marks');
             $table->boolean('has_optional')->default(false);
             $table->integer('number_optional_questions')->nullable();
+            $table->enum('question_type', ['multiple_choice', 'true_false', 'short_answer', 'essay', 'mix'])->nullable();
             $table->integer('number_of_questions');
             $table->timestamps();
         });

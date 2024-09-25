@@ -15,7 +15,7 @@ class LiveClassPdfController extends Controller
         
     }
 
-    public function upload(Request $request)
+    public function upload(Request $request , $id)
     {
         $request->validate([
             'pdf_file' => 'required|mimes:pdf|max:10240', // Max 10MB

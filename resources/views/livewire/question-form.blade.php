@@ -19,6 +19,7 @@
             <div class="col-md-3">
                 <!-- Sidebar for question numbers -->
                 <div class="list-group">
+                    @if($question_entry_type == 'manual')
                     @if($questions)
                         @for ($i = 1; $i <= $questions; $i++)
                             <a href="#" class="list-group-item list-group-item-action {{ $activeQuestion === $i - 1 ? 'active' : '' }}" wire:click.prevent="setActiveQuestion({{ $i - 1 }})">
@@ -28,6 +29,7 @@
                                 </div>
                             </a>
                         @endfor
+                    @endif
                     @endif
                 </div>
             </div>
@@ -58,14 +60,28 @@
                             @error('subject_id') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     @endif
+                    @if($subject_id)
+                    <div class="form-group mb-3">
+                        <label for="question_entry_type">How would you like to add questions?</label>
+                        <div>
+                            <input type="radio" id="manual" value="manual" wire:model.live="question_entry_type">
+                            <label for="manual">Manually</label>
                 
+                            <input type="radio" id="csv" value="csv" wire:model.live="question_entry_type" style="margin-left: 20px;">
+                            <label for="csv">CSV Import</label>
+                        </div>
+                        @error('question_entry_type') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    @endif
                     <!-- Progress Bar -->
+                    @if($question_entry_type == 'manual')
                     @if($subject_id && $questions > 0)
                         <div class="progress mb-3">
                             <div class="progress-bar" role="progressbar" style="width: {{ ($activeQuestion + 1) / $questions * 100 }}%;" aria-valuenow="{{ $activeQuestion + 1 }}" aria-valuemin="0" aria-valuemax="{{ $questions }}">
                                 Question {{ $activeQuestion + 1 }} of {{ $questions }}
                             </div>
                         </div>
+                    @endif
                     @endif
                 
                     <!-- Questions -->
@@ -170,19 +186,21 @@
                         </div>
                     @endif
                 
+                    @if($question_entry_type == 'manual')
                     <div class="d-flex justify-content-between align-items-center">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmSubmitModal">
+                        <button type="submit" class="btn btn-primary" >
                             Submit
                         </button>
                         <div wire:loading wire:target="store" class="spinner-border text-primary" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
+                    @endif
                     {{-- <button wire:click="saveQuestion({{ $index }})" class="btn btn-primary">Save Question</button> --}}
                 </form>
-                {{-- <div>
+                <div>
                     <form wire:submit.prevent="importCsv">
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="test_id">Select Test</label>
                             <select class="form-control" id="test_id" wire:model.live="test_id">
                                 <option value="">Select a test</option>
@@ -203,28 +221,29 @@
                                 @endforeach
                             </select>
                             @error('subject_id') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                
+                        </div> --}}
+                        @if($question_entry_type == 'csv')
                         <div class="form-group">
                             <label for="csv_file">Import CSV</label>
                             <input type="file" class="form-control" id="csv_file" wire:model.live="csv_file" accept=".csv">
                             @error('csv_file') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
-                
+                       
                         <button type="submit" class="btn btn-primary" {{ !$test_id || !$subject_id ? 'disabled' : '' }}>
                             Import CSV
                         </button>
+                        @endif
                     </form>
                 
                  
-                </div> --}}
+                </div>
                 
             </div>
         </div>
     </div>
 
     <!-- Confirmation Modal -->
-    <div class="modal fade" id="confirmSubmitModal" tabindex="-1" aria-labelledby="confirmSubmitModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="confirmSubmitModal" tabindex="-1" aria-labelledby="confirmSubmitModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -240,5 +259,43 @@
                 </div>
             </div>
         </div>
+    </div> --}}
+    <!-- Modal -->
+<!-- Modal Structure -->
+@if($showModal)
+<div wire:ignore.self class="modal fade show" id="importInstructionModal" tabindex="-1" role="dialog" aria-labelledby="importInstructionModalLabel" aria-hidden="true" style="display: block; background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="importInstructionModalLabel">Important Instructions</h5>
+                <!-- Close Button -->
+                <button type="button" class="close" wire:click="closeModal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Please make sure to import <strong>all questions</strong> for the selected subject, as missing questions may result in errors.</p>
+                <p>The CSV file should contain the following columns:</p>
+                <ul class="list-group">
+                    <li class="list-group-item">question_text</li>
+                    <li class="list-group-item">question_type (multiple_choice, true_false, etc.)</li>
+                    <li class="list-group-item">difficulty_level (easy, medium, hard)</li>
+                    <li class="list-group-item">marks</li>
+                    <li class="list-group-item">is_true (for true/false questions)</li>
+                    <li class="list-group-item">is_optional</li>
+                    <li class="list-group-item">answer (correct answer)</li>
+                    <li class="list-group-item">option_a, option_b, option_c, option_d (for multiple choice)</li>
+                    <li class="list-group-item">option_a_image, option_b_image, option_c_image, option_d_image (optional images for each option)</li>
+                </ul>
+                <p><strong>Note:</strong> Only CSV files with a <code>.csv</code> extension are allowed. You will need to manually add images later if required.</p>
+            </div>
+        </div>
     </div>
+</div>
+@endif
+
+
+<!-- Trigger Modal via JavaScript -->
+
+
 </div>

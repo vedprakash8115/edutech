@@ -16,8 +16,10 @@ use App\Http\Controllers\VideoCourseController;
 use App\Http\Controllers\UploadMonitorController;
 use App\Http\Controllers\MockTestController;
 use App\Livewire\Tests;
+use App\Livewire\MockTest;
 use App\Livewire\SubjectForm;
 use App\Livewire\QuestionForm;
+use App\Livewire\QuestionManagement;
 use App\Http\Controllers\SliderController;
 
 // use App\Livewire\Test;
@@ -152,7 +154,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 });
-
+Route::get('/mock-test', MockTest::class)->name('mock_sample');
+Route::get('/mock-test/ques', QuestionManagement::class)->name('mock.man');
 // Auth::routes();
 // Route::get('/check' , Check::class);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -33,6 +33,14 @@
                                             <input type="text" class="form-control" id="subjects.{{ $index }}.name" wire:model="subjects.{{ $index }}.name" placeholder="Enter subject name">
                                             @error("subjects.$index.name") <span class="text-danger">{{ $message }}</span> @enderror
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="subjects.{{ $index }}.total_marks" class="form-label">
+                                                Total Marks for this Subject
+                                            </label>
+                                            <input class="form-control" type="number" id="subjects.{{ $index }}.total_marks" wire:model.live="subjects.{{ $index }}.total_marks" placeholder="Enter total marks">
+                                            @error("subjects.$index.total_marks") <span class="text-danger d-block">{{ $message }}</span> @enderror
+                                        </div>
+                                        
             
                                         <div class="mb-3">
                                             <label for="subjects.{{ $index }}.description" class="form-label">Description</label>
@@ -61,6 +69,21 @@
                                             <input type="number" class="form-control" id="subjects.{{ $index }}.number_of_questions" wire:model="subjects.{{ $index }}.number_of_questions" min="1" placeholder="Enter number of questions">
                                             @error("subjects.$index.number_of_questions") <span class="text-danger">{{ $message }}</span> @enderror
                                         </div>
+                                        <div class="form-group mb-3">
+                                            <label for="subjects.{{ $index }}.question_type" data-bs-toggle="tooltip" data-bs-placement="top" title="Select the type of question">
+                                                Question Type
+                                            </label>
+                                            <select class="form-select" id="subjects.{{ $index }}.question_type" wire:model="subjects.{{ $index }}.question_type">
+                                                <option value="">Select Type</option>
+                                                <option value="multiple_choice">Multiple Choice</option>
+                                                <option value="true_false">True/False</option>
+                                                <option value="short_answer">Short Answer</option>
+                                                <option value="essay">Essay</option>
+                                                <option value="mix">Mix</option>
+                                            </select>
+                                            @error("subjects.$index.question_type") <span class="text-danger">{{ $message }}</span> @enderror
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -99,4 +122,20 @@
             {{ session('message') }}
         </div>
     @endif
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('swal:toast', (data) => {
+            Swal.fire({
+                icon: data[0].icon,
+                title: data[0].title,
+                toast: true,
+                position: data[0].position || 'top-end',
+                showConfirmButton: false,
+                timer: data[0].timer || 3000,
+                timerProgressBar: true,
+            });
+        });
+    });
+</script>
 </div>

@@ -25,7 +25,7 @@
         <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}" class="template-customizer-core-css" />
         <link rel="stylesheet" href="{{asset('assets/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
     
-    
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
         <!-- Vendors CSS -->
         <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
         <link rel="stylesheet" href="{{asset('assets/vendor/libs/apex-charts/apex-charts.css')}}" />
@@ -57,7 +57,7 @@
     
           </style>
         @stack('styles')
-        <title>{{ $title ?? 'Page Title' }}</title>
+        <title>{{ $pagetitle ?? 'Mock Test' }}</title>
     </head>
     <body>
        
@@ -123,8 +123,16 @@
       
       <!-- Tempus Dominus JS (CDN) -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.0.0-beta1/js/tempus-dominus.min.js"></script>
-      
+      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
       <script>
+        AOS.init();
+    </script>
+      <script>
+
+        
               document.addEventListener('DOMContentLoaded', function() {
           const darkThemeStylesheet = document.getElementById('dark-theme-stylesheet');
           const toggleThemeButton = document.getElementById('toggle-theme');
@@ -185,19 +193,22 @@
           </script>
           
             <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-          <script>
-            window.addEventListener('swal', function(e) {
-                Swal.fire({
-                    title: e.detail.title,
-                    icon: e.detail.icon,
-                    iconColor: e.detail.iconColor,
-                    timer: 3000,
-                    toast: true,
-                    position: 'top-right',
-                    showConfirmButton: false,
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener('livewire:initialized', () => {
+                    Livewire.on('swal:toast', (data) => {
+                        Swal.fire({
+                            icon: data[0].icon,
+                            title: data[0].title,
+                            toast: true,
+                            position: data[0].position || 'top-end',
+                            showConfirmButton: false,
+                            timer: data[0].timer || 3000,
+                            timerProgressBar: true,
+                        });
+                    });
                 });
-            });
-        </script>
+            </script>
       
           {{-- @include('sweetalert::alert') --}}
       

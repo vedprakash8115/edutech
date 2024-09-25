@@ -170,7 +170,7 @@ class LiveClassController extends Controller
                 'cat_level_2' => 'nullable|integer',
                 'course_duration' => 'required',
             ]);
-    
+            $liveClass = LiveClass::findOrFail($id);
             if ($request->input('is_paid') == 0) {
                 $validatedData['price'] = null;
                 $validatedData['discount_price'] = null;
@@ -194,7 +194,7 @@ class LiveClassController extends Controller
                 return redirect()->back()->withInput();
             }
     
-            $liveClass = LiveClass::findOrFail($id);
+          
             $liveClass->update($validatedData);
     
             Alert::toast('Live Class updated successfully', 'success');
