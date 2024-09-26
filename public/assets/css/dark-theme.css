@@ -22,6 +22,7 @@ body {
     color: var(--text-color);
 }
 
+
 /* Bootstrap Overrides */
 .bg-dark {
     background-color: var(--background-color) !important;
@@ -175,4 +176,23 @@ table th{
 
 .dataTables_wrapper tr:hover{
     background-color: black;
+  }
+
+
+
+
+  /* user dark theme  */
+  .sidebar-wrapper {
+    background-color: var(--layout-menu-color);
+    border-color: var(--border-color);
+}
+.sidebar-link{
+    color: var(--text-color);
+}
+.sidebar-header{
+    background-color: var(--card-bg);
+}
+.form-control:disabled, .form-control[readonly] {
+    background-color: #555555;
+    opacity: 1;
   }
