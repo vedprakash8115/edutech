@@ -22,17 +22,17 @@ class LiveClassController extends Controller
     {
         try {
             $perPage = $request->input('per_page', 10);
-        
+
             // Get all live classes for Yajra data table
             $liveClasses = LiveClass::paginate($perPage)->appends($request->query());
-    
+
             // Fetch current classes (i.e., classes currently ongoing)
             $currentClasses = LiveClass::where('from', '<=', now())
                                        ->where('to', '>=', now())
                                        ->latest()
                                        ->take(4)
                                        ->get(); // No pagination needed for current/upcoming classes
-    
+
             // Fetch upcoming classes (i.e., classes that will start in the future)
             $upcomingClasses = LiveClass::where('from', '>', now())
                                         ->latest()
@@ -41,7 +41,7 @@ class LiveClassController extends Controller
     
             $categories = CourseCategory0::all();
             $request->session()->forget('single_data');
-    
+
             // Pass both current and upcoming classes along with the Yajra data table
             return $dataTable->render('ins.content.liveclass', [
                 'liveClasses' => $liveClasses,       // For the Yajra data table
@@ -55,7 +55,7 @@ class LiveClassController extends Controller
             return redirect()->back();
         }
     }
-    
+
     public function getCategoryOptions($parentId)
     {
         try {
@@ -66,7 +66,7 @@ class LiveClassController extends Controller
             return response()->json(['error' => 'An error occurred while fetching categories.'], 500);
         }
     }
-    
+
     public function getCategory_2Options($parentId)
     {
         try {
@@ -77,7 +77,7 @@ class LiveClassController extends Controller
             return response()->json(['error' => 'An error occurred while fetching subcategories.'], 500);
         }
     }
-    
+
     public function getData()
     {
         try {
@@ -105,7 +105,7 @@ class LiveClassController extends Controller
         try {
             // Validate the input data
             $validatedData = $request->validated();
-    
+
             // Handle banner upload (as before)
             if ($request->hasFile('banner')) {
                 $bannerFile = $request->file('banner');
@@ -114,20 +114,20 @@ class LiveClassController extends Controller
                 $bannerFile->move(public_path($destinationPath), $fileName);
                 $validatedData['banner'] = $destinationPath . '/' . $fileName;
             }
-    
+
             // Set the status to active
             $validatedData['status'] = 1;
-    
+
             // Create the live class entry in the database
             $liveClass = LiveClass::create($validatedData);
-    
+
             // Handle multiple PDF uploads and store in `live_class_pdfs` table
             if ($request->hasFile('course_pdfs')) {
                 foreach ($request->file('course_pdfs') as $pdfFile) {
                     $fileName = time() . '_' . $pdfFile->getClientOriginalName();
                     $destinationPath = 'pdfs'; // Folder for storing PDFs
                     $pdfFile->move(public_path($destinationPath), $fileName);
-    
+
                     // Save each PDF path to the live_class_pdfs table
                     LiveClassPdf::create([
                         'live_class_id' => $liveClass->id,
@@ -135,21 +135,21 @@ class LiveClassController extends Controller
                     ]);
                 }
             }
-    
+
             // Show success message
             Alert::toast('Live Class has been added successfully', 'success');
             return redirect()->back();
         } catch (Exception $e) {
             // Log error for debugging
             Log::error('Error in store method: ' . $e->getMessage());
-    
+
             // Show error message
             Alert::toast('An error occurred while creating the live class.', 'error');
             return redirect()->back()->withInput();
         }
     }
-    
-    
+
+
     public function edit($id, Request $request, LiveClassesDataTable $dataTable)
     {
         try {
@@ -187,7 +187,7 @@ class LiveClassController extends Controller
             $validatedData = $request->validate([
                 'course_name' => 'required|string|max:255',
                 'language' => 'required|string|max:255',
-               
+
                 'is_paid' => 'boolean',
                 'price' => 'nullable|numeric|min:0',
                 'discount_price' => 'nullable|numeric|min:0',
@@ -203,13 +203,13 @@ class LiveClassController extends Controller
                 $validatedData['price'] = null;
                 $validatedData['discount_price'] = null;
             }
-    
+
                if ($request->hasFile('course_pdfs')) {
                 foreach ($request->file('course_pdfs') as $pdfFile) {
                     $fileName = time() . '_' . $pdfFile->getClientOriginalName();
                     $destinationPath = 'pdfs'; // Folder for storing PDFs
                     $pdfFile->move(public_path($destinationPath), $fileName);
-    
+
                     // Save each PDF path to the live_class_pdfs table
                     LiveClassPdf::create([
                         'live_class_id' => $liveClass->id,
@@ -221,10 +221,10 @@ class LiveClassController extends Controller
                 Alert::toast('The price is required for paid courses.', 'error');
                 return redirect()->back()->withInput();
             }
-    
-          
+
+
             $liveClass->update($validatedData);
-    
+
             Alert::toast('Live Class updated successfully', 'success');
             return redirect()->route('liveclass');
         } catch (Exception $e) {

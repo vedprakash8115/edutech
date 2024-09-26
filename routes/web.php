@@ -149,6 +149,7 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::resource('testimonials',TestimonialController::class);
         Route::put('/testimonials/{id}/status', [TestimonialController::class, 'updateStatus'])->name('testimonials.updateStatus');
+        Route::get('/userroles/{id}', [TestimonialController::class, 'getRolesByUser'])->name('roles.byUser');
         Route::resource('sliders',SliderController::class);
         Route::put('/sliders/{id}/status', [SliderController::class, 'updateStatus'])->name('sliders.updateStatus');
 
