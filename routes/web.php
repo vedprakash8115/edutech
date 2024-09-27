@@ -149,6 +149,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/delete-multiple', [LiveClassPdfController::class , 'deleteMultiple'])->name('live-class-pdfs.deleteMultiple');
     });
     Route::resource('testimonials',TestimonialController::class);
+    Route::get('/userroles/{id}', [TestimonialController::class, 'getRolesByUser'])->name('roles.byUser');
     Route::put('/testimonials/{id}/status', [TestimonialController::class, 'updateStatus'])->name('testimonials.updateStatus');
     Route::resource('sliders',SliderController::class);
     Route::put('/sliders/{id}/status', [SliderController::class, 'updateStatus'])->name('sliders.updateStatus');

@@ -19,7 +19,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="name" required>
+                                <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="name" id="user-select" required>
                                     <option value="" disabled {{ !isset($single_data) ? 'selected' : '' }}>...Please Select...</option>
                                     @isset($users_list)
                                     @foreach($users_list as $user)
@@ -41,13 +41,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="role_id">Role</label>
-                                <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="role_id" required>
-                                    <option value="" disabled {{ !isset($single_data) ? 'selected' : '' }}>...Please Select...</option>
+                                <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" id="role-select" name="role_id" required>
+                                    {{-- <option value="" disabled {{ !isset($single_data) ? 'selected' : '' }}>...Please Select...</option>
                                     @isset($roles)
                                     @foreach($roles as $role)
                                         <option value="{{ $role->id }}" {{ isset($single_data) && $single_data->role_id == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                                     @endforeach
-                                    @endisset
+                                    @endisset --}}
                                 </select>
                             </div>
                         </div>
@@ -70,7 +70,28 @@
     @push('scripts')
     <script>
         $(document).ready(function() {
-            // Any additional JavaScript
+            $('#user-select').change(function() {
+                const userId = $(this).val();
+                if (userId) {
+                    $.ajax({
+                        url: '{{ route("roles.byUser", ":id") }}'.replace(':id', userId), // Use the named route
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            console.log(data.roles);
+                            const roleSelect = $('#role-select');
+                            roleSelect.empty();
+                            roleSelect.append('<option value="" disabled selected>...Please Select...</option>');
+                            roleSelect.append(`<option value="${data.roles.id}">${data.roles.name}</option>`);
+                        },
+                        error: function(xhr) {
+                            console.error(xhr);
+                        }
+                    });
+                } else {
+                    $('#role-select').empty().append('<option value="" disabled selected>...Please Select...</option>');
+                }
+            });
         });
     </script>
     @endpush

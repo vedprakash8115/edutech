@@ -67,7 +67,7 @@ class TestimonialController extends Controller
             $request->validate([
                 'name' => 'required|exists:users,id',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'role_id' => 'required|exists:roles,id',
+                'role_id' => 'nullable|exists:roles,id',
                 'description' => 'required|string|max:500',
             ]);
 
@@ -177,6 +177,14 @@ class TestimonialController extends Controller
         }
     }
 
+    public function getRolesByUser($id)
+    {
+        $user = User::findOrFail($id);
+        // Get roles using Spatie's method
+
+        $roles = $user->roles()->first();
+        return response()->json(['roles' => $roles]);
+    }
 
     public function updateStatus(Request $request, string $id)
     {
