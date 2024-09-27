@@ -20,9 +20,9 @@ return new class extends Migration
         $table->decimal('discount_price', 8, 2)->nullable();
        
             $table->string('banner')->nullable();
+            $table->string('course_validity')->nullable();
           
             $table->integer('course_duration')->nullable();
-            $table->text('about_course')->nullable();
             $table->string('course_category_id')->nullable();
             $table->date('from')->nullable();
             $table->date('to')->nullable();

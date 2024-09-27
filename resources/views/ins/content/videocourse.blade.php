@@ -66,6 +66,20 @@
                                     <label for="Language" class="text-secondary"><i class="fas fa-language"></i> Language <span class="text-secondary">*</span></label>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3" data-aos="fade-left" data-aos-duration="1000">
+                                    <select class="form-select" id="CourseValidity" name="course_validity" required>
+                                        <option value="" selected disabled>Select Course Validity</option>
+                                        <option value="1" {{ (old('course_validity', $single_data->course_validity ?? '') == '1') ? 'selected' : '' }}>1 Month</option>
+                                        <option value="6" {{ (old('course_validity', $single_data->course_validity ?? '') == '6') ? 'selected' : '' }}>6 Months</option>
+                                        <option value="12" {{ (old('course_validity', $single_data->course_validity ?? '') == '12') ? 'selected' : '' }}>1 Year</option>
+                                        <option value="24" {{ (old('course_validity', $single_data->course_validity ?? '') == '24') ? 'selected' : '' }}>2 Years</option>
+                                        <option value="36" {{ (old('course_validity', $single_data->course_validity ?? '') == '36') ? 'selected' : '' }}>3 Years</option>
+                                    </select>
+                                    <label for="CourseValidity" class="text-secondary"><i class="fas fa-calendar-alt"></i> Course Validity <span class="text-secondary">*</span></label>
+                                </div>
+                            </div>
+                            
                 
                             <!-- Banner Upload -->
                             <div class="col-md-6">

@@ -120,7 +120,7 @@
 
 <!-- Tempus Dominus JS (CDN) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.0.0-beta1/js/tempus-dominus.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
         document.addEventListener('DOMContentLoaded', function() {
     const darkThemeStylesheet = document.getElementById('dark-theme-stylesheet');

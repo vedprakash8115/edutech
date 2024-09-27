@@ -232,6 +232,7 @@ class VideoCourseController extends Controller
                 'to' => 'required|date|after:from',
                 'about_course' => 'required|string',
                 'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'course_validity' => 'nullable|string',
             ]);
     
             if ($request->input('is_paid') == 0) {

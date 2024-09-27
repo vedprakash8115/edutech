@@ -32,7 +32,8 @@ class StoreVideoCourseRequest extends FormRequest
             'course_category_id' => 'required|integer',
             'from' => 'required|date',
             'to' => 'required|date',
-           
+            'course_validity' => 'nullable|string'
+        
         ];
     }
 }

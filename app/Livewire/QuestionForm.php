@@ -35,18 +35,9 @@ class QuestionForm extends Component
     protected function rules()
     {
         return [
-            'test_id' => 'required',
-            'subject_id' => 'required',
-            'quesarray.*.question_text' => 'required|string|max:1000',
-            'quesarray.*.question_type' => 'required',
-            'quesarray.*.difficulty_level' => 'nullable',
-            'quesarray.*.marks' => 'required|integer|min:1|max:100',
-            'quesarray.*.is_optional' => 'boolean',
-            'quesarray.*.is_true' => 'nullable|boolean',
-            'quesarray.*.options.*.text' => 'nullable',
-            'quesarray.*.answer' => 'nullable',
-            'question_images.*' => 'nullable|image|max:2048',
-            'option_images.*.*' => 'nullable|image|max:2048',
+           
+           
+           
             'csv_file' => 'required|file|mimes:csv,txt|max:2048',
         ];
     }
@@ -232,11 +223,34 @@ class QuestionForm extends Component
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
+
+        foreach ($this->quesarray as $i => $question) {
+            if ($this->getErrorBag()->has("quesarray.$i.question_text")) {
+                // Dispatch the SweetAlert notification
+                $this->dispatch('swal:toast', [
+                    'icon' => 'error',
+                    'title' => 'Error Creating Test',
+                    'text' => "There was some error in the question. quesarray.$i",
+                    'timer' => 5000,
+                    'position' => 'top-end',
+                ]);
+            }
+        }
     }
 
     public function store()
     {
-        $this->validate();
+        // $this->validate();
+        // if ($this->getErrorBag()->any()) {
+        //     // Dispatch a browser event to show SweetAlert
+        //     $this->dispatch('swal:toast', [
+        //         'title' => 'Validation Error',
+        //         'text' => 'There are some errors in the questions. Please correct them and try again.',
+        //         'icon' => 'error',
+        //         'timer' => 5000,
+        //         'position' => 
+        //     ]);
+        // }
         $this->validateMultipleChoiceQuestions();
     
         // Find the chosen subject based on the stored subject_id
@@ -261,16 +275,37 @@ class QuestionForm extends Component
             // Check if the optional question count matches the subject's number of optional questions
             if ($optionalQuestionCount !== $subject['number_optional_questions']) {
                 session()->flash('error', "Subject {$subject['name']} requires {$subject['number_optional_questions']} optional questions, but {$optionalQuestionCount} were provided.");
+                $this->dispatch('swal:toast', [
+                    'icon' => 'error',
+                    'title' => 'Error Creating Test',
+                    'text' => "Subject {$subject['name']} requires {$subject['number_optional_questions']} optional questions, but {$optionalQuestionCount} were provided.",
+                    'timer' => 5000,
+                    'position' => 'top-end',
+                ]);
                 return; // Stop execution if there's a mismatch
             }
     
             // Check if the total marks exceed the subject's total marks
             if ($totalMarks > $subject['total_marks']) {
                 session()->flash('error', "The total marks ({$totalMarks}) for subject {$subject['name']} exceed the allowed total marks ({$subject['total_marks']}).");
+                $this->dispatch('swal:toast', [
+                    'icon' => 'error',
+                    'title' => 'Error Creating Test',
+                    'text' => "The total marks ({$totalMarks}) for subject {$subject['name']} exceed the allowed total marks ({$subject['total_marks']}).",
+                    'timer' => 5000,
+                    'position' => 'top-end',
+                ]);
                 return; // Stop execution if the total marks are exceeded
             }
         } else {
-            session()->flash('error', 'Selected subject not found.');
+            // session()->flash('error', 'Selected subject not found.');
+            $this->dispatch('swal:toast', [
+                'icon' => 'error',
+                'title' => 'Error Creating Test',
+                'text' => "Selected subject not found",
+                'timer' => 5000,
+                'position' => 'top-end',
+            ]);
             return;
         }
     
@@ -278,6 +313,42 @@ class QuestionForm extends Component
     
         try {
             foreach ($this->quesarray as $index => $questionData) {
+                // Validate question text
+                if (empty($questionData['question_text'])) {
+                    // session()->flash('error', '');
+                    $this->dispatch('swal:toast', [
+                        'icon' => 'error',
+                        'title' => 'Question text cannot be empty.',
+                        'timer' => 5000,
+                        'position' => 'top-end',
+                    ]);
+                    return;
+                }
+            
+                // Validate question type
+                if (empty($questionData['question_type'])) {
+                    // session()->flash('error', 'Question type must be specified.');
+                    $this->dispatch('swal:toast', [
+                        'icon' => 'error',
+                        'title' => 'Question type must be specified.',
+                        'timer' => 5000,
+                        'position' => 'top-end',
+                    ]);
+                    return;
+                }
+            
+                // Validate marks
+                if (!isset($questionData['marks']) || !is_numeric($questionData['marks'])) {
+                    // session()->flash('error', 'Marks must be a valid number.');
+                    $this->dispatch('swal:toast', [
+                        'icon' => 'error',
+                        'title' => 'Question marks must be valid.',
+                        'timer' => 5000,
+                        'position' => 'top-end',
+                    ]);
+                    return;
+                }
+            
                 $question = Question::updateOrCreate(
                     ['id' => $questionData['id'] ?? null],
                     [
@@ -292,19 +363,19 @@ class QuestionForm extends Component
                         'answer' => $questionData['answer'] ?? null,
                     ]
                 );
-    
+            
                 if (isset($this->question_images[$index]) && $this->question_images[$index]) {
                     $questionImage = $this->question_images[$index];
                     $destinationPath = 'upload_questions';
                     $fileName = time() . '_' . $questionImage->getClientOriginalName();
-    
+            
                     // Move the uploaded file to the desired location
                     $questionImage->move(public_path($destinationPath), $fileName);
-    
+            
                     // Update the question's image path in the database
                     $question->update(['image' => $destinationPath . '/' . $fileName]);
                 }
-    
+            
                 if ($questionData['question_type'] === 'multiple_choice') {
                     foreach (['a', 'b', 'c', 'd'] as $key) {
                         if (isset($questionData['options'][$key])) {
@@ -313,14 +384,14 @@ class QuestionForm extends Component
                                 'text' => $questionData['options'][$key]['text'] ?? '',
                                 'image' => null,
                             ];
-    
+            
                             if (isset($this->option_images[$index][$key]) && $this->option_images[$index][$key]) {
                                 $optionImage = $this->option_images[$index][$key];
                                 $fileName = time() . '_' . $optionImage->getClientOriginalName();
                                 $path = $optionImage->storeAs('upload_options', $fileName, 'public');
                                 $optionData['image'] = $path;
                             }
-    
+            
                             $question->options()->updateOrCreate(
                                 ['question_id' => $question->id, 'key' => $key],
                                 $optionData
@@ -331,12 +402,27 @@ class QuestionForm extends Component
             }
     
             DB::commit();
-            session()->flash('message', 'Questions and options saved successfully.');
-            // $this->resetForm();
+            // session()->flash('message', 'Questions and options saved successfully.');
+            $this->dispatch('swal:toast', [
+                'icon' => 'success',
+                'title' => 'Test successfully created',
+                'text' => "The Question have been saved successfully",
+                'timer' => 5000,
+                'position' => 'top-end',
+            ]);
+            
+            $this->resetForm();
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error saving questions: ' . $e->getMessage());
-            session()->flash('error', 'Error saving questions: ' . $e->getMessage());
+            // session()->flash('error', 'Error saving questions: ' . $e->getMessage());
+            $this->dispatch('swal:toast', [
+                'icon' => 'error',
+                'title' => 'Error saving questions',
+                'text' => "There was an error saving the questions",
+                'timer' => 5000,
+                'position' => 'top-end',
+            ]);
         }
     }
     
@@ -363,11 +449,25 @@ class QuestionForm extends Component
                 });
 
                 if (count($filledOptions) < 2) {
-                    $this->addError("quesarray.{$index}.options", 'Multiple choice questions must have at least two options.');
+                    // $this->addError("quesarray.{$index}.options", 'Multiple choice questions must have at least two options.');
+                    $this->dispatch('swal:toast', [
+                        'icon' => 'error',
+                        'title' => 'Error in options',
+                        'text' => "Multilple choice questions must have at least two filled options",
+                        'timer' => 5000,
+                        'position' => 'top-end',
+                    ]);
                 }
 
                 if (empty($questionData['answer'])) {
-                    $this->addError("quesarray.{$index}.answer", 'Please select a correct answer for the multiple choice question.');
+                    // $this->addError("quesarray.{$index}.answer", 'Please select a correct answer for the multiple choice question.');
+                    $this->dispatch('swal:toast', [
+                        'icon' => 'error',
+                        'title' => 'Correct option field required',
+                        'text' => "There is missing correct option field",
+                        'timer' => 5000,
+                        'position' => 'top-end',
+                    ]);
                 }
             }
         }
@@ -427,13 +527,27 @@ class QuestionForm extends Component
             $totalMarks += (int)$row['marks'];
 
             if ($optionalQuestionCount !== $subject['number_optional_questions']) {
-                session()->flash('error', "Subject {$subject['name']} requires {$subject['number_optional_questions']} optional questions, but {$optionalQuestionCount} were provided.");
+                // session()->flash('error', "Subject {$subject['name']} requires {$subject['number_optional_questions']} optional questions, but {$optionalQuestionCount} were provided.");
+                $this->dispatch('swal:toast', [
+                    'icon' => 'error',
+                    'title' => 'Error Creating adding questions',
+                    'text' => "Subject {$subject['name']} requires {$subject['number_optional_questions']} optional questions, but {$optionalQuestionCount} were provided.",
+                    'timer' => 5000,
+                    'position' => 'top-end',
+                ]);
                 return; // Stop execution if there's a mismatch
             }
     
             // Validate total marks against the subject's total marks
             if ($totalMarks > $subject['total_marks']) {
-                session()->flash('error', "The total marks ({$totalMarks}) for subject {$subject['name']} exceed the allowed total marks ({$subject['total_marks']}).");
+                // session()->flash('error', "The total marks ({$totalMarks}) for subject {$subject['name']} exceed the allowed total marks ({$subject['total_marks']}).");
+                $this->dispatch('swal:toast', [
+                    'icon' => 'error',
+                    'title' => 'Error Creating adding questions',
+                    'text' => "The total marks ({$totalMarks}) for subject {$subject['name']} exceed the allowed total marks ({$subject['total_marks']}).",
+                    'timer' => 5000,
+                    'position' => 'top-end',
+                ]);
                 return; // Stop execution if the total marks are exceeded
             }
             // Create the Question with boolean values converted to integers
@@ -501,7 +615,14 @@ class QuestionForm extends Component
         Log::error('CSV Import Error: ' . $e->getMessage());
 
         // Display an error message to the user
-        session()->flash('error', 'Error occurred during import: ' . $e->getMessage());
+        // session()->flash('error', 'Error occurred during import: ' . $e->getMessage());
+        $this->dispatch('swal:toast', [
+            'icon' => 'error',
+            'title' => 'Error Creating  questions',
+            'text' => "Error occurred during import: ' ",
+            'timer' => 5000,
+            'position' => 'top-end',
+        ]);
     }
 }
 
