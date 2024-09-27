@@ -313,7 +313,7 @@
                                     </div>
                                     <!-- Price -->
                                     <div class="d-flex flex-row justify-content-between align-items-center">
-                                        <p class="card-text fw-bold text-success">₹{{ $video->price }}</p>
+                                        <p class="card-text fw-bold text-success"> {{ isset($video->price) && $video->price > 0 ? '₹'.$video->price : 'Free' }}</p>
                                         <a href="#" class="btn btn-primary enroll-button">Enroll Now</a>
                                     </div>
                                 </div>

@@ -25,7 +25,7 @@ class RoleMiddleware
         if (!$user->hasRole($role)) {
             // If user doesn't have the role, you can redirect them
             if ($user->hasRole('student')) {
-                return redirect()->route('student.home')->with('error', 'Access denied!');
+                return redirect()->route('student.profile')->with('error', 'Access denied!');
             } else {
                 return redirect()->route('insdashboard')->with('error', 'Access denied!');
             }
