@@ -4,7 +4,7 @@
 
     
 <div class="card ">
-    <div class="col-md-12 d-flex justify-content-center align-items-center bg-secondary" >
+    <div class="col-md-12 d-flex justify-content-center align-items-center bg-dark" >
         <i class="fa fa-bars text-white" style="font-size: 20px;  "></i>
         {{-- {{-- <hr> --}}
     </div> 
@@ -168,7 +168,7 @@
          
            
             </div>
-            <div class="col-md-12 d-flex justify-content-center align-items-center bg-secondary" >
+            <div class="col-md-12 d-flex justify-content-center align-items-center bg-dark" >
                 <i class="fa fa-bars text-white" style="font-size: 20px;  "></i>
                 {{-- {{-- <hr> --}}
             </div> 

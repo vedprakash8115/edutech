@@ -12,7 +12,7 @@
                 <a href="{{route('mock_questions')}}"  class="text-white"><button class="btn btn-primary">Manage Questions</button></a>
 {{-- <i class="fas fa-arrow-right"></i> --}}
 
-{{-- <button class="btn btn-success">Create Options</button> --}}
+{{-- <sssbutton class="btn btn-success">Create Options</sssbutton> --}}
 
             </div>
         </div>

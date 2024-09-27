@@ -46,18 +46,17 @@ class ElibraryController extends Controller
             // Validate the input data
             $validatedData = $request->validate([
                 'title' => 'required|string|max:255',
-                'cat_level_0' => 'required|exists:course_categories,id',
-                'cat_level_1' => 'nullable|exists:course_categories,id',
-                'cat_level_2' => 'nullable|exists:course_categories,id',
+                'cat_level_0' => 'required',
                 'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'is_paid' => 'boolean',
                 'price' => 'nullable|numeric|min:0',
                 'discount_price' => 'nullable|numeric|min:0',
-                'files' => 'required',
+                'files' => 'required|array', // Ensure that 'files' is an array
+                'files.*' => 'required|max:10240', // Validate each file
                 'course_duration' => 'required',
-                'files.*' => 'required|mimes:pdf,doc,docx,txt', // Validate multiple files
                 'description' => 'nullable|string',
             ]);
+            
 
             // Handle banner upload
             $bannerPath = null;
@@ -73,8 +72,8 @@ class ElibraryController extends Controller
             $eLibrary = Elibrary::create([
                 'title' => $validatedData['title'],
                 'cat_level_0' => $validatedData['cat_level_0'],
-                'cat_level_1' => $validatedData['cat_level_1'],
-                'cat_level_2' => $validatedData['cat_level_2'],
+                // 'cat_level_1' => $validatedData['cat_level_1'],
+                // 'cat_level_2' => $validatedData['cat_level_2'],
                 'banner' => $bannerPath,
                 'is_paid' => $validatedData['is_paid'] ?? false,
                 'price' => $validatedData['price'],

@@ -89,7 +89,10 @@ class Tests extends Component
                 'allow_optional_questions' => $this->allow_optional_questions,
                 'question_attempt' => $this->question_attempt,
                 'number_of_subjects' => $this->number_of_subjects,
-                'optional_questions' => $this->total_questions - $this->question_attempt,
+                'optional_questions' => $this->question_attempt !== null 
+    ? $this->total_questions - $this->question_attempt 
+    : 0,
+
                 'select_category' => $this->select_category,
                 'question_type' => $this->question_type,
             ]);

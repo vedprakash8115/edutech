@@ -50,7 +50,7 @@
                 <!-- Categories -->
                 <div class="col-12" data-aos="fade-up">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="CategoryLevel0" name="cat_level_0" required>
                                     <option value="">Select Category</option>
@@ -65,7 +65,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-md-4" id="category-level-1">
+                        {{-- <div class="col-md-4" id="category-level-1">
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="CategoryLevel1" name="cat_level_1">
                                     <option value="">Select Subcategory</option>
@@ -74,8 +74,8 @@
                                     <i class="fas fa-list"></i> Subcategory
                                 </label>
                             </div>
-                        </div>
-                        <div class="col-md-4" id="category-level-2">
+                        </div> --}}
+                        {{-- <div class="col-md-4" id="category-level-2">
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="CategoryLevel2" name="cat_level_2">
                                     <option value="">Select Sub-subcategory</option>
@@ -84,7 +84,7 @@
                                     <i class="fas fa-list-ul"></i> Sub-subcategory
                                 </label>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
         
@@ -115,16 +115,56 @@
                 </div>
         
                 <!-- Upload Files -->
-                @if(!isset($single_data))
-                <div class="col-md-6" data-aos="fade-up">
-                    <div class="mb-3">
-                        <label for="UploadFile" class="form-label text-secondary">
-                            <i class="fas fa-file-upload"></i> Upload E-Library Files
-                        </label>
-                        <input type="file" class="form-control" id="UploadFile" name="files[]" multiple required>
+                @if (!isset($single_data))
+                <div class="col-md-12" data-aos="fade-up">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4"><i class="fas fa-file-upload"></i> File Upload</h5>
+                            
+                            <!-- Toggle Switch for Upload Files -->
+                            <input type="hidden" name="is_upload" value="0">
+                            <div class="form-check form-switch mb-4">
+                                <input class="form-check-input" type="checkbox" id="isUpload" name="is_upload" value="1"
+                                    {{ old('is_upload', $single_data->is_upload ?? false) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="isUpload">Upload Files</label>
+                            </div>
+                            
+                            <!-- File Type Radio Buttons -->
+                            <div id="fileTypeSection" class="mb-4" style="{{ old('is_upload', $single_data->is_upload ?? false) ? 'display: block;' : 'display: none;' }}">
+                                <label class="form-label fw-bold mb-3">Select File Type</label>
+                                <div class="d-flex flex-column gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="file_type" id="ebook" value="ebook"
+                                            {{ old('file_type', $single_data->file_type ?? '') == 'ebook' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="ebook">E-Book</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="file_type" id="syllabus" value="syllabus"
+                                            {{ old('file_type', $single_data->file_type ?? '') == 'syllabus' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="syllabus">Syllabus</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="file_type" id="research_paper" value="research_paper"
+                                            {{ old('file_type', $single_data->file_type ?? '') == 'research_paper' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="research_paper">Research Paper</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Dynamic File Input Section -->
+                            <div id="fileUploadSection" style="{{ old('is_upload', $single_data->is_upload ?? false) ? 'display: block;' : 'display: none;' }}">
+                                <div class="form-floating mb-3">
+                                    <input type="file" class="form-control" id="UploadFile" name="files[]" multiple>
+                                    {{-- <label for="UploadFile" id="dynamicFileLabel" class="text-secondary">
+                                        {{ old('file_type', $single_data->file_type ?? 'Choose Files') }}
+                                    </label> --}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                @endif
+            @endif
+                
         
                 <!-- Description -->
                 <div class="col-12" data-aos="fade-up">
@@ -202,6 +242,56 @@
         }
         
     });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const isUploadCheckbox = document.getElementById('isUpload');
+    const fileTypeSection = document.getElementById('fileTypeSection');
+    const fileUploadSection = document.getElementById('fileUploadSection');
+    const dynamicFileLabel = document.getElementById('dynamicFileLabel');
+    const fileTypeRadios = document.querySelectorAll('input[name="file_type"]');
+
+    // Toggle file type section and upload section based on checkbox
+    isUploadCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            fileTypeSection.style.display = 'block';
+            fileUploadSection.style.display = 'block';
+        } else {
+            fileTypeSection.style.display = 'none';
+            fileUploadSection.style.display = 'none';
+        }
+    });
+
+    // Change label dynamically based on the selected radio button
+    fileTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            switch (this.value) {
+                case 'ebook':
+                    dynamicFileLabel.textContent = 'Upload E-Books';
+                    break;
+                case 'syllabus':
+                    dynamicFileLabel.textContent = 'Upload Syllabus';
+                    break;
+                case 'research_paper':
+                    dynamicFileLabel.textContent = 'Upload Research Papers';
+                    break;
+                default:
+                    dynamicFileLabel.textContent = 'Upload Files';
+            }
+        });
+    });
+
+    // Set the initial state based on checkbox
+    if (isUploadCheckbox.checked) {
+        fileTypeSection.style.display = 'block';
+        fileUploadSection.style.display = 'block';
+    } else {
+        fileTypeSection.style.display = 'none';
+        fileUploadSection.style.display = 'none';
+    }
+});
+
+
 </script>
 
 <script>
@@ -398,5 +488,29 @@ function resetForm() {
     .dt-buttons .btn {
         margin-right: 5px;
     }
+    .card-title {
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.form-check-label {
+    font-size: 1rem;
+    color: #555;
+}
+
+.form-check-input:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+#fileTypeSection .form-label {
+    color: #333;
+    font-size: 1.1rem;
+}
+
+#fileUploadSection .form-control {
+    border: 2px dashed #ccc;
+    padding: 1rem;
+}
         </style>
 @endsection
