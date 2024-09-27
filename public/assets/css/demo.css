@@ -260,7 +260,7 @@
 }
 
 .form-control:read-only {
-  background-color: #f8f9fa;
+  /* background-color: #f8f9fa; */
 }
 .form-card {
   background-color: #fff;
@@ -297,3 +297,16 @@
   transform: scale(1.1);
   color: rgb(231, 101, 61);
 }
+.layout-navbar {
+  position: relative;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.95); /* Slight transparency if desired */
+}
+
+/* Navbar hidden state when scrolling down */
+.navbar-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+

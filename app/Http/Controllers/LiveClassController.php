@@ -29,11 +29,16 @@ class LiveClassController extends Controller
             // Fetch current classes (i.e., classes currently ongoing)
             $currentClasses = LiveClass::where('from', '<=', now())
                                        ->where('to', '>=', now())
+                                       ->latest()
+                                       ->take(4)
                                        ->get(); // No pagination needed for current/upcoming classes
 
             // Fetch upcoming classes (i.e., classes that will start in the future)
-            $upcomingClasses = LiveClass::where('from', '>', now())->get();
-
+            $upcomingClasses = LiveClass::where('from', '>', now())
+                                        ->latest()
+                                        ->take(4)
+                                        ->get();
+    
             $categories = CourseCategory0::all();
             $request->session()->forget('single_data');
 

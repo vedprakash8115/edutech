@@ -227,7 +227,23 @@
                                 @endforeach
                             </select>
                             @error('subject_id') <span class="text-danger">{{ $message }}</span> @enderror
+<<<<<<< HEAD
                         
+=======
+                        </div>
+                    @endif
+                    @if($subject_id)
+                    <div class="form-group mb-3">
+                        <label for="question_entry_type">How would you like to add questions?</label>
+                        <div>
+                            <input type="radio" name = "question_entry_type" id="manual" value="manual" wire:model.live="question_entry_type">
+                            <label for="manual">Manually</label>
+                
+                            <input type="radio" name = "question_entry_type" id="csv" value="csv" wire:model.live="question_entry_type" style="margin-left: 20px;">
+                            <label for="csv">CSV Import</label>
+                        </div>
+                        @error('question_entry_type') <span class="text-danger">{{ $message }}</span> @enderror
+>>>>>>> 1cfb7513f7dab3cda700009c111af6b6a270d6e9
                     </div>
                 </div>
 <hr>

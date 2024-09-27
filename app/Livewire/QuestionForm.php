@@ -240,6 +240,7 @@ class QuestionForm extends Component
 
     public function store()
     {
+<<<<<<< HEAD
         // $this->validate();
         // if ($this->getErrorBag()->any()) {
         //     // Dispatch a browser event to show SweetAlert
@@ -251,6 +252,9 @@ class QuestionForm extends Component
         //         'position' => 
         //     ]);
         // }
+=======
+        $this->validate();
+>>>>>>> 1cfb7513f7dab3cda700009c111af6b6a270d6e9
         $this->validateMultipleChoiceQuestions();
     
         // Find the chosen subject based on the stored subject_id

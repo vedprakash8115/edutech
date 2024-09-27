@@ -3,38 +3,43 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Auth;
+use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+    public function insindex(){
+        return view('auth.login');
+    }
+    public function login(Request $request){
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        if (Auth::attempt(['email'=>$request->email,'password'=>$request->password])) {
+            Alert::alert('Great', 'You have successfully Login!');
+            $curr_user = Auth::user();
+            $user_role = $curr_user->roles()->first();
+            // dd($user_role);
+             // Check if user has admin role and redirect accordingly
+             if ($curr_user->hasRole('admin')) {
+                return redirect()->route('insdashboard');
+            } elseif ($curr_user->hasRole('student')) {
+                return redirect()->route('student.profile');
+            } else {
+                Auth::logout(); // Logout if role doesn't match expected roles
+                Alert::alert('Error', 'You do not have the correct role.');
+                return redirect()->route('inslogin');
+            }
 
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/ins/dashboard';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+        }
+        Alert::alert('Error', 'Email or Password is incurrect!');
+        return redirect("login");
+    }
+    public function logout(){
+        Auth::logout();
+        Alert::alert('Great', 'You have successfully logout!');
+        return redirect()->route('inslogin');
     }
 }
