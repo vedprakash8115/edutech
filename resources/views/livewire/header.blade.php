@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-<div>
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="card-title">Flow Chart for mock test creation</div>
-            <div class="card-text">
-                <a href="{{route('mock_test')}}"  class="text-white"><button class="btn btn-primary">Create Test</button></a>
-                <i class="fas fa-arrow-right"></i>
-
-                <a href="{{route('mock_subjects')}}"  class="text-white"><button class="btn btn-primary">Manage Subjects</button></a>
-                <i class="fas fa-arrow-right"></i>
-
-                <a href="{{route('mock_questions')}}"  class="text-white"><button class="btn btn-primary">Manage Questions</button></a>
-{{-- <i class="fas fa-arrow-right"></i> --}}
-
-{{-- <sssbutton class="btn btn-success">Create Options</sssbutton> --}}
-
-=======
 <div class="mock-test-flowchart">
         <div class="card">
             <div class="card-body">
@@ -41,7 +23,6 @@
                         Read Instructions
                     </button>
                 </div>
->>>>>>> 1cfb7513f7dab3cda700009c111af6b6a270d6e9
             </div>
         </div>
 
