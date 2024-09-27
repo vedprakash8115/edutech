@@ -48,6 +48,8 @@ Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/',[HomeController::class,'index'])->name('index');
+Route::get('/course-details/{id}',[HomeController::class,'details'])->name('course.details');
+
 // Route::post('login', [LoginController::class, 'login'])->name('login');
 
 Route::middleware(['auth'])->group(function () {
