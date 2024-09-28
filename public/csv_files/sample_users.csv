@@ -1,0 +1,5 @@
+name,email,mobile_number,city,state,country
+John Doe,john.doe@example.com,1234567890,New York,NY,USA
+Jane Smith,jane.smith@example.com,0987654321,Los Angeles,CA,USA
+Mike Johnson,mike.johnson@example.com,1122334455,Chicago,IL,USA
+Emily Davis,emily.davis@example.com,6677889900,Houston,TX,USA

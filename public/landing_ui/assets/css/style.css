@@ -144,7 +144,10 @@ button:active,
     justify-content: center;
     margin-bottom: 3rem;
 }
-
+.carousel-item{
+  object-fit: cover;
+  height: 500px;
+}
   
   .show-more{
     width: 10rem;

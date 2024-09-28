@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\StudentHomeController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CouponController;
@@ -171,6 +172,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('profile', [StudentHomeController::class, 'index'])->name('student.profile');
         Route::put('profile/update-details', [StudentHomeController::class, 'updateDetails'])->name('student.profile.updateDetails');
         Route::put('profile/update-image', [StudentHomeController::class, 'updateImage'])->name('student.profile.updateImage');
+
+        Route::get('tests', [TestController::class, 'index'])->name('tests');
+
 
     });
 

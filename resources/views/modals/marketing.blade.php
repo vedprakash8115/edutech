@@ -2,12 +2,12 @@
 <div class="row">
         <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Notifications">
             <div class="card-hover card">
-                <a href="{{route('liveclass')}}">
+                <a href="{{route('testimonials.index')}}">
                     <div class="card-body" >
                         <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                             <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                                 <div class="card-title">
-                                    <h4 class="text-nowrap mb-">Notifications</h>
+                                    <h4 class="text-nowrap mb-">Testimonials</h>
                                 </div>
                                 <div class="mt-sm-auto">
                                     <h5 class="mb-0">$84,686k</h5>
@@ -107,7 +107,7 @@
         </div>
         <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Coupon code">
             <div class="card-hover card">
-                <a href="{{route('liveclass')}}">
+                <a href="{{route('coupons.index')}}">
                     <div class="card-body" >
                         <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                             <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">

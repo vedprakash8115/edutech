@@ -153,3 +153,112 @@
 .achievement-badge:hover {
     transform: scale(1.1);
 }
+
+
+
+
+.my-tests-section {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-top: 50px;
+}
+.section-title {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.nav-pills .nav-link {
+    color: #495057;
+    background-color: #e9ecef;
+    border-radius: 30px;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+.nav-pills .nav-link.active {
+    background-color: #007bff;
+    color: #fff;
+}
+.test-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+}
+.test-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.test-card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    padding: 15px 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.test-card-body {
+    padding: 20px;
+}
+.test-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+.test-info {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+.btn-view-result {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #fff;
+    border-radius: 20px;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+.btn-view-result:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-2px);
+}
+.btn-retake {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: #fff;
+    border-radius: 20px;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+.btn-retake:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+    transform: translateY(-2px);
+}
+.score-badge {
+    background-color: #ffc107;
+    color: #212529;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+.pagination {
+    justify-content: center;
+    margin-top: 30px;
+}
+.page-link {
+    color: #007bff;
+    border-radius: 50%;
+    margin: 0 5px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+}

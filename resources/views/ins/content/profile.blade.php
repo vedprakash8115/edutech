@@ -89,6 +89,8 @@
                             
                             <!-- Modal Body with Instructions -->
                             <div class="modal-body">
+                                <a href="{{asset('csv_files/sample_users.csv')}}" class="btn btn-info">Sample user csv</a>
+
                                 <p>When bulk adding users, ensure your CSV file follows the format below:</p>
                                 
                                 <!-- Instructions Table -->
@@ -140,6 +142,7 @@
                             <!-- Modal Footer -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
                             </div>
                         </div>
                     </div>
