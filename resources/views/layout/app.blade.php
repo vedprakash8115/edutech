@@ -30,24 +30,28 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/apex-charts/apex-charts.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf_viewer.min.css">
+    
 
-    <!-- dark theme  -->
-    <link id="dark-theme-stylesheet" href="{{ asset('assets/css/dark-theme.css') }}" rel="stylesheet" disabled>
-    <script>
-    (function() {
-      const savedTheme = localStorage.getItem('theme') || 'light'; // Default to 'light' if not set
-      document.documentElement.setAttribute('data-bs-theme', savedTheme);
-      
-      // Handle dark theme stylesheets
-      const darkThemeStylesheet = document.getElementById('dark-theme-stylesheet');
-      if (darkThemeStylesheet) {
-        darkThemeStylesheet.disabled = savedTheme === 'light';
-      }
-    })();
+
+<!-- dark theme  -->
+<link id="dark-theme-stylesheet" href="{{ asset('assets/css/dark-theme.css') }}" rel="stylesheet" disabled>
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme') || 'light'; // Default to 'light' if not set
+    document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    
+    // Handle dark theme stylesheets
+    const darkThemeStylesheet = document.getElementById('dark-theme-stylesheet');
+    if (darkThemeStylesheet) {
+      darkThemeStylesheet.disabled = savedTheme === 'light';
+    }
+  })();
   </script>
 
-    <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
-    <script src="{{asset('assets/js/config.js')}}"></script>
+<script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
+<script src="{{asset('assets/js/config.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
 
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script> --}}

@@ -16,4 +16,9 @@ class VideoCourse extends Model
         return $this->hasMany(Video::class);
     }
 
+    public function folders()
+    {
+        return $this->hasMany(Folder::class);
+    }
+
 }

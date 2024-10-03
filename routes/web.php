@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminProfileController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\FolderController;
 use App\Http\Controllers\StudentHomeController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -163,6 +165,29 @@ Route::middleware(['auth'])->group(function () {
             route::post('user/bulk-add-users', [AdminProfileController::class, 'bulkAddUsers'])->name('admin.bulkAddUsers');
 
         });
+
+                // View file manager for a video course
+        Route::get('/video-course/{id}/folders', [FolderController::class, 'index'])->name('folders.index');
+        Route::get('folder/{folderId}', [FolderController::class, 'showFolder'])->name('folders.show');
+
+        // Create a new folder
+        Route::post('/video-course/{id}/folders/create', [FolderController::class, 'createFolder'])->name('folders.create');
+
+        // Upload a file to a folder
+        // Root-level upload
+        Route::post('/video-course/{videoCourseId}/upload', [FolderController::class, 'uploadFile'])->name('folders.upload');
+
+        // Subfolder-level upload
+        Route::post('/video-course/{videoCourseId}/folder/{folderId}/upload', [FolderController::class, 'uploadFile'])->name('folders.subfolder.upload');
+
+        Route::put('/folders/{id}/rename', [FolderController::class, 'rename'])->name('folders.rename');
+        Route::delete('/folders/{id}/delete', [FolderController::class, 'delete'])->name('folders.delete');
+        Route::get('/search-folders/{videoCourseId}', [FolderController::class, 'searchFolders'])->name('folders.search');
+        Route::put('/files/{fileId}/rename', [FileController::class, 'renameFile'])->name('files.rename');
+        Route::delete('/files/{fileId}/delete', [FileController::class, 'deleteFile'])->name('files.delete');
+
+        
+
     });
 
     
@@ -174,6 +199,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('profile/update-image', [StudentHomeController::class, 'updateImage'])->name('student.profile.updateImage');
 
         Route::get('tests', [TestController::class, 'index'])->name('tests');
+
+        
 
 
     });
