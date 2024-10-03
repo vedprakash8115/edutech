@@ -226,6 +226,7 @@
         </div>
     </div>
 </div>
+
 <script>
    document.addEventListener('DOMContentLoaded', function () {
     // Get the Rename File Modal and its related elements

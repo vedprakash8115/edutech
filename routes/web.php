@@ -185,7 +185,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/search-folders/{videoCourseId}', [FolderController::class, 'searchFolders'])->name('folders.search');
         Route::put('/files/{fileId}/rename', [FileController::class, 'renameFile'])->name('files.rename');
         Route::delete('/files/{fileId}/delete', [FileController::class, 'deleteFile'])->name('files.delete');
+        Route::get('/hierarchy/{videoCourseId}', [FolderController::class, 'showHierarchy'])->name('folders.hierarchy');
+        Route::get('/folders/load-subfolders/{parentId}', [FolderController::class, 'loadSubfolders'])->name('folder.subfolders');
 
+
+            
         
 
     });

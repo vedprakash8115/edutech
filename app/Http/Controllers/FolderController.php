@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Folder;
 use App\Models\File;
+use App\Models\FolderHierarchy;
 use App\Models\VideoCourse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FolderController extends Controller
 {
@@ -56,11 +58,13 @@ class FolderController extends Controller
         ]);
 
         // Create a new folder, either under a parent folder or as a root folder
-        Folder::create([
+        $folder = Folder::create([
             'name' => $request->name,
             'video_course_id' => $videoCourseId,
             'parent_folder_id' => $request->parent_id // null if it's a root folder
         ]);
+
+        $this->updateClosureTable($folder, $request->parent_id);
 
         return back()->with('success', 'Folder created successfully.');
     }
@@ -171,7 +175,72 @@ class FolderController extends Controller
         // Return JSON response
         return response()->json($folders);
     }
+
+    protected function updateClosureTable(Folder $folder, $parentId = null)
+    {
+        // Use a transaction to ensure data consistency
+        \DB::transaction(function () use ($folder, $parentId) {
     
+            // Clear any existing descendants/ancestors for this folder
+            FolderHierarchy::where('descendant_id', $folder->id)->delete();
+    
+            // Always create a self-relation (folder is its own ancestor with depth 0)
+            FolderHierarchy::create([
+                'ancestor_id' => $folder->id,
+                'descendant_id' => $folder->id,
+                'depth' => 0,
+            ]);
+    
+            if ($parentId) {
+                $parentFolder = Folder::findOrFail($parentId);
+    
+                // Insert the parent and all of its ancestors as ancestors of this folder
+                foreach ($parentFolder->ancestors as $ancestor) {
+                    FolderHierarchy::create([
+                        'ancestor_id' => $ancestor->id,
+                        'descendant_id' => $folder->id,
+                        'depth' => $ancestor->pivot->depth + 1,
+                    ]);
+                }
+    
+                // Direct parent-child relationship (depth 1)
+                FolderHierarchy::create([
+                    'ancestor_id' => $parentFolder->id,
+                    'descendant_id' => $folder->id,
+                    'depth' => 1,
+                ]);
+            }
+        });
+    }
+    
+
+    public function showHierarchy($videoCourseId)
+    {
+        // Fetch root folders for the given video course with depth = 0 and parent_folder_id = null
+        $rootFolders = Folder::whereHas('ancestors', function($query) {
+                $query->where('folder_hierarchy.depth', 0);
+            })
+            ->where('parent_folder_id', null) // Ensure the folder has no parent in the folders table
+            ->where('video_course_id', $videoCourseId) // Filter by video course
+            ->get();
+
+        return view('ins.content.folders.hierarchy', compact('rootFolders'));
+    }
+
+    
+    public function loadSubfolders($folderId)
+    {
+        // Fetch direct subfolders of the parent (depth = 1 relative to this folder)
+        $subfolders = Folder::whereHas('ancestors', function($query) use ($folderId) {
+            $query->where('ancestor_id', $folderId)
+                  ->where('depth', 1);
+        })->get();
+    
+        // Return the subfolders as JSON response for the AJAX call
+        return response()->json($subfolders);
+    }
+    
+
 
 
 }

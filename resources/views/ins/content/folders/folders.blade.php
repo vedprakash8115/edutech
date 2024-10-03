@@ -5,10 +5,14 @@
     <div class="row">
         <!-- Main Content Area -->
         <div class="col-12">
-            <h1 class="mb-4">
-                {{ $videoCourse->course_name ?? $folder->name }} course
-            </h1>
+            <div class="d-flex w-100 justify-content-between">
+                <h1 class="mb-4 ">
+                    {{ $videoCourse->course_name ?? $folder->name }} course
+                </h1>
+                <a class="folder-structure btn btn-info" href="{{route('folders.hierarchy',$videoCourse->id)}}">View folder structure</a>
 
+
+            </div>
 
             <!-- Breadcrumb -->
             <div class="row">
@@ -113,7 +117,7 @@
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
                                                 <button class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteFileModal"
-                                                data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
+                                                    data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>
@@ -127,11 +131,11 @@
                                             <span>{{ $file->name }}</span>
                                             <div class="actions">
                                                 <button class="rename-btn" data-bs-toggle="modal" data-bs-target="#renameFileModal"
-                                                data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
+                                                    data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
                                                 <button class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteFileModal"
-                                                data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
+                                                    data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>
@@ -145,11 +149,11 @@
                                             <span>{{ $file->name }}</span>
                                             <div class="actions">
                                                 <button class="rename-btn" data-bs-toggle="modal" data-bs-target="#renameFileModal"
-                                                data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
+                                                    data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
                                                 <button class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteFileModal"
-                                                data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
+                                                    data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>
@@ -169,7 +173,7 @@
                                     @if($file->type == 'image')
                                         <!-- Use Lightbox for images -->
                                         <a href="{{ $fileUrl }}" data-lightbox="image-gallery" data-title="{{ $file->name }}" class="file-item">
-                                        <button class="menu"><i class="bi bi-three-dots-vertical "></i></button>
+                                            <button class="menu"><i class="bi bi-three-dots-vertical "></i></button>
 
                                             <img src="{{ $fileUrl }}" alt="{{ $file->name }}" class="img-thumbnail"
                                                 style="width: 100px; height: 100px; border-radius: 10px">
@@ -180,7 +184,7 @@
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
                                                 <button class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteFileModal"
-                                                data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
+                                                    data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>
@@ -188,7 +192,7 @@
                                     @elseif($file->type == 'pdf')
                                         <!-- PDF files handled by PDF.js -->
                                         <a href="javascript:void(0);" onclick="openPDF('{{ $fileUrl }}');" class="file-item">
-                                        <button class="menu"><i class="bi bi-three-dots-vertical "></i></button>
+                                            <button class="menu"><i class="bi bi-three-dots-vertical "></i></button>
 
                                             <i class="bi bi-file-earmark-pdf"></i>
                                             <span>{{ $file->name }}</span>
@@ -198,7 +202,7 @@
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
                                                 <button class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteFileModal"
-                                                data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
+                                                    data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>
@@ -206,7 +210,7 @@
                                     @else
                                         <!-- Other files -->
                                         <a href="{{ $fileUrl }}" target="_blank" class="file-item">
-                                        <button class="menu"><i class="bi bi-three-dots-vertical "></i></button>
+                                            <button class="menu"><i class="bi bi-three-dots-vertical "></i></button>
 
                                             <i class="bi bi-file-earmark"></i>
                                             <span>{{ $file->name }}</span>
@@ -216,7 +220,7 @@
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
                                                 <button class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteFileModal"
-                                                data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
+                                                    data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>

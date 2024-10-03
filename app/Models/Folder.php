@@ -32,4 +32,15 @@ class Folder extends Model
     {
         return $this->hasMany(File::class);
     }
+    public function ancestors()
+    {
+        return $this->belongsToMany(Folder::class, 'folder_hierarchy', 'descendant_id', 'ancestor_id')
+                    ->withPivot('depth');
+    }
+
+    public function descendants()
+    {
+        return $this->belongsToMany(Folder::class, 'folder_hierarchy', 'ancestor_id', 'descendant_id')
+                    ->withPivot('depth');
+    }
 }
