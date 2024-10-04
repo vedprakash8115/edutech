@@ -187,11 +187,9 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/files/{fileId}/delete', [FileController::class, 'deleteFile'])->name('files.delete');
         Route::get('/hierarchy/{videoCourseId}', [FolderController::class, 'showHierarchy'])->name('folders.hierarchy');
         Route::get('/folders/load-subfolders/{parentId}', [FolderController::class, 'loadSubfolders'])->name('folder.subfolders');
-
-
-            
-        
-
+        Route::post('/folders/move-folder/{draggedId}/to/{targetId}', [FolderController::class, 'moveFolder']);
+        Route::post('/move-file/{fileId}/to/{targetFolderId}', [FileController::class,'moveFile']);
+                    
     });
 
     

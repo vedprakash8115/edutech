@@ -175,6 +175,41 @@ class FolderController extends Controller
         // Return JSON response
         return response()->json($folders);
     }
+    public function moveFolder($draggedId, $targetId)
+    {
+        try {
+            // \Log::info("Moving folder from $draggedId to $targetId");
+
+            // Find the dragged folder
+            $draggedFolder = Folder::findOrFail($draggedId);
+            $oldParentId = $draggedFolder->parent_id;
+
+            // Update the parent_id of the dragged folder
+            $draggedFolder->parent_folder_id = $targetId;
+            $draggedFolder->save();
+
+            // Update the closure table
+            // If the folder is being moved to a new parent, update the closure table
+            if ($oldParentId !== $targetId) {
+                $this->updateClosureTable($draggedFolder, $targetId);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Folder moved successfully',
+                'draggedFolderId' => $draggedId,
+                'targetFolderId' => $targetId
+            ]);
+        } catch (\Exception $e) {
+            // \Log::error("Error moving folder: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error moving folder: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+
 
     protected function updateClosureTable(Folder $folder, $parentId = null)
     {
@@ -231,13 +266,19 @@ class FolderController extends Controller
     public function loadSubfolders($folderId)
     {
         // Fetch direct subfolders of the parent (depth = 1 relative to this folder)
-        $subfolders = Folder::whereHas('ancestors', function($query) use ($folderId) {
+        $subfolders = Folder::with('files') // Eager load the files relationship
+        ->whereHas('ancestors', function ($query) use ($folderId) {
             $query->where('ancestor_id', $folderId)
                   ->where('depth', 1);
         })->get();
     
-        // Return the subfolders as JSON response for the AJAX call
-        return response()->json($subfolders);
+        $files = File::where('folder_id', $folderId)->get();
+
+    // Return the subfolders and files as JSON response for the AJAX call
+    return response()->json([
+        'subfolders' => $subfolders, // Subfolders with their own files
+        'files' => $files            // Files of the parent folder
+    ]);
     }
     
 

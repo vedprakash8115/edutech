@@ -31,6 +31,26 @@ class FileController extends Controller
 
         return back()->with('success', 'File deleted successfully.');
     }
+    public function moveFile($fileId, $targetFolderId)
+    {
+        try {
+            // Move file logic
+            $draggedFile = File::findOrFail($fileId);
+            $draggedFile->folder_id = $targetFolderId;
+            $draggedFile->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'File moved successfully',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error moving file: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
 
 
 }

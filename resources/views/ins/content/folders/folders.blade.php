@@ -9,7 +9,7 @@
                 <h1 class="mb-4 ">
                     {{ $videoCourse->course_name ?? $folder->name }} course
                 </h1>
-                <a class="folder-structure btn btn-info" href="{{route('folders.hierarchy',$videoCourse->id)}}">View folder structure</a>
+                <a class="folder-structure btn btn-info" href="{{route('folders.hierarchy',$videoCourse->id)}}">Move folders/files</a>
 
 
             </div>
