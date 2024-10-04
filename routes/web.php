@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminProfileController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\StudentHomeController;
@@ -187,8 +188,13 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/files/{fileId}/delete', [FileController::class, 'deleteFile'])->name('files.delete');
         Route::get('/hierarchy/{videoCourseId}', [FolderController::class, 'showHierarchy'])->name('folders.hierarchy');
         Route::get('/folders/load-subfolders/{parentId}', [FolderController::class, 'loadSubfolders'])->name('folder.subfolders');
-        Route::post('/folders/move-folder/{draggedId}/to/{targetId}', [FolderController::class, 'moveFolder']);
+        Route::post('/move-folder/{draggedId}/to/{targetId}', [FolderController::class, 'moveFolder']);
         Route::post('/move-file/{fileId}/to/{targetFolderId}', [FileController::class,'moveFile']);
+
+
+
+        // chats
+        Route::get('/chat-support',[ChatController::class,'index'])->name('chats'); 
                     
     });
 

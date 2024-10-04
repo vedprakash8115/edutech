@@ -195,11 +195,11 @@
                         return response.json();
                     })
                     .then(data => {
-                        console.log(`${draggedType} moved successfully:`, data);
+                        // console.log(`${draggedType} moved successfully:`, data);
                     })
                     .catch(error => {
                         console.error(`Error moving ${draggedType}:`, error);
-                        alert(`An error occurred while moving the ${draggedType}. Please try again.`);
+                        // alert(`An error occurred while moving the ${draggedType}. Please try again.`);
                     });
                 }
             });
@@ -240,7 +240,7 @@ function expandFolder() {
         const { subfolders, files } = data; // Destructure the response to get subfolders and files
 
         // If there are files in the parent folder, append them first
-        if (files && files.length > 0) {
+        if (files && files.length > 0 || subfolders && subfolders.length > 0) {
             let parentFilesHTML = `<div class="files">`;
             files.forEach(file => {
                 parentFilesHTML += `
@@ -254,10 +254,8 @@ function expandFolder() {
 
             // Append parent folder files before subfolders
             subfolderContainer.innerHTML += parentFilesHTML;
-        }
 
         // If there are subfolders, append them with their respective files
-        if (subfolders && subfolders.length > 0) {
             subfolders.forEach(subfolder => {
                 // Subfolder HTML structure
                 let subfolderHTML = `
@@ -276,7 +274,7 @@ function expandFolder() {
                 // Append subfolder
                 subfolderContainer.innerHTML += subfolderHTML;
             });
-        } else {
+         }else {
             subfolderContainer.innerHTML += `<div class="folder-content ms-4 no-subfolders">
                             <button class="expand-btn">
                                 <i class="bi bi-circle-fill"></i>

@@ -178,7 +178,7 @@ class FolderController extends Controller
     public function moveFolder($draggedId, $targetId)
     {
         try {
-            // \Log::info("Moving folder from $draggedId to $targetId");
+            \Log::info("Moving folder from $draggedId to $targetId");
 
             // Find the dragged folder
             $draggedFolder = Folder::findOrFail($draggedId);
@@ -201,7 +201,7 @@ class FolderController extends Controller
                 'targetFolderId' => $targetId
             ]);
         } catch (\Exception $e) {
-            // \Log::error("Error moving folder: " . $e->getMessage());
+            \Log::error("Error moving folder: " . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Error moving folder: ' . $e->getMessage()
