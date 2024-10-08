@@ -253,7 +253,7 @@
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle" >
+              <a href="{{route('admin.support.index')}}" class="menu-link" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-headset"></i> <!-- Headset icon -->
 

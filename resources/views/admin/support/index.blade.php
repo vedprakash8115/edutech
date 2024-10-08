@@ -125,14 +125,6 @@
 
 @push('styles')
 <style>
-    /* ... (keep your existing styles) ... */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-
-body {
-    font-family: 'Poppins', sans-serif;
-    color: #1a365d;
-    background-color: #f8f9fa;
-}
 
 .card {
     border-radius: 0.75rem;

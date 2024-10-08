@@ -50,6 +50,18 @@
                 My eBooks
             </a>
         </li>
+        <li class="sidebar-item">
+            <a href="{{route('student.support.index')}}" class="sidebar-link" {{ Route::is('user.ebooks') ? 'active' : '' }}>
+                <i class="bi bi-file-earmark-pdf me-2"></i>
+                Support
+            </a>
+        </li>
+        <li class="chats">
+            <a href="{{route('chats')}}" class="sidebar-link" {{ Route::is('user.ebooks') ? 'active' : '' }}>
+                <i class="bi bi-file-earmark-pdf me-2"></i>
+                Chat Support
+            </a>
+        </li>
     </ul>
 </div>
 
