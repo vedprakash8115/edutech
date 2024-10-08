@@ -28,7 +28,13 @@
     />
 
     <title>Login Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
-
+<script>
+   <script>
+          window.onpopstate = function(event) {
+            location.reload();  // Reload the previous page
+        };
+      </script>
+</script>
     <meta name="description" content="" />
 
     <!-- Favicon -->

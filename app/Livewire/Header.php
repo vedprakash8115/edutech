@@ -8,6 +8,14 @@ class Header extends Component
 {
 
     public $isMenuOpen = false;
+    public $currentStep = 1;
+    public $maxStep = 1;
+
+    public function mount($currentStep = 1, $maxStep = 1)
+    {
+        $this->currentStep = $currentStep;
+        $this->maxStep = $maxStep;
+    }
 
     public $steps = [
         ['icon' => 'fa-file-alt', 'text' => 'Create Test', 'route' => 'mock_test'],
@@ -18,6 +26,17 @@ class Header extends Component
     public function toggleMenu()
     {
         $this->isMenuOpen = !$this->isMenuOpen;
+    }
+    public function toggleInstructions()
+    {
+        $this->showInstructions = !$this->showInstructions;
+    }
+
+  
+    public function setStep($step)
+    {
+        $this->currentStep = $step;
+        $this->maxStep = max($this->maxStep, $step);
     }
     public function render()
     {

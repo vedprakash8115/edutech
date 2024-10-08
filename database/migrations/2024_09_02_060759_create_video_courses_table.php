@@ -21,6 +21,7 @@ return new class extends Migration
        
             $table->string('banner')->nullable();
             $table->string('course_validity')->nullable();
+            $table->string('about_course')->nullable();
           
             $table->integer('course_duration')->nullable();
             $table->string('course_category_id')->nullable();

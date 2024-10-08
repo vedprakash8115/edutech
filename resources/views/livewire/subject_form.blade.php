@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    @livewire('header')
+    @livewire('header', ['currentStep' => 2, 'maxStep' => 2])
     <div class="card py-2">
         <div class="card-body">
             <div class="card-title">Create Subjects</div>

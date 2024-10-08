@@ -6,7 +6,7 @@ use App\Models\Slider;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
-
+use Illuminate\Support\Facades\Log;
 class SliderController extends Controller
 {
     /**
@@ -91,6 +91,7 @@ class SliderController extends Controller
             Alert::toast('Slider added successfully!', 'success');
             return redirect()->route('sliders.index');
         } catch (\Exception $e) {
+            Log::error('This is an error message.'.$e);
             Alert::toast('Failed to add slider. Please try again.', 'error');
             return redirect()->route('sliders.create')->withInput();
         }

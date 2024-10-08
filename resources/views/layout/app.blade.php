@@ -9,15 +9,57 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{asset('assets/img/favicon/favicon.ico')}}" />
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    {{-- <link rel="preconnect" href="https://fonts.googleapis.com" /> --}}
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
     />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.2/dist/cdn.min.js" defer></script>
 
+    <!-- Locomotive Scroll -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    
+    <!-- Custom CSS for color scheme -->
+    <style>
+      :root {
+          --primary-color: #3498db;
+          --secondary-color: #f1c40f;
+          --text-color: #2c3e50;
+          --background-color: #fdfdfd;
+      }
+      body {
+          background-color: var(--background-color);
+          color: var(--text-color);
+      }
+      .btn-primary {
+          background-color: var(--primary-color);
+          border-color: var(--primary-color);
+      }
+      .btn-primary:hover {
+          background-color: #2980b9;
+          border-color: #2980b9;
+      }
+      .card {
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+      }
+      .card:hover {
+          box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+      }
+      .form-control:focus {
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+      }
+  </style>
     <!-- Icons. Uncomment required icon fonts -->
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"> --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script> --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+  </body>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{asset('assets/vendor/fonts/boxicons.css')}}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -62,6 +104,38 @@
         }
 
       </style>
+      <style>
+        .btn-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-circle:hover {
+            transform: scale(1.1);
+        }
+        
+        .progress {
+            background-color: #e9ecef;
+        }
+        </style>
+        
+        <script>
+        document.addEventListener('livewire:load', function () {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    mirror: false
+                });
+            }
+        });
+        </script>
     @stack('styles')
   </head>
 
@@ -75,10 +149,10 @@
              @include('layout.header')
        <!-- Content wrapper -->
              <div class="content-wrapper">
-                <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="container-xxl flex-grow-1 container-p-y" data-scroll-container>
                      @yield('content')
                 </div>
-                 @include('layout.footer')
+                 {{-- @include('layout.footer') --}}
                 <div class="content-backdrop fade"></div>
             </div>
           <!-- Content wrapper -->
@@ -179,6 +253,20 @@
 });
 
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    <!-- Initialize Locomotive Scroll -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const scroll = new LocomotiveScroll({
+                el: document.querySelector('[data-scroll-container]'),
+                smooth: true
+            });
+        });
+    </script>
+    
+    <!-- Axios for AJAX requests -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     @include('sweetalert::alert')
 
     @stack('scripts')
