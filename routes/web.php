@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\StudentHomeController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -195,6 +196,22 @@ Route::middleware(['auth'])->group(function () {
 
         // chats
         Route::get('/chat-support',[ChatController::class,'index'])->name('chats'); 
+        Route::get('/chat-support/{videoCoursesId}/groups', [ChatController::class, 'chatroom'])->name('chats.groups');
+        Route::post('groups/store', [ChatController::class, 'storeGroup'])->name('groups.store');
+
+        Route::post('groups/add-people/{groupId}', [MessageController::class, 'addPeopleToGroup'])->name('groups.addPeople');
+        Route::get('/chat-support/groups/{groupId}/load-chat', [MessageController::class, 'index'])->name('groups.loadChat');
+        Route::post('/chat-support/messages/store', [MessageController::class, 'store'])->name('messages.store');
+        Route::get('/chat-support/groups/{groupId}/available-students', [MessageController::class, 'availableStudents']);
+        // Route to fetch available teachers
+        Route::get('/chat-support/groups/teachers', [MessageController::class, 'getAvailableTeachers']);
+
+        // Route to assign a teacher to a group
+        Route::post('/chat-support/groups/{groupId}/assign-teacher', [MessageController::class, 'assignTeacher']);
+
+
+
+
                     
     });
 

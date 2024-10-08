@@ -128,21 +128,30 @@
                                 </div>
                             </div>
                 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-floating mb-3" data-aos="fade-right" data-aos-duration="1000">
                                     <input type="date" class="form-control" id="to" name="to" value="{{ old('to', isset($single_data->to) ? \Carbon\Carbon::parse($single_data->to)->format('Y-m-d') : '') }}" required>
                                     <label for="to" class="text-secondary"><i class="fas fa-calendar-alt"></i> To <span class="text-secondary">*</span></label>
                                 </div>
                             </div>
-                
-                            <!-- About Course -->
-                            <div class="col-12">
-                                <div class="form-floating mb-3" data-aos="fade-up" data-aos-duration="1000">
-                                    
-                                    <textarea class="form-control" id="AboutCourse" name="about_course" placeholder="Enter course details here" style="height: 100px;">{{ old('about_course', $single_data->about_course ?? '') }}</textarea>
-                                    <label for="AboutCourse" class="text-secondary"><i class="fas fa-info-circle"></i> About Course</label>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3" data-aos="fade-right" data-aos-duration="1000">
+                                    <div class="form-control d-flex flex-wrap align-items-center gap-2 multi-subject-container" onclick="focusInput(this)" style="min-height: 58px; cursor: text;">
+                                        <div id="subjectTags" class="d-flex flex-wrap align-items-center gap-2">
+                                            <!-- Subject tags will be inserted here -->
+                                        </div>
+                                        <input type="text" id="subjectInput" class="border-0 flex-grow-1 bg-transparent" style="outline: none; min-width: 60px;" placeholder="Add subjects" onkeydown="handleKeyDown(event)">
+                                    </div>
+                                    <label for="subjectInput" class="text-secondary">
+                                        <i class="fas fa-calendar-alt"></i> Add subjects <span class="text-secondary">*</span>
+                                    </label>
                                 </div>
                             </div>
+                            <input type="hidden" id="subjectsHidden" name="subjects" value="">
+                
+                            <!-- About Course -->
+                          
                 
                             <!-- Pricing Section - Full Width -->
                             <div class="col-12">
@@ -194,6 +203,48 @@
     @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
+<script>
+    let subjects = [];
+
+    function handleKeyDown(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            addSubject();
+        }
+    }
+
+    function addSubject() {
+        const input = document.getElementById('subjectInput');
+        const subject = input.value.trim();
+        if (subject && !subjects.includes(subject)) {
+            subjects.push(subject);
+            renderSubjects();
+            input.value = '';
+        }
+    }
+
+    function removeSubject(subject) {
+        subjects = subjects.filter(s => s !== subject);
+        renderSubjects();
+    }
+
+    function renderSubjects() {
+        const container = document.getElementById('subjectTags');
+        container.innerHTML = subjects.map(subject => `
+            <span class="badge bg-primary me-2 d-flex align-items-center">
+                ${subject}
+                <button type="button" class="btn-close btn-close-white ms-2" 
+                        onclick="removeSubject('${subject}')" 
+                        aria-label="Remove subject" 
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top" 
+                        title="Remove subject"></button>
+            </span>
+        `).join('');
+
+        document.getElementById('subjectsHidden').value = JSON.stringify(subjects);
+    }
+</script>
 
 <Script>
     const createCourseBtn = document.getElementById('toggleBtn');

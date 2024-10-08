@@ -160,12 +160,7 @@
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a href="{{ route('users.index')}}" class="menu-link {{ request()->routeIs('users.index') ? 'active' : '' }}" >
-                    <div class="ms-2" data-i18n="Basic">All Users</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{{ route('users.create')}}" class="menu-link {{ request()->routeIs('users.create') ? 'active' : '' }}" >
-                    <div class="ms-2" data-i18n="Basic">Add Users</div>
+                    <div class="ms-2" data-i18n="Basic">Manage Users</div>
                   </a>
                 </li>
                 <li class="menu-item">

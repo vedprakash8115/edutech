@@ -1,138 +1,106 @@
 @extends('layout.app')
 
 @section('content')
-<div class="chat-container">
-        <div class="row g-0">
-            <!-- Groups Section -->
-            <div class="col-md-4 groups-section">
-                <div class="p-3">
-                    <h5 class="mb-3">Groups</h5>
-                    <div class="group-item d-flex align-items-center p-2 mb-2 rounded active">
-                        <img src="{{asset('image/avatar.jpg')}}" alt="Group 1" class="avatar me-3">
-                        <div>
-                            <h6 class="mb-0">Family Group</h6>
-                            <small class="text-muted">You: See you all soon!</small>
+<div class="courses-container">
+        <div class="courses-header">
+            <h1 class="mb-0 text-white"><i class="fas fa-graduation-cap me-2"></i>Chat Support</h1>
+        </div>
+        <div class="course-grid">
+            <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-4">
+                @forelse($videoCourses as $course)
+                    <a href="{{route('chats.groups',$course->id)}}">
+                        <div class="col">
+                            <div class="course-item">
+                                <img src="{{ $course->banner ?? '/api/placeholder/400/200' }}" alt="{{ $course->title }}" class="course-image">
+                                <div class="course-content">
+                                    <h5 class="course-title">{{ $course->course_name }}</h5>
+                                    <p class="course-description mb-3">{{ Str::limit($course->about_course, 80) }}</p>
+                                    <div class="course-meta d-flex justify-content-between align-items-center">
+                                        <span>
+                                            <i class="fas fa-clock me-1"></i>{{ $course->duration }} mins
+                                        </span>
+                                        <span class="badge badge-custom">{{ $course->category }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </a>
+                @empty
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-film fa-3x text-muted mb-3"></i>
+                        <p class="lead">No video courses available at the moment.</p>
                     </div>
-                    <div class="group-item d-flex align-items-center p-2 mb-2 rounded">
-                        <img src="{{asset('image/avatar.jpg')}}" alt="Group 2" class="avatar me-3">
-                        <div>
-                            <h6 class="mb-0">Work Team</h6>
-                            <small class="text-muted">John: Meeting at 3 PM</small>
-                        </div>
-                    </div>
-                    <div class="group-item d-flex align-items-center p-2 mb-2 rounded">
-                        <img src="{{asset('image/avatar.jpg')}}" alt="Group 3" class="avatar me-3">
-                        <div>
-                            <h6 class="mb-0">Book Club</h6>
-                            <small class="text-muted">Sarah: What's next on our list?</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chats Section -->
-            <div class="col-md-8 chats-section">
-                <div class="chat-header p-3 d-flex align-items-center">
-                    <img src="{{asset('image/avatar.jpg')}}" alt="Family Group" class="avatar me-3">
-                    <div>
-                        <h5 class="mb-0">Family Group</h5>
-                        <small class="text-muted">5 members</small>
-                    </div>
-                </div>
-                <div class="chat-messages">
-                    <div class="message message-received">
-                        <p class="mb-0">Hey everyone! Are we still on for dinner tonight?</p>
-                        <small class="text-muted">Mom, 2:30 PM</small>
-                    </div>
-                    <div class="message message-sent">
-                        <p class="mb-0">Yes, I'll be there! Can't wait to see you all.</p>
-                        <small class="text-muted">You, 2:35 PM</small>
-                    </div>
-                    <div class="message message-received">
-                        <p class="mb-0">Great! I'm making your favorite lasagna.</p>
-                        <small class="text-muted">Mom, 2:37 PM</small>
-                    </div>
-                    <div class="message message-sent">
-                        <p class="mb-0">Awesome! See you all soon!</p>
-                        <small class="text-muted">You, 2:40 PM</small>
-                    </div>
-                </div>
-                <div class="chat-input">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-smile"></i></span>
-                        <input type="text" class="form-control" placeholder="Type a message...">
-                        <span class="input-group-text"><i class="fas fa-paper-plane"></i></span>
-                    </div>
-                </div>
+                @endforelse
             </div>
         </div>
     </div>
 
     <style>
-        .chat-container {
-            height: 100vh;
-            max-width: 1400px;
-            margin: 0 auto;
+        .courses-container {
+            max-width: 1200px;
+            margin: 2rem auto;
             background-color: #fff;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-        }
-        .groups-section, .chats-section {
-            height: 100vh;
-            overflow-y: auto;
-        }
-        .groups-section {
-            background-color: #f0f2f5;
-            border-right: 1px solid #e0e0e0;
-        }
-        .group-item, .chat-item {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .group-item:hover, .chat-item:hover {
-            background-color: #f5f5f5;
-        }
-        .group-item.active, .chat-item.active {
-            background-color: #e6f7ff;
-        }
-        .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .chat-header {
-            background-color: #f0f2f5;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .chat-messages {
-            height: calc(100vh - 130px);
-            overflow-y: auto;
-            padding: 20px;
-        }
-        .message {
-            max-width: 70%;
-            margin-bottom: 20px;
-            padding: 10px 15px;
             border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
-        .message-received {
-            background-color: #f0f0f0;
-            align-self: flex-start;
-        }
-        .message-sent {
-            background-color: #dcf8c6;
-            align-self: flex-end;
-        }
-        .chat-input {
-            background-color: #f0f2f5;
-            border-top: 1px solid #e0e0e0;
-            padding: 10px;
-        }
-        .input-group-text {
-            background-color: #128C7E;
-            border: none;
+        .courses-header {
+            background: linear-gradient(45deg, #3a7bd5, #00d2ff);
             color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .course-grid {
+            padding: 2rem;
+        }
+        .course-item {
+            height: 100%;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .course-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .course-image {
+            height: 150px;
+            object-fit: cover;
+            width: 100%;
+        }
+        .course-content {
+            padding: 1rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .course-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .course-description {
+            font-size: 0.9rem;
+            color: #666;
+            flex-grow: 1;
+        }
+        .course-meta {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: auto;
+            padding-top: 0.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        .badge-custom {
+            background-color: #e0f7fa;
+            color: #00838f;
+            font-weight: 500;
+            font-size: 0.75rem;
+            padding: 0.4em 0.8em;
         }
     </style>
 

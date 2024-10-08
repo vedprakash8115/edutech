@@ -28,11 +28,11 @@ class StoreVideoCourseRequest extends FormRequest
                 'price' => 'nullable|numeric|min:0',
                 'discount_price' => 'nullable|numeric|min:0',
             'banner' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // Changed to nullable for optional updates
-            'about_course' => 'required|string',
             'course_category_id' => 'required|integer',
             'from' => 'required|date',
             'to' => 'required|date',
-            'course_validity' => 'nullable|string'
+            'course_validity' => 'nullable|string',
+            'subject' => 'nullable'
         
         ];
     }

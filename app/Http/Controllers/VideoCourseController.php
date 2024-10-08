@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course_subject;
+use App\Models\Subject;
 use App\Models\VideoCourse;
 use App\Http\Requests\StoreVideoCourseRequest;
 use App\Http\Requests\UpdateVideoCourseRequest;
@@ -92,6 +94,22 @@ class VideoCourseController extends Controller
                     ]);
                 }
             }
+            $subjectsJson = $request->input('subjects');
+
+            // Decode the JSON string into a PHP array
+            $subjects = json_decode($subjectsJson, true);
+
+            // Check if $subjects is valid and not empty
+            if (is_array($subjects) && !empty($subjects)) {
+                // Loop through each subject in the array
+                foreach ($subjects as $subject) {
+                    // Assuming each subject is just a name, store the subject in the database
+                    Course_subject::create([
+                        'name' => $subject,
+                        'video_course_id' => $videoCourse->id // Ensure you attach the course ID
+                    ]);
+                }
+            } 
     
             DB::commit();
             // toast('The Video Course has been created successfully.', 'success');
@@ -132,12 +150,42 @@ class VideoCourseController extends Controller
             $categories = CourseCategory0::all();
             $perPage = $request->input('per_page', 10);
             $videoCourses = VideoCourse::with('videos')->paginate($perPage)->appends($request->query());
-    
+            $subjectsJson = $request->input('subjects');
+
+            // Decode the JSON string into a PHP array
+            $subjects = json_decode($subjectsJson, true);
+
+            // Check if the decoded subjects array is valid
+            if (is_array($subjects) && !empty($subjects)) {
+                // Retrieve existing subjects for the specified video course
+                $existingSubjects = Course_subject::where('video_course_id', $id)->pluck('name', 'id')->toArray();
+
+                // Find new subjects that need to be added
+                $newSubjects = array_diff($subjects, $existingSubjects);
+
+                // Find subjects that need to be removed (not in the updated list anymore)
+                $subjectsToRemove = array_diff($existingSubjects, $subjects);
+
+                // Add new subjects that are not already in the database
+                foreach ($newSubjects as $subject) {
+                    Course_subject::create([
+                        'name' => $subject,
+                        'video_course_id' => $id
+                    ]);
+                }
+
+                // Remove subjects that are no longer needed
+                if (!empty($subjectsToRemove)) {
+                    Course_subject::whereIn('name', $subjectsToRemove)->where('video_course_id', $id)->delete();
+                }
+
+            }
             return $dataTable->render('ins.content.videocourse', [
                 'single_data' => $single_data,
                 'videoCourses' => $videoCourses,
                 'categories' => $categories,
             ]);
+
         } catch (\Exception $e) {
             Log::error('Error in edit method: ' . $e->getMessage());
             // toast('An error occurred while loading video course details.', 'error');
