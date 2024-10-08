@@ -1,7 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminProfileController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\FolderController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\StudentHomeController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CouponController;
@@ -53,6 +58,8 @@ Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/',[HomeController::class,'index'])->name('index');
+Route::get('/course-details/{id}',[HomeController::class,'details'])->name('course.details');
+
 // Route::post('login', [LoginController::class, 'login'])->name('login');
 
 Route::middleware(['auth'])->group(function () {
@@ -181,6 +188,7 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
 
     Route::get('/support/ticket/{ticket}', [SupportController::class, 'show'])->name('admin.support.show'); // View ticket detailsśśś
     Route::delete('/admin/support/ticket/{ticket}', [SupportController::class, 'destroy'])->name('admin.support.delete'); // View ticket detailsśśś
+    Route::get('/support/ticket/{ticket}', [SupportController::class, 'show'])->name('admin.support.show'); // View ticket details
     Route::post('/support/ticket/{ticket}/assign', [SupportController::class, 'assignAgent'])->name('admin.support.assign'); // Assign support agent
     Route::post('/support/ticket/{ticket}/status', [SupportController::class, 'updateStatus'])->name('admin.support.status'); // Update ticket status
         route::prefix('setting')->group(function () {
@@ -190,6 +198,52 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
             route::post('user/bulk-add-users', [AdminProfileController::class, 'bulkAddUsers'])->name('admin.bulkAddUsers');
 
         });
+
+                // View file manager for a video course
+        Route::get('/video-course/{id}/folders', [FolderController::class, 'index'])->name('folders.index');
+        Route::get('folder/{folderId}', [FolderController::class, 'showFolder'])->name('folders.show');
+
+        // Create a new folder
+        Route::post('/video-course/{id}/folders/create', [FolderController::class, 'createFolder'])->name('folders.create');
+
+        // Upload a file to a folder
+        // Root-level upload
+        Route::post('/video-course/{videoCourseId}/upload', [FolderController::class, 'uploadFile'])->name('folders.upload');
+
+        // Subfolder-level upload
+        Route::post('/video-course/{videoCourseId}/folder/{folderId}/upload', [FolderController::class, 'uploadFile'])->name('folders.subfolder.upload');
+
+        Route::put('/folders/{id}/rename', [FolderController::class, 'rename'])->name('folders.rename');
+        Route::delete('/folders/{id}/delete', [FolderController::class, 'delete'])->name('folders.delete');
+        Route::get('/search-folders/{videoCourseId}', [FolderController::class, 'searchFolders'])->name('folders.search');
+        Route::put('/files/{fileId}/rename', [FileController::class, 'renameFile'])->name('files.rename');
+        Route::delete('/files/{fileId}/delete', [FileController::class, 'deleteFile'])->name('files.delete');
+        Route::get('/hierarchy/{videoCourseId}', [FolderController::class, 'showHierarchy'])->name('folders.hierarchy');
+        Route::get('/folders/load-subfolders/{parentId}', [FolderController::class, 'loadSubfolders'])->name('folder.subfolders');
+        Route::post('/move-folder/{draggedId}/to/{targetId}', [FolderController::class, 'moveFolder']);
+        Route::post('/move-file/{fileId}/to/{targetFolderId}', [FileController::class,'moveFile']);
+
+
+
+        // chats
+        Route::get('/chat-support',[ChatController::class,'index'])->name('chats'); 
+        Route::get('/chat-support/{videoCoursesId}/groups', [ChatController::class, 'chatroom'])->name('chats.groups');
+        Route::post('groups/store', [ChatController::class, 'storeGroup'])->name('groups.store');
+
+        Route::post('groups/add-people/{groupId}', [MessageController::class, 'addPeopleToGroup'])->name('groups.addPeople');
+        Route::get('/chat-support/groups/{groupId}/load-chat', [MessageController::class, 'index'])->name('groups.loadChat');
+        Route::post('/chat-support/messages/store', [MessageController::class, 'store'])->name('messages.store');
+        Route::get('/chat-support/groups/{groupId}/available-students', [MessageController::class, 'availableStudents']);
+        // Route to fetch available teachers
+        Route::get('/chat-support/groups/teachers', [MessageController::class, 'getAvailableTeachers']);
+
+        // Route to assign a teacher to a group
+        Route::post('/chat-support/groups/{groupId}/assign-teacher', [MessageController::class, 'assignTeacher']);
+
+
+
+
+                    
     });
    
         Route::get('/agent/tickets', [AgentTicketController::class, 'index'])->name('agent.tickets');
@@ -213,17 +267,22 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
         Route::post('/support/ticket/store', [StudentSupportController::class, 'store'])->name('student.support.store'); // Store new ticket
         Route::put('/ticket/{id}/reopen', [StudentSupportController::class, 'reopenTicket'])->name('student.support.reopen');
 
+        Route::get('tests', [TestController::class, 'index'])->name('tests');
+
+        
+
+
         Route::get('/support/ticket/{ticket}', [StudentSupportController::class, 'show'])->name('student.support.show'); // View ticket details
         Route::post('/support/ticket/{ticket}/reply', [StudentSupportController::class, 'reply'])->name('student.support.reply'); // Reply to a ticket
-Route::get('/api/courses', [StudentCourseController::class, 'getCourses'])->name('api.courses');
-Route::get('/support/messages/{ticket}', [StudentSupportController::class, 'getMessages'])->name('student.support.getMessages');
-Route::post('/support/reply/{ticket}', [StudentSupportController::class, 'reply']);
+        Route::get('/api/courses', [StudentCourseController::class, 'getCourses'])->name('api.courses');
+        Route::get('/support/messages/{ticket}', [StudentSupportController::class, 'getMessages'])->name('student.support.getMessages');
+        Route::post('/support/reply/{ticket}', [StudentSupportController::class, 'reply']);
 
 
-Route::get('/courses/{id}', [StudentCourseController::class, 'show'])->name('courses.show');
-Route::post('/courses/{id}/enroll', [StudentCourseController::class, 'enroll'])->name('courses.enroll');
-Route::get('/courses/{courseId}/videos/{videoId}', [StudentCourseController::class, 'watchVideo'])->name('courses.watch-video');
-Route::get('/courses/{courseId}/videos/{videoId}/pdf', [StudentCourseController::class, 'downloadPDF'])->name('courses.download-pdf');
+        Route::get('/courses/{id}', [StudentCourseController::class, 'show'])->name('courses.show');
+        Route::post('/courses/{id}/enroll', [StudentCourseController::class, 'enroll'])->name('courses.enroll');
+        Route::get('/courses/{courseId}/videos/{videoId}', [StudentCourseController::class, 'watchVideo'])->name('courses.watch-video');
+        Route::get('/courses/{courseId}/videos/{videoId}/pdf', [StudentCourseController::class, 'downloadPDF'])->name('courses.download-pdf');
     });
 
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');

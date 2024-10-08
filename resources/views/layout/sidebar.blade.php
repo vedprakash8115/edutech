@@ -75,23 +75,6 @@
                 <div class="ms-2" data-i18n="Analytics">Dashboard</div>
               </a>
             </li>
-            <!-- Layouts -->
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon fa fa-list" aria-hidden="true"></i>
-                <!-- <i class="menu-icon tf-icons bx bx-layout"></i> -->
-                <div class="ms-2" data-i18n="Layouts">Manage Categories</div>
-              </a>
-
-              <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('addlevel0') ? 'active' : '' }}">
-                    <a href="{{ route('addlevel0') }}" class="menu-link" >
-                        <div class="ms-2" data-i18n="Without menu">Add Categories</div>
-                    </a>
-                </li>
-              </ul>
-            </li>
-            <!-- end -->
 
             <!-- Layouts -->
 
@@ -177,12 +160,7 @@
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a href="{{ route('users.index')}}" class="menu-link {{ request()->routeIs('users.index') ? 'active' : '' }}" >
-                    <div class="ms-2" data-i18n="Basic">All Users</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{{ route('users.create')}}" class="menu-link {{ request()->routeIs('users.create') ? 'active' : '' }}" >
-                    <div class="ms-2" data-i18n="Basic">Add Users</div>
+                    <div class="ms-2" data-i18n="Basic">Manage Users</div>
                   </a>
                 </li>
                 <li class="menu-item">
@@ -282,28 +260,19 @@
                 <div class="ms-2" data-i18n="Authentications">Support</div>
               </a>
             </li>
-
             <li class="menu-item">
-              <a href="{{route('mock_test')}}" class="menu-link menu-toggle" >
+              <a href="{{route('mock_test')}}" class="menu-link" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fas fa-flask"></i> <!-- Flask icon -->
+                <i class="menu-icon fas fa-flask"></i>  <!-- Headset icon -->
 
-                <div class="ms-2" data-i18n="Authentications">Test Practicals</div>
-
-
-                <ul class="menu-sub">
-                  <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
-                      <a href="{{ route('mock_test') }}" class="menu-link" >
-                          <div class="ms-2" data-i18n="Without menu">Mock Tests</div>
-                      </a>
-                  </li>
-                 
-              </ul>
+                <div class="ms-2" data-i18n="Authentications">Mock Test</div>
               </a>
             </li>
 
+
+
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle" >
+              <a href="{{route('chats')}}" class="menu-link" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-comments"></i> <!-- Comments icon -->
 
@@ -342,8 +311,8 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link" >
-                    <div class="ms-2" data-i18n="Under Maintenance">Application Categories</div>
+                  <a href="{{route('addlevel0')}}" class="menu-link" >
+                    <div class="ms-2" data-i18n="Under Maintenance">Manage Categories</div>
                   </a>
                 </li>
               </ul>

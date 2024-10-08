@@ -56,5 +56,10 @@ class User extends Authenticatable
     // {
     //     return $this->belongsToMany(Role::class);
     // }
+    public function purchasedCourses()
+    {
+        return $this->belongsToMany(VideoCourse::class, 'video_course_user')->withTimestamps();
+    }
+
 
 }

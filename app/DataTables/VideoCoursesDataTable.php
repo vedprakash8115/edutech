@@ -24,7 +24,7 @@ class VideoCoursesDataTable extends DataTable
             return '
                 <a href="'.route('videocourse.edit', $row->id).'" class="btn btn-sm btn-primary my-2" style="width:100px;">Edit</a>
                 
-                <button class="btn btn-sm btn-secondary my-2" onclick="addImage('.$row->id.')" style="width:100px;">Add Videos</button>
+                <a href="'.route('folders.index', $row->id).'" class="btn btn-sm btn-secondary my-2" style="width:100px;">Add content</a>
                 
                <a href="route(filemanager)" class="btn btn-sm btn-secondary my-2" onclick="addImage('.$row->id.')" style="width:100px;">Add content</a>
                 

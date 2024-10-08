@@ -72,12 +72,12 @@
                                         <div class="form-floating">
                                             <i class="fas fa-image form-icon"></i>
                                             <input type="file" class="form-control" id="UploadBanner" name="banner" accept="image/*">
-                                            <label for="UploadBanner" class="text-secondary">Upload Banner (Optional)</label>
+                                            <label for="UploadBanner" class="text-secondary">Upload Thumbnail (Optional)</label>
                                         </div>
                                         @if(isset($single_data) && $single_data->banner)
                                             <div class="mt-2">
                                                 <img src="{{ asset($single_data->banner) }}" alt="Current Banner" class="img-fluid img-thumbnail" style="max-width: 200px; max-height: 60px;">
-                                                <p class="text-muted small mt-1">Current banner image</p>
+                                                <p class="text-muted small mt-1">Current Thumbnail</p>
                                             </div>
                                         @endif
                                     </div>

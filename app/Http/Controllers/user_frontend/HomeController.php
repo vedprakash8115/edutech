@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user_frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Models\Testimonial;
 use App\Models\Slider;
@@ -23,4 +24,19 @@ class HomeController extends Controller
         // Pass both testimonials and sliders to the frontend
         return view('frontend.index', compact('testimonials', 'sliders','categories'));
     }
+
+    public function details($id)
+    {
+        // Fetch video by ID
+        $video = VideoCourse::find($id);
+    
+        // If video is not found, handle it gracefully
+        if (!$video) {
+            return redirect()->route('index')->with('error', 'Video not found.');
+        }
+    
+        // Pass the video data to the 'course-details' Blade view
+        return view('frontend.details', compact('video'));
+    }
+    
 }

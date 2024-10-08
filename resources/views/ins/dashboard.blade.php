@@ -181,7 +181,7 @@
             </div>
         </div>
 
-          <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Test Practicals">
+          <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Test Practicals" onclick="window.location.href = '{{route('mock_test')}}'" style="cursor:pointer">
             <div class="card-hover card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">

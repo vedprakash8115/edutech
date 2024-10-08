@@ -24,4 +24,16 @@ class VideoCourse extends Model
         return $this->hasMany(Book::class , 'videocourse_id');
     }
 
+    public function folders()
+    {
+        return $this->hasMany(Folder::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'video_course_user')->withTimestamps();
+    }
+
+
+
 }

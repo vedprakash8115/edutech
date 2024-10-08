@@ -154,7 +154,7 @@
                   </div>
               @endforeach
           </div>
-          
+
           <!-- Carousel Controls -->
           <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -293,7 +293,7 @@
                             data-aos-duration="500"
                             data-aos-delay="100"
                         >
-                            <div class="card fixed-height-card" onclick="window.location.href='./course-detail.html'">
+                        <div class="card fixed-height-card" data-href="{{ route('course.details', $video->id) }}" onclick="redirectToCourseDetails(this)">
                                 <img
                                     src="{{ asset($video->banner) }}"
                                     class="card-img-top"
@@ -740,7 +740,12 @@
             }
         ]
     });
-}); 
+});
     </script>
+    <script>
+    function redirectToCourseDetails(element) {
+        window.location.href = element.getAttribute('data-href');
+    }
+</script>
   </body>
 </html>

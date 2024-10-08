@@ -29,7 +29,7 @@ class LoginController extends Controller
              if ($curr_user->hasAnyRole(['admin', 'agent','teacher'])) {
                 return redirect()->route('insdashboard');
             } elseif ($curr_user->hasRole('student')) {
-                return redirect()->route('student.profile');
+                return redirect()->route('student.home');
             } else {
                 Auth::logout(); // Logout if role doesn't match expected roles
                 Alert::alert('Error', 'You do not have the correct role.');
