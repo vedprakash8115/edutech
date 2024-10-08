@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
-use App\Models\Message;
+use App\Models\Query;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,7 +50,7 @@ class AgentTicketController extends Controller
         // Check which button was clicked using the 'action' input
         if ($request->input('action') === 'send_reply') {
             // Handle "Send Reply" action
-            Message::create([
+            Query::create([
                 'ticket_id' => $ticket->id,
                 'message' => $request->resolution_message,
                 'sender_id' => $ticket->assigned_to,
@@ -64,7 +64,7 @@ class AgentTicketController extends Controller
             ]);
     
             // Create the message (as part of resolution)
-            Message::create([
+            Query::create([
                 'ticket_id' => $ticket->id,
                 'message' => $request->resolution_message,
                 'sender_id' => $ticket->assigned_to,

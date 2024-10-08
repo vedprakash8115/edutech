@@ -42,12 +42,40 @@
                                         <small class="text-blue-500">{{ $message->created_at->format('d-m-Y H:i') }}</small>
                                     </div>
                                     <p class="mb-0 fw-light text-blue-800">{{ $message->message }}</p>
+            
+                                    {{-- Check if the message has attachments --}}
+                                    @if($message->attachments->isNotEmpty())
+                                        <div class="mt-2">
+                                            <strong class="fw-light text-blue-700">Attachments:</strong>
+                                            <ul class="list-unstyled">
+                                                @foreach($message->attachments as $attachment)
+                                                    <li class="mt-2">
+                                                        {{-- Check if the file is a PDF or image and render it in an iframe --}}
+                                                        @if(in_array(pathinfo($attachment->file_path, PATHINFO_EXTENSION), ['pdf', 'jpg', 'jpeg', 'png']))
+                                                            <iframe src="{{ asset($attachment->file_path) }}" style="width:50%; height:100px;" frameborder="0"></iframe>
+                                                            <br>
+                                                            <p class="my-4">Download Link :</p>
+                                                            <a href="{{ asset($attachment->file_path) }}" target="_blank" class="text-blue-600 underline">
+                                                                {{ basename($attachment->file_path) }}
+                                                            </a>
+                                                        @else
+                                                            {{-- Link to download the file if not a PDF/image --}}
+                                                            <a href="{{ asset($attachment->file_path) }}" target="_blank" class="text-blue-600 underline">
+                                                                {{ basename($attachment->file_path) }}
+                                                            </a>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                 </div>
                             @endforeach
                         </div>
                     </div>
                 </div>
             </div>
+            
 
             @php
                 $lastMessage = $ticket->messages->last();
@@ -81,10 +109,14 @@
             <div class="card shadow-sm {{ $ticket->status == 'resolved' ? 'd-none' : '' }}" id="replyCard">
                 <div class="card-body">
                     <h2 class="h5 mb-4 text-blue-800 fw-light">Enter your query</h2>
-                    <form action="{{ route('student.support.reply', $ticket->id) }}" method="POST" id="replyForm">
+                    <form action="{{ route('student.support.reply', $ticket->id) }}" method="POST" id="replyForm" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <textarea name="message" id="messageInput" class="form-control fw-light bg-blue-50 text-blue-800" rows="3" required placeholder="Type your reply here..."></textarea>
+                            <div class="mb-3 mt-3">
+                                <label for="fileInput" class="form-label fw-light text-blue-800">Attachments (Optional)</label>
+                                <input type="file" name="file" id="fileInput" class="form-control fw-light bg-blue-50 text-blue-800" >
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-blue">
                             <i class="fas fa-paper-plane me-2"></i>Send

@@ -1,3 +1,4 @@
+
 @extends('layout.app')
 
 @section('content')
@@ -55,10 +56,7 @@
                                 @endif
                             </td>
                             <td class="py-3 px-4">
-                                <span class="badge status-badge 
-                                    {{ $ticket->status == 'open' ? 'status-open' : 
-                                       ($ticket->status == 'in progress' ? 'status-progress' : 
-                                       'status-resolved') }}">
+                                <span class="badge status-badge {{ $ticket->status == 'open' ? 'status-open' : ($ticket->status == 'in progress' ? 'status-progress' : 'status-resolved') }}">
                                     {{ ucfirst($ticket->status) }}
                                 </span>
                             </td>
@@ -67,7 +65,7 @@
                                     {{ ucfirst($ticket->priority) }}
                                 </span>
                             </td>
-                            <td class="py-3 px-4 text-center position-relative">
+                            <td class="py-3 px-4 text-center">
                                 <div class="action-buttons">
                                     <a href="{{ route('admin.support.show', $ticket->id) }}" class="btn btn-sm btn-outline-primary me-2">
                                         <i class="fas fa-eye me-1"></i> View
@@ -84,6 +82,18 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div id="noResults" class="text-center py-4 d-none">
+                    <div class="text-muted">
+                        <i class="fas fa-search fa-3x mb-3"></i>
+                        <h5>No tickets found</h5>
+                        <p>Try adjusting your search terms</p>
+                    </div>
+                </div>
+                <div id="loadingIndicator" class="text-center py-4 d-none">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -115,116 +125,137 @@
 
 @push('styles')
 <style>
+    /* ... (keep your existing styles) ... */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-    body {
-        font-family: 'Poppins', sans-serif;
-        color: #1a365d;
-        background-color: #f8f9fa;
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #1a365d;
+    background-color: #f8f9fa;
+}
+
+.card {
+    border-radius: 0.75rem;
+}
+
+.search-input {
+    border-color: #e2e8f0;
+}
+
+.search-input:focus {
+    box-shadow: none;
+    border-color: #2b6cb0;
+}
+
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #e2e8f0;
+    color: #1a365d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status-badge, .priority-badge {
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+}
+
+.status-open { background-color: #fed7d7; color: #9b2c2c; }
+.status-progress { background-color: #feebc8; color: #9c4221; }
+.status-resolved { background-color: #c6f6d5; color: #276749; }
+
+.priority-high { background-color: #fed7d7; color: #9b2c2c; }
+.priority-medium { background-color: #feebc8; color: #9c4221; }
+.priority-low { background-color: #e2e8f0; color: #2d3748; }
+
+.category-badge {
+    background-color: #ebf4ff;
+    color: #2b6cb0;
+    font-weight: 500;
+}
+
+.ticket-row {
+    transition: all 0.2s ease-in-out;
+}
+
+.ticket-row:hover {
+    background-color: #f8f9fa;
+}
+
+.action-buttons .btn {
+    font-weight: 500;
+}
+
+/* Ensure dropdown menus are always on top */
+.modal {
+    z-index: 1060;
+}
+
+@media (max-width: 768px) {
+    .table-responsive {
+        border: 0;
     }
 
-    .card {
-        border-radius: 0.75rem;
+    .table-responsive table {
+        display: block;
     }
 
-    .search-input {
-        border-color: #e2e8f0;
+    .table-responsive thead {
+        display: none;
     }
 
-    .search-input:focus {
-        box-shadow: none;
-        border-color: #2b6cb0;
+    .table-responsive tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
     }
 
-    .avatar-circle {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background-color: #e2e8f0;
-        color: #1a365d;
+    .table-responsive td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: none;
+        padding: 0.75rem 1rem;
+    }
+
+    .table-responsive td::before {
+        content: attr(data-label);
+        font-weight: 500;
+        margin-right: 1rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+}
+    #noResults {
+        min-height: 200px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
-        font-weight: 500;
     }
 
-    .status-badge, .priority-badge {
-        font-weight: 500;
-        padding: 0.5rem 0.75rem;
+    #loadingIndicator {
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .status-open { background-color: #fed7d7; color: #9b2c2c; }
-    .status-progress { background-color: #feebc8; color: #9c4221; }
-    .status-resolved { background-color: #c6f6d5; color: #276749; }
-
-    .priority-high { background-color: #fed7d7; color: #9b2c2c; }
-    .priority-medium { background-color: #feebc8; color: #9c4221; }
-    .priority-low { background-color: #e2e8f0; color: #2d3748; }
-
-    .category-badge {
-        background-color: #ebf4ff;
-        color: #2b6cb0;
-        font-weight: 500;
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 0.3s;
     }
-
-    .ticket-row {
-        transition: all 0.2s ease-in-out;
-    }
-
-    .ticket-row:hover {
-        background-color: #f8f9fa;
-    }
-
-    .action-buttons .btn {
-        font-weight: 500;
-    }
-
-    /* Ensure dropdown menus are always on top */
-    .modal {
-        z-index: 1060;
-    }
-
-    @media (max-width: 768px) {
-        .table-responsive {
-            border: 0;
-        }
-
-        .table-responsive table {
-            display: block;
-        }
-
-        .table-responsive thead {
-            display: none;
-        }
-
-        .table-responsive tbody tr {
-            display: block;
-            margin-bottom: 1rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-        }
-
-        .table-responsive td {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: none;
-            padding: 0.75rem 1rem;
-        }
-
-        .table-responsive td::before {
-            content: attr(data-label);
-            font-weight: 500;
-            margin-right: 1rem;
-        }
-
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
     }
 </style>
 @endpush
@@ -233,28 +264,118 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Search functionality
     const searchInput = document.querySelector('.search-input');
-    const ticketRows = document.querySelectorAll('.ticket-row');
+    const ticketsTableBody = document.querySelector('#ticketsTable tbody');
+    const noResultsDiv = document.getElementById('noResults');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const originalTickets = ticketsTableBody.innerHTML;
+    let searchTimeout;
 
     searchInput.addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        ticketRows.forEach(row => {
-            const text = row.textContent.toLowerCase();
-            row.style.display = text.includes(searchTerm) ? '' : 'none';
-        });
+        const searchTerm = e.target.value.trim().toLowerCase();
+        
+        // Clear previous timeout
+        clearTimeout(searchTimeout);
+        
+        if (searchTerm === '') {
+            // Restore original tickets immediately
+            ticketsTableBody.innerHTML = originalTickets;
+            ticketsTableBody.classList.remove('d-none');
+            noResultsDiv.classList.add('d-none');
+            return;
+        }
+
+        // Set new timeout for search
+        searchTimeout = setTimeout(() => {
+            // Show loading indicator
+            ticketsTableBody.classList.add('d-none');
+            noResultsDiv.classList.add('d-none');
+            loadingIndicator.classList.remove('d-none');
+
+            // Perform an AJAX request
+            fetch(`/admin/support/tickets/search?searchTerm=${encodeURIComponent(searchTerm)}`)
+                .then(response => response.json())
+                .then(data => {
+                    loadingIndicator.classList.add('d-none');
+                    
+                    if (data.length === 0) {
+                        ticketsTableBody.classList.add('d-none');
+                        noResultsDiv.classList.remove('d-none');
+                    } else {
+                        ticketsTableBody.classList.remove('d-none');
+                        noResultsDiv.classList.add('d-none');
+                        
+                        // Update table with search results
+                        ticketsTableBody.innerHTML = data.map(ticket => `
+                            <tr class="ticket-row">
+                                <td class="py-3 px-4">#${ticket.id}</td>
+                                <td class="py-3 px-4 text-primary">${ticket.subject}</td>
+                                <td class="py-3 px-4">
+                                    <span class="badge rounded-pill category-badge">${ticket.category.name}</span>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-circle me-2">${ticket.user.name.charAt(0).toUpperCase()}</div>
+                                        <span>${ticket.user.name}</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4">
+                                    ${ticket.assigned_agent ? `
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-circle me-2 bg-light">
+                                                ${ticket.assigned_agent.name.charAt(0).toUpperCase()}
+                                            </div>
+                                            <span>${ticket.assigned_agent.name}</span>
+                                        </div>
+                                    ` : '<span class="text-muted">Unassigned</span>'}
+                                </td>
+                                <td class="py-3 px-4">
+                                    <span class="badge status-badge ${
+                                        ticket.status === 'open' ? 'status-open' : 
+                                        (ticket.status === 'in progress' ? 'status-progress' : 'status-resolved')
+                                    }">
+                                        ${ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
+                                    </span>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <span class="badge priority-badge priority-${ticket.priority.toLowerCase()}">
+                                        ${ticket.priority.charAt(0).toUpperCase() + ticket.priority.slice(1)}
+                                    </span>
+                                </td>
+                                <td class="py-3 px-4 text-center">
+                                    <div class="action-buttons">
+                                        <a href="/admin/support/tickets/${ticket.id}" class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="fas fa-eye me-1"></i> View
+                                        </a>
+                                        <button class="btn btn-sm btn-outline-danger delete-btn" 
+                                                data-ticket-id="${ticket.id}"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#deleteModal">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    loadingIndicator.classList.add('d-none');
+                    // Handle error - you might want to show an error message to the user
+                });
+        }, 300); // 300ms delay
     });
 
     // Delete modal functionality
     const deleteModal = document.getElementById('deleteModal');
     const deleteForm = document.getElementById('deleteForm');
-    const deleteButtons = document.querySelectorAll('.delete-btn');
-
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const ticketId = this.getAttribute('data-ticket-id');
+    
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('delete-btn')) {
+            const ticketId = e.target.getAttribute('data-ticket-id');
             deleteForm.action = `/admin/support/tickets/${ticketId}`;
-        });
+        }
     });
 });
 </script>

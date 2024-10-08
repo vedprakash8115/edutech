@@ -40,7 +40,7 @@ class Ticket extends Model
     // Ticket has many messages
     public function messages()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Query::class);
     }
 
     // Ticket has many attachments

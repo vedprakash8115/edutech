@@ -19,7 +19,7 @@
     }
 
     .whatsapp-button i {
-        font-size: 24px; /* Icon size */
+        font-size: 30px; /* Icon size */
     }
 
     .whatsapp-button:hover {
@@ -29,5 +29,5 @@
 
 @endpush
 <a href="https://wa.me/your_number" class="whatsapp-button" target="_blank">
-    <i class="fab fa-whatsapp"></i>
+    <i class="fab fa-whatsapp" style="font-size: 30px"></i> 
 </a>

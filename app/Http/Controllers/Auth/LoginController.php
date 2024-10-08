@@ -26,7 +26,7 @@ class LoginController extends Controller
             $user_role = $curr_user->roles()->first();
             // dd($user_role);
              // Check if user has admin role and redirect accordingly
-             if ($curr_user->hasAnyRole(['admin', 'agent'])) {
+             if ($curr_user->hasAnyRole(['admin', 'agent','teacher'])) {
                 return redirect()->route('insdashboard');
             } elseif ($curr_user->hasRole('student')) {
                 return redirect()->route('student.profile');

@@ -15,6 +15,10 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
+        foreach (['admin', 'superadmin','teacher','agent','student'] as $roleName) {
+            Role::firstOrCreate(['name' => $roleName]);
+        }
+        
         $users = [
             [
                 'name' => 'Admin',
@@ -27,13 +31,29 @@ class UsersTableSeeder extends Seeder
                 'email' => 'superadmin@gmail.com',
                 'password' => 'superadmin@123',
                 'role' => 'superadmin',
-            ]
+            ],
+            [
+                'name' => 'Teacher',
+                'email' => 'teacher@gmail.com',
+                'password' => 'Admin@123',
+                'role' => 'teacher',
+            ],
+            [
+                'name' => 'Agent',
+                'email' => 'agent@gmail.com',
+                'password' => 'Admin@123',
+                'role' => 'agent',
+            ],
+            [
+                'name' => 'User',
+                'email' => 'user@gmail.com',
+                'password' => 'Admin@123',
+                'role' => 'student',
+            ],
         ];
 
         // Ensure the roles exist
-        foreach (['admin', 'superadmin'] as $roleName) {
-            Role::firstOrCreate(['name' => $roleName]);
-        }
+  
 
         // Create users and assign roles
         foreach ($users as $user) {

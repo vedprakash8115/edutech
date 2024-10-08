@@ -14,11 +14,29 @@ class SupportController extends Controller
         $tickets = Ticket::with('user', 'assignedAgent', 'category')->orderBy('status')->get();
         return view('admin.support.index', compact('tickets'));
     }
+    public function search(Request $request)
+{
+    $searchTerm = $request->input('searchTerm');
+
+    $tickets = Ticket::where('subject', 'LIKE', "%{$searchTerm}%")
+        ->orWhereHas('user', function($query) use ($searchTerm) {
+            $query->where('name', 'LIKE', "%{$searchTerm}%");
+        })
+        ->orWhere('status', 'LIKE', "%{$searchTerm}%")
+        ->orWhere('priority', 'LIKE', "%{$searchTerm}%")
+        ->orWhereHas('category', function($query) use ($searchTerm) {
+            $query->where('name', 'LIKE', "%{$searchTerm}%");
+        })
+        ->get();
+
+    return response()->json(['tickets' => $tickets]);
+}
+
 
     // Display details of a specific ticket
     public function show(Ticket $ticket)
     {
-        $ticket->load('messages.sender', 'attachments', 'user', 'assignedAgent');
+        $ticket->load('messages.sender', 'messages.attachments', 'user', 'assignedAgent');
         $agents = User::query()->role('agent')->get();// List of support agents
         return view('admin.support.show', compact('ticket', 'agents'));
     }

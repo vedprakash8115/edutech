@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('queries', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('ticket_id'); // Refers to the ticket
+            $table->unsignedBigInteger('query_id'); // Refers to the ticket
             $table->unsignedBigInteger('sender_id'); // Refers to the user who sent the message (student or agent)
             $table->text('message');
             $table->timestamps();
 
             // Foreign key constraints
-            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
+            $table->foreign('query_id')->references('id')->on('queries')->onDelete('cascade');
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

@@ -177,6 +177,8 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
         Route::put('/sliders/{id}/status', [SliderController::class, 'updateStatus'])->name('sliders.updateStatus');
 
         Route::get('/support', [SupportController::class, 'index'])->name('admin.support.index'); // Support dashboard
+        Route::get('/admin/support/tickets/search', [SupportController::class, 'search'])->name('tickets.search');
+
     Route::get('/support/ticket/{ticket}', [SupportController::class, 'show'])->name('admin.support.show'); // View ticket details
     Route::post('/support/ticket/{ticket}/assign', [SupportController::class, 'assignAgent'])->name('admin.support.assign'); // Assign support agent
     Route::post('/support/ticket/{ticket}/status', [SupportController::class, 'updateStatus'])->name('admin.support.status'); // Update ticket status

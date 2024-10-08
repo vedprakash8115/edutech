@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class Query extends Model
 {
     use HasFactory;
-
+    protected $table = 'queries';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'ticket_id',
         'sender_id',
@@ -25,5 +26,9 @@ class Message extends Model
     public function sender()
     {
         return $this->belongsTo(User::class, 'sender_id');
+    }
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class , 'query_id');
     }
 }

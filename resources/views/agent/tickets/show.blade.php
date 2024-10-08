@@ -66,11 +66,36 @@
                                     <small class="text-muted fw-light">{{ $message->created_at->format('d M Y, H:i') }}</small>
                                 </div>
                                 <p class="mb-0 message-text">{{ $message->message }}</p>
+            
+                                {{-- Check if there are any attachments for the message --}}
+                                @if($message->attachments->isNotEmpty())
+                                    <div class="mt-2">
+                                        <strong>Attachments:</strong>
+                                        <ul class="list-unstyled">
+                                            @foreach($message->attachments as $attachment)
+                                                <li class="mt-2">
+                                                    {{-- Display file in iframe if it's a PDF or image --}}
+                                                    @if(in_array(pathinfo($attachment->file_path, PATHINFO_EXTENSION), ['pdf', 'jpg', 'jpeg', 'png']))
+                                                        <iframe src="{{ asset($attachment->file_path) }}" style="width:50%; height:200px;" frameborder="0"></iframe>
+<br>
+                                                        <a href="{{ asset($attachment->file_path) }}" target="_blank" class="text-info">
+                                                            {{ basename($attachment->file_path) }}
+                                                        </a>
+                                                    @else
+                                                        {{-- For other file types, show download link --}}
+                                                        
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     @endforeach
                 </div>
             </div>
+            
         </div>
 
         <div class="col-lg-4">

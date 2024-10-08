@@ -9,14 +9,11 @@ class Attachment extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'ticket_id',
-        'file_path'
-    ];
+    protected $guarded = [];
 
-    // Attachment belongs to a ticket
-    public function ticket()
-    {
-        return $this->belongsTo(Ticket::class);
-    }
+    // // Attachment belongs to a ticket
+    // public function query()
+    // {
+    //     return $this->belongsTo(Query::class);
+    // }
 }
