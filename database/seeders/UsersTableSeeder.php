@@ -27,7 +27,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'superadmin@gmail.com',
                 'password' => 'superadmin@123',
                 'role' => 'superadmin',
-            ]
+            ],
+            
         ];
 
         // Ensure the roles exist

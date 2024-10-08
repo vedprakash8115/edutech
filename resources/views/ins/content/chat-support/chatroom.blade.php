@@ -39,8 +39,8 @@
 @include('modals.createGroupModal')
 <style>
     .chat-container {
-            max-width: 1400px;
-            height: 95vh;
+            max-width: 1200px;
+            height: 80vh;
             margin: 2.5vh auto;
             background-color: #fff;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
@@ -102,49 +102,7 @@
             font-size: 0.9em;
             color: #667781;
         }
-        .chat-messages {
-            height: 34rem;
-            overflow-y: auto;
-            padding: 20px;
-            background-color: #e5ded8;
-        }
-        .message {
-            max-width: 65%;
-            margin-bottom: 10px;
-            padding: 8px 12px;
-            border-radius: 7.5px;
-            position: relative;
-        }
-        .message-received {
-            background-color: #fff;
-            align-self: flex-start;
-            border-top-left-radius: 0;
-        }
-        .message-sent {
-            background-color: #dcf8c6;
-            align-self: flex-end;
-            border-top-right-radius: 0;
-        }
-        .chat-input {
-            background-color: #f0f2f5;
-            border-top: 1px solid #e0e0e0;
-            padding: 10px 15px;
-        }
-        .chat-input input {
-            border-radius: 20px;
-            border: none;
-            padding: 10px 15px;
-        }
-        .btn-send {
-            background-color: #128C7E;
-            color: white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        
         .btn-create-group {
             background-color: #128C7E;
             color: white;

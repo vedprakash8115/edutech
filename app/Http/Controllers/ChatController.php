@@ -20,8 +20,23 @@ class ChatController extends Controller
 
     public function chatRoom($videoCourseId)
     {
+        $user = auth()->user(); // Get the currently authenticated user
+
+        $groups = collect(); // Empty collection for students (can be changed later)
+
+        // Check the user's role
+        if ($user->hasRole('teacher')) {
+            // If the user is a teacher, return only the groups where they are assigned as the teacher
+            $groups = Group::where('teacher_id', $user->id)->where('video_course_id', $videoCourseId)->get();
+        } elseif ($user->hasRole('admin')) {
+            // If the user is an admin, return all groups
+            $groups = Group::with('teacher')->where('video_course_id', $videoCourseId)->get();
+        }
+
+
+
         // Fetch groups associated with the specific video course
-        $groups = Group::where('video_course_id', $videoCourseId)->get();
+        // $groups = Group::where('video_course_id', $videoCourseId)->get();
 
         // Fetch subjects associated with the specific video course
         $subjects = Course_subject::where('video_course_id', $videoCourseId)->get();

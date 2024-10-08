@@ -83,6 +83,8 @@ class MessageController extends Controller
 
     private function getGroupData($groupId)
     {
+
+
         $group = Group::with('teacher')->findOrFail($groupId); // Load the group with the teacher relationship
         $messages = Message::with('user')->where('group_id', $groupId)->orderBy('created_at', 'asc')->get();
         $videoCourseId = $group->video_course_id;

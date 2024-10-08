@@ -4,7 +4,7 @@
             <form action="{{ route('groups.store') }}" method="POST">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createGroupModalLabel">Create Group</h5>
+                    <h5 class="modal-title text-white" id="createGroupModalLabel">Create Group</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -43,3 +43,12 @@
 });
 
 </script>
+<style>
+    .modal-header {
+        background-color: #075e54;
+        color: white;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        padding: 1rem;
+    }
+</style>

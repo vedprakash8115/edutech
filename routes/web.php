@@ -209,9 +209,6 @@ Route::middleware(['auth'])->group(function () {
         // Route to assign a teacher to a group
         Route::post('/chat-support/groups/{groupId}/assign-teacher', [MessageController::class, 'assignTeacher']);
 
-
-
-
                     
     });
 
