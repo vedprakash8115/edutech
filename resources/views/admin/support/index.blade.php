@@ -70,12 +70,14 @@
                                     <a href="{{ route('admin.support.show', $ticket->id) }}" class="btn btn-sm btn-outline-primary me-2">
                                         <i class="fas fa-eye me-1"></i> View
                                     </a>
-                                    <button class="btn btn-sm btn-outline-danger delete-btn" 
-                                            data-ticket-id="{{ $ticket->id }}"
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#deleteModal">
-                                        <i class="fas fa-trash-alt me-1"></i> Delete
-                                    </button>
+                                    <!-- Example Delete Button -->
+<button class="btn btn-sm btn-outline-danger delete-btn" 
+data-ticket-id="{{ $ticket->id }}" 
+data-bs-toggle="modal" 
+data-bs-target="#deleteModal">
+<i class="fas fa-trash-alt me-1"></i> Delete
+</button>
+
                                 </div>
                             </td>
                         </tr>
@@ -100,7 +102,8 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -121,9 +124,11 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @push('styles')
+
 <style>
     /* ... (keep your existing styles) ... */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
@@ -192,9 +197,7 @@ body {
 }
 
 /* Ensure dropdown menus are always on top */
-.modal {
-    z-index: 1060;
-}
+
 
 @media (max-width: 768px) {
     .table-responsive {
@@ -263,6 +266,20 @@ body {
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 <script>
+
+    // Wait for the document to be ready
+document.addEventListener('DOMContentLoaded', function () {
+    // Attach click event to delete buttons
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const ticketId = this.getAttribute('data-ticket-id'); // Get the ticket ID
+            const deleteForm = document.getElementById('deleteForm');
+            const actionUrl = `{{ route('admin.support.delete', '') }}/${ticketId}`; // Construct the URL
+            deleteForm.setAttribute('action', actionUrl); // Update the form action
+        });
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.querySelector('.search-input');
     const ticketsTableBody = document.querySelector('#ticketsTable tbody');

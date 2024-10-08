@@ -179,7 +179,8 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
         Route::get('/support', [SupportController::class, 'index'])->name('admin.support.index'); // Support dashboard
         Route::get('/admin/support/tickets/search', [SupportController::class, 'search'])->name('tickets.search');
 
-    Route::get('/support/ticket/{ticket}', [SupportController::class, 'show'])->name('admin.support.show'); // View ticket details
+    Route::get('/support/ticket/{ticket}', [SupportController::class, 'show'])->name('admin.support.show'); // View ticket detailsśśś
+    Route::delete('/admin/support/ticket/{ticket}', [SupportController::class, 'destroy'])->name('admin.support.delete'); // View ticket detailsśśś
     Route::post('/support/ticket/{ticket}/assign', [SupportController::class, 'assignAgent'])->name('admin.support.assign'); // Assign support agent
     Route::post('/support/ticket/{ticket}/status', [SupportController::class, 'updateStatus'])->name('admin.support.status'); // Update ticket status
         route::prefix('setting')->group(function () {

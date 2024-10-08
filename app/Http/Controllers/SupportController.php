@@ -32,6 +32,17 @@ class SupportController extends Controller
     return response()->json(['tickets' => $tickets]);
 }
 
+public function destroy($id)
+{
+    // Find the ticket by ID
+    $ticket = Ticket::findOrFail($id);
+
+    // Delete the ticket
+    $ticket->delete();
+
+    // Optionally, you can add a flash message for confirmation
+    return redirect()->back()->with('success', 'Ticket deleted successfully!');
+}
 
     // Display details of a specific ticket
     public function show(Ticket $ticket)

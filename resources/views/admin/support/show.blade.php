@@ -1,21 +1,18 @@
 @extends('layout.app')
 
 @section('content')
-<div class="card p-4">
+<div class="ontainer-fluid p-4">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <h1 class="display-4 text-center mb-5 text-primary">Ticket #{{ $ticket->id }} - {{ $ticket->subject }}</h1>
+            <h1 class="display-4 text-center mb-5 text-primary" style="font-weight:100;">Ticket -{{ $ticket->id }} - {{ $ticket->subject }}</h1>
 
             <div class="row">
                 <!-- Ticket Information -->
                 <div class="col-lg-6 mb-4">
                     <div class="card shadow-sm">
-                        <div class="card-header bg-primary text-white">
-                            <h2 class="h5 mb-0 text-white">
-                                <i class="fas fa-info-circle me-2"></i> Ticket Information
-                            </h2>
-                        </div>
+                       <div class="card-title"></div>
                         <div class="card-body">
+                            <p class="mb-3 " style="font-size:25px; color:rgb(85, 85, 200); font-weight:100; ">Ticket Info</p>
                             <div class="row">
                                 <div class="col-sm-6 mb-3">
                                     <h6 class="text-muted">Category</h6>
@@ -42,114 +39,110 @@
                             <p>{{ $ticket->description }}</p>
                         </div>
                     </div>
+                    <div class="card shadow-sm">
+                       <div class="card-body">
+                        <p class="mb-3 " style="font-size:25px; color:rgb(85, 85, 200); font-weight:100; ">Assign Agent</p>
+                        <form action="{{ route('admin.support.assign', $ticket->id) }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="assigned_to" class="form-label">Assign to</label>
+                                <select name="assigned_to" id="assigned_to" class="form-select">
+                                    <option value="">Select Agent</option>
+                                    @foreach($agents as $agent)
+                                        <option value="{{ $agent->id }}" {{ $ticket->assigned_to == $agent->id ? 'selected' : '' }}>
+                                            {{ $agent->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-user-check me-2"></i> Assign
+                            </button>
+                        </form>
+                    </div>
+
+                    
+                </div>
+                <div class="card shadow-sm">
+               
+                    <div class="card-body">
+                        <p class="mb-3 " style="font-size:25px; color:rgb(85, 85, 200); font-weight:100; ">Status</p>
+                        <form action="{{ route('admin.support.status', $ticket->id) }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Status</label>
+                                <select name="status" id="status" class="form-select">
+                                    <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }}>Open</option>
+                                    <option value="in_progress" {{ $ticket->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                    <option value="resolved" {{ $ticket->status == 'resolved' ? 'selected' : '' }}>Resolved</option>
+                                    <option value="closed" {{ $ticket->status == 'closed' ? 'selected' : '' }}>Closed</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-sync-alt me-2"></i> Update Status
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow-sm mb-4">
+                
+                        <div class="card-body">
+                            <p class="mb-3 " style="font-size:25px; color:rgb(85, 85, 200); font-weight:100; ">Messages</p>
+                            <div id="messages-container">
+                                @foreach($ticket->messages as $message)
+                                    <div class="message bg-light p-3 rounded mb-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <strong>{{ $message->sender->name }}</strong>
+                                            <div>
+                                                <small class="text-muted">{{ $message->created_at->format('d-m-Y H:i') }}</small>
+                                            </div>
+                                        </div>
+                                        <p class="mb-0">{{ $message->message }}</p>
+                                        
+                                        {{-- Check if there are any attachments for the message --}}
+                                        @if($message->attachments->isNotEmpty())
+                                            <div class="mt-2">
+                                                <strong>Attachments:</strong>
+                                                <ul class="list-unstyled">
+                                                    @foreach($message->attachments as $attachment)
+                                                        <li class="mt-2">
+                                                            {{-- Display file in iframe if it's a PDF or image --}}
+                                                            @if(in_array(pathinfo($attachment->file_path, PATHINFO_EXTENSION), ['pdf', 'jpg', 'jpeg', 'png']))
+                                                                <iframe src="{{ asset($attachment->file_path) }}" style="width:50%; height:200px;" frameborder="0"></iframe>
+                                                              <br>
+                                                                <a href="{{ asset($attachment->file_path) }}" target="_blank" class="text-info">
+                                                                    {{ basename($attachment->file_path) }}
+                                                                </a>
+                                                            @else
+                                                                {{-- For other file types, show download link --}}
+                                                                <a href="{{ asset($attachment->file_path) }}" target="_blank" class="text-info">
+                                                                    {{ basename($attachment->file_path) }}
+                                                                </a>
+                                                            @endif
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
 
                 <!-- Assign Agent Form -->
-                <div class="col-lg-6 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-primary text-white">
-                            <h2 class="h5 mb-0 text-white">
-                                <i class="fas fa-user-plus me-2"></i> Assign to Agent
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <form action="{{ route('admin.support.assign', $ticket->id) }}" method="POST">
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="assigned_to" class="form-label">Assign to</label>
-                                    <select name="assigned_to" id="assigned_to" class="form-select">
-                                        <option value="">Select Agent</option>
-                                        @foreach($agents as $agent)
-                                            <option value="{{ $agent->id }}" {{ $ticket->assigned_to == $agent->id ? 'selected' : '' }}>
-                                                {{ $agent->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-user-check me-2"></i> Assign
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+           
             </div>
 
             <!-- Messages Section -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-info text-white">
-                    <h2 class="h5 mb-0 text-white">
-                        <i class="fas fa-comments me-2"></i> Messages
-                    </h2>
-                </div>
-                <div class="card-body">
-                    <div id="messages-container">
-                        @foreach($ticket->messages as $message)
-                            <div class="message bg-light p-3 rounded mb-3">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <strong>{{ $message->sender->name }}</strong>
-                                    <div>
-                                        <small class="text-muted">{{ $message->created_at->format('d-m-Y H:i') }}</small>
-                                    </div>
-                                </div>
-                                <p class="mb-0">{{ $message->message }}</p>
-                                
-                                {{-- Check if there are any attachments for the message --}}
-                                @if($message->attachments->isNotEmpty())
-                                    <div class="mt-2">
-                                        <strong>Attachments:</strong>
-                                        <ul class="list-unstyled">
-                                            @foreach($message->attachments as $attachment)
-                                                <li class="mt-2">
-                                                    {{-- Display file in iframe if it's a PDF or image --}}
-                                                    @if(in_array(pathinfo($attachment->file_path, PATHINFO_EXTENSION), ['pdf', 'jpg', 'jpeg', 'png']))
-                                                        <iframe src="{{ asset($attachment->file_path) }}" style="width:50%; height:200px;" frameborder="0"></iframe>
-<br>
-                                                        <a href="{{ asset($attachment->file_path) }}" target="_blank" class="text-info">
-                                                            {{ basename($attachment->file_path) }}
-                                                        </a>
-                                                    @else
-                                                        {{-- For other file types, show download link --}}
-                                                        <a href="{{ asset($attachment->file_path) }}" target="_blank" class="text-info">
-                                                            {{ basename($attachment->file_path) }}
-                                                        </a>
-                                                    @endif
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+         
             
             <!-- Update Status Form -->
-            <div class="card shadow-sm">
-                <div class="card-header bg-info text-dark">
-                    <h2 class="h5 mb-0 text-white">
-                        <i class="fas fa-tasks me-2"></i> Update Status
-                    </h2>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('admin.support.status', $ticket->id) }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select name="status" id="status" class="form-select">
-                                <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }}>Open</option>
-                                <option value="in_progress" {{ $ticket->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                <option value="resolved" {{ $ticket->status == 'resolved' ? 'selected' : '' }}>Resolved</option>
-                                <option value="closed" {{ $ticket->status == 'closed' ? 'selected' : '' }}>Closed</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-warning">
-                            <i class="fas fa-sync-alt me-2"></i> Update Status
-                        </button>
-                    </form>
-                </div>
-            </div>
+        
         </div>
     </div>
 </div>
