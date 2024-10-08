@@ -48,7 +48,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="Link">Link</label>
+                                <label for="Link">Link (Format - https://www.google.com/)</label>
                                 <input type="text" name="link" id="link" value="{{ $single_data->link??'' }}" class="form-control">
                             </div>
                         </div>

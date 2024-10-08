@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 // use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 
@@ -47,10 +48,10 @@ class User extends Authenticatable
     //     $this->attributes['password'] = bcrypt($password);
     // }
 
-    // public function role()
-    // {
-    //     return $this->belongsTo(Role::class);
-    // }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
     // public function roles()
     // {
     //     return $this->belongsToMany(Role::class);

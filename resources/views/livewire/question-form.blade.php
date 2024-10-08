@@ -1,4 +1,5 @@
 <div class="container-fluid">
+    @livewire('header', ['currentStep' => 2, 'maxStep' => 2])
     @if (session()->has('message'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('message') }}

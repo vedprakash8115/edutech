@@ -81,6 +81,18 @@
                                             </div>
                                         @endif
                                     </div>
+                                    <div class="col-md-6" data-aos="fade-right" data-aos-delay="300">
+                                        <div class="form-floating">
+                                            <select class="form-control" id="courseList" name="course[]" multiple>
+                                           @foreach($courses as $course)
+                                           <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                           @endforeach
+                                            </select>
+                                            
+                                            {{-- <label for="courseList" class="text-secondary">Select Courses</label> --}}
+                                        </div>
+                                    </div>
+                                    
                                     <div class="col-md-6" data-aos="fade-left" data-aos-delay="400">
                                         {{-- <div class="form-floating">
                                             <i class="fas fa-percent form-icon"></i>
@@ -407,6 +419,17 @@ function resetForm() {
 
         console.log('Form reset triggered');
     }
+    // -------------------------------------------------
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const element = document.getElementById('courseList');
+    const choices = new Choices(element, {
+        placeholderValue: 'Select Courses',
+        removeItemButton: true, // Add remove button for each selection
+        maxItemCount: 5,        // Maximum number of selections
+    });
+});
+
 </script>
 <script>
     $(document).ready(function() {

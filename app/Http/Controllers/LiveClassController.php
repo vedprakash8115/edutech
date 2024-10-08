@@ -10,6 +10,7 @@ use App\Models\CourseCategory;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\DataTables\LiveClassesDataTable;
 use App\Models\CourseSubCategory;
+use App\Models\VideoCourse;
 use App\Models\LiveClassPdf;
 use App\Http\Requests\StoreLiveClassRequest;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class LiveClassController extends Controller
     {
         try {
             $perPage = $request->input('per_page', 10);
-
+            $courses = VideoCourse::all();
             // Get all live classes for Yajra data table
             $liveClasses = LiveClass::paginate($perPage)->appends($request->query());
 
@@ -47,7 +48,8 @@ class LiveClassController extends Controller
                 'liveClasses' => $liveClasses,       // For the Yajra data table
                 'currentClasses' => $currentClasses, // For the current live classes box
                 'upcomingClasses' => $upcomingClasses, // For the upcoming classes box
-                'categories' => $categories
+                'categories' => $categories,
+                'courses' => $courses,
             ]);
         } catch (Exception $e) {
             Log::error('Error in index method: ' . $e->getMessage());

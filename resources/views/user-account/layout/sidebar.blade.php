@@ -9,15 +9,15 @@
     </div>
     <ul class="sidebar-nav list-unstyled">
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link {{ Route::is('user.account') ? 'active' : '' }}">
+            <a href="{{route('student.home')}}" class="sidebar-link {{ Route::is('user.account') ? 'active' : '' }}">
                 <i class="bi bi-person-circle me-2"></i>
-                My Account
+                Home
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link {{ Route::is('user.tests') ? 'active' : '' }}">
+            <a href="{{route('courses.index')}}" class="sidebar-link {{ Route::is('user.tests') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-text me-2"></i>
-                My Tests
+                Courses
             </a>
         </li>
         <li class="sidebar-item">

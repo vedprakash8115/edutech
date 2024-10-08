@@ -9,8 +9,10 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
+    
     public function insindex(){
         return view('auth.login');
+
     }
     public function login(Request $request){
         $request->validate([
@@ -20,10 +22,11 @@ class LoginController extends Controller
         if (Auth::attempt(['email'=>$request->email,'password'=>$request->password])) {
             Alert::alert('Great', 'You have successfully Login!');
             $curr_user = Auth::user();
+            
             $user_role = $curr_user->roles()->first();
             // dd($user_role);
              // Check if user has admin role and redirect accordingly
-             if ($curr_user->hasRole('admin')) {
+             if ($curr_user->hasAnyRole(['admin', 'agent'])) {
                 return redirect()->route('insdashboard');
             } elseif ($curr_user->hasRole('student')) {
                 return redirect()->route('student.profile');

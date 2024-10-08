@@ -1,3 +1,16 @@
+<?php
+    // Check if the user is not logged in
+    if (!auth()->check()) {
+        // Redirect to login page
+        // echo "<script>window.location.href = '" . route('login') . "';</script>";
+        exit(); // Stop further code execution
+    }
+?>
+
+
+
+
+
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -59,9 +72,17 @@
             width: 250px; /* Set the desired width */
             max-width: 100%; /* Ensure it doesn't exceed the container's width */
         }
-
+body{
+  background: whitesmoke
+}
 
       </style>
+      <script>
+          window.onpopstate = function(event) {
+            location.reload();  // Reload the previous page
+        };
+      </script>
+
     @stack('styles')
   </head>
 
@@ -78,7 +99,7 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                      @yield('content')
                 </div>
-                 @include('user-account.layout.footer')
+                 {{-- @include('user-account.layout.footer') --}}
                 <div class="content-backdrop fade"></div>
             </div>
           <!-- Content wrapper -->
@@ -93,9 +114,10 @@
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
     <!-- Core JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
-
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="{{asset('assets/vendor/libs/popper/popper.js')}}"></script>
     <script src="{{asset('assets/vendor/js/bootstrap.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>

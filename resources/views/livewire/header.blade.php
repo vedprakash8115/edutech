@@ -1,166 +1,123 @@
-<div class="mock-test-flowchart">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Mock Test Creation Flow</h3>
-                <div class="flow-steps">
-                    <a href="{{ route('mock_test') }}" class="flow-step">
-                        <div class="step-icon"><i class="fas fa-file-alt"></i></div>
-                        <div class="step-text">Create Test</div>
-                    </a>
-                    <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
-                    <a href="{{ route('mock_subjects') }}" class="flow-step">
-                        <div class="step-icon"><i class="fas fa-book"></i></div>
-                        <div class="step-text">Manage Subjects</div>
-                    </a>
-                    <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
-                    <a href="{{ route('mock_questions') }}" class="flow-step">
-                        <div class="step-icon"><i class="fas fa-question-circle"></i></div>
-                        <div class="step-text">Manage Questions</div>
-                    </a>
-                </div>
-                <div class="text-center mt-4">
-                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#instructionsModal">
-                        Read Instructions
-                    </button>
-                </div>
+{{-- <section>
+    <div class="container  d-flex justify-content-center">
+        <div class="card bg-light w-100  overflow-hidden" style="">
+            <div id="particles-js" class="position-absolute w-100 h-100" style="z-index: 0;"></div>
+            
+            <div class="card-body d-flex justify-content-center align-items-center  " style="z-index: 1;">
+                <button 
+                    class="btn m-2 custom-btn" 
+                    onclick="window.location.href='{{ route('mock_test') }}'">
+                    Manage Tests
+                </button>
+                
+                <!-- Vertical Line -->
+                <div style="border-left: 2px solid #000; height: 40px; margin: 0 15px;"></div>
+                
+                <button 
+                    class="btn m-2 custom-btn" 
+                    onclick="window.location.href='{{ route('mock_subjects') }}'">
+                    Manage Subjects
+                </button>
+                
+                <div style="border-left: 2px solid #000; height: 40px; margin: 0 15px;"></div>
+                <button 
+                    class="btn m-2 custom-btn" 
+                    onclick="window.location.href='{{ route('mock_questions') }}'">
+                    Manage Questions
+                </button>
+                <div style="border-left: 2px solid #000; height: 40px; margin: 0 15px;"></div>
+                <button 
+                    class="btn m-2 custom-btn" 
+                    onclick="window.location.href='{{ route('mock_sample') }}'">
+                    Sample View
+                </button>
             </div>
         </div>
+    </div>
+    
 
-    <!-- Instructions Modal -->
-        <div class="modal fade" id="instructionsModal" tabindex="-1" aria-labelledby="instructionsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="instructionsModalLabel">Mock Test Creation Instructions</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h4>Step-by-Step Guide</h4>
-                        <ol>
-                            <li>
-                                <strong>Create the Test Section</strong>
-                                <p>Start by creating the overall structure of your mock test. This includes setting the test name, duration, and any specific instructions for test-takers.</p>
-                            </li>
-                            <li>
-                                <strong>Create the Subjects Section</strong>
-                                <p>Define the subjects or topics that will be covered in your mock test. This helps in organizing questions and ensures a balanced test structure.</p>
-                            </li>
-                            <li>
-                                <strong>Create Questions for the Test</strong>
-                                <p>Develop a variety of questions for each subject. Ensure that the questions align with the test objectives and cover the necessary topics.</p>
-                            </li>
-                            <li>
-                                <strong>Create Options for MCQs</strong>
-                                <p>If your test includes multiple-choice questions (MCQs), create options for each question. Make sure to include the correct answer and plausible distractors.</p>
-                            </li>
-                        </ol>
-                        <h4>Additional Tips</h4>
-                        <ul>
-                            <li>Review and proofread all questions and answers to avoid errors.</li>
-                            <li>Upload images in question later if questions are uploaded via CSV </li>
-                            <li>Make sure if you proper negative marking and optional questions to avoid any conflicts.</li>
-                            <li>Provide clear instructions for each question type (e.g., MCQ, short answer, essay).</li>
-                        </ul>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <style>
-        .mock-test-flowchart {
-            font-family: 'Arial', sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+<style>
+/* body {
+    background-color: #f0f0f0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
 
-        .card {
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
+/* .card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+} */
 
-        .card:hover {
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
+.card-title {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
 
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-        }
+.custom-btn {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
 
-        .flow-steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+.custom-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.5),
+        transparent
+    );
+    transition: all 0.5s;
+}
 
-        .flow-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #777;
-            transition: all 0.3s ease;
-        }
+.custom-btn:hover::before {
+    left: 100%;
+}
 
-        .flow-step:hover {
-            transform: scale(1.05);
-        }
+.custom-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
 
-        .step-icon {
-            width: 60px;
-            height: 60px;
-            background: #007bff;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 10px;
-        }
+@media (max-width: 768px) {
+    .card-body {
+        flex-direction: column;
+    }
+    .custom-btn {
+        width: 100%;
+        margin: 0.5rem 0 !important;
+    }
+}
+</style>
 
-        .step-icon i {
-            font-size: 24px;
-            color: #fff;
-        }
-
-        .step-text {
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .flow-arrow {
-            font-size: 24px;
-            color: #007bff;
-        }
-
-        @media (max-width: 768px) {
-            .flow-steps {
-                flex-direction: column;
-            }
-            
-            .flow-arrow {
-                transform: rotate(90deg);
-                margin: 15px 0;
-            }
-        }
-        </style>
-        <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const flowSteps = document.querySelectorAll('.flow-step');
-            
-            flowSteps.forEach((step, index) => {
-                step.style.animationDelay = `${index * 0.2}s`;
-                step.classList.add('animate-in');
-            });
-        });
-        </script>
-        
-
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    particlesJS('particles-js', {
+        particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: "#3366cc" },
+            shape: { type: "circle" },
+            opacity: { value: 0.7, random: false },
+            size: { value: 4, random: true },
+            line_linked: { enable: false, distance: 150, color: "#3366cc", opacity: 0.4, width: 1 },
+            move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "bounce" }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+            modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+        },
+        retina_detect: true
+    });
+});
+</script>
+</section> --}}

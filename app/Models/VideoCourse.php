@@ -15,5 +15,13 @@ class VideoCourse extends Model
     {
         return $this->hasMany(Video::class);
     }
+    public function courseCategory()
+    {
+        return $this->belongsTo(CourseCategory::class, 'course_category_id');
+    }
+    public function book()
+    {
+        return $this->hasMany(Book::class , 'videocourse_id');
+    }
 
 }

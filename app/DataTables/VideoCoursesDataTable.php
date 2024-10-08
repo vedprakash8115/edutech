@@ -26,7 +26,8 @@ class VideoCoursesDataTable extends DataTable
                 
                 <button class="btn btn-sm btn-secondary my-2" onclick="addImage('.$row->id.')" style="width:100px;">Add Videos</button>
                 
-                <a href="'.route('videocourse.showVideos', $row->id).'" class="btn btn-sm btn-info my-2" style="width:100px;">View Videos</a>
+               <a href="route(filemanager)" class="btn btn-sm btn-secondary my-2" onclick="addImage('.$row->id.')" style="width:100px;">Add content</a>
+                
             ';
         })
         // <button class="btn btn-sm btn-danger my-2" onclick="deleteCourse('.$row->id.')">Delete</button>

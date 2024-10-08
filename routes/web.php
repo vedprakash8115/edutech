@@ -23,7 +23,12 @@ use App\Livewire\SubjectForm;
 use App\Livewire\QuestionForm;
 use App\Livewire\QuestionManagement;
 use App\Http\Controllers\SliderController;
-
+use App\Http\Controllers\StudentCourseController;
+use App\Http\Controllers\StudentBookController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\SupportController;
+use App\Http\Controllers\StudentSupportController;
+use App\Http\Controllers\AgentTicketController;
 // use App\Livewire\Test;
 // use livewire\livewire;
 /*
@@ -51,7 +56,7 @@ Route::get('/',[HomeController::class,'index'])->name('index');
 // Route::post('login', [LoginController::class, 'login'])->name('login');
 
 Route::middleware(['auth'])->group(function () {
-    Route::middleware(['auth', 'role:admin|teacher|superadmin'])->group(function () {
+    Route::middleware(['auth', 'role:admin|teacher|superadmin|agent'])->group(function () {
         Route::get('ins/content', [LiveClassController::class, 'index'])->name('liveclass');
         Route::post('ins/content', [LiveClassController::class, 'store'])->name('liveclass.store');
         Route::get('/live-classes/{id}', [LiveClassController::class, 'show'])->name('liveClasses.show');
@@ -124,7 +129,16 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('/ins/content/e-library', [ElibraryController::class, 'index'])->name('elibrary.store');
         // Route::get('/upload-monitor', [UploadMonitorController::class, 'index'])->name('upload.monitor');
         Route::resource('users', UserController::class);
+     
+      
 
+        Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::post('/books', [BookController::class, 'store'])->name('books.store');
+Route::get('/books/{book}', [BookController::class, 'edit'])->name('books.edit');
+Route::get('/' , [BookController::class , 'show'] )->name('books.files');
+
+Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
+Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
         // ----------------------------Mock test ------------------------------------------------------------------
         Route::get('/ins/content/mock', [MockTestController::class, 'index'])->name('mock');
         Route::get('/ins/content/mock/submit-form', [MockTestController::class, 'form'])->name('mock.subject_form');
@@ -147,12 +161,25 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/delete/{id}', [LiveClassPdfController::class , 'delete'])->name('live-class-pdfs.delete');
             Route::post('/delete-multiple', [LiveClassPdfController::class , 'deleteMultiple'])->name('live-class-pdfs.deleteMultiple');
         });
+
+
+
+        Route::get('/agent/tickets', [AgentTicketController::class, 'index'])->name('agent.tickets');
+        Route::get('/agent/tickets/{ticket}', [AgentTicketController::class, 'show'])->name('agent.tickets.show');
+        Route::post('/agent/tickets/{ticket}/resolve', [AgentTicketController::class, 'resolve'])->name('agent.tickets.resolve');
+
+
+
         Route::resource('testimonials',TestimonialController::class);
         Route::put('/testimonials/{id}/status', [TestimonialController::class, 'updateStatus'])->name('testimonials.updateStatus');
         Route::get('/userroles/{id}', [TestimonialController::class, 'getRolesByUser'])->name('roles.byUser');
         Route::resource('sliders',SliderController::class);
         Route::put('/sliders/{id}/status', [SliderController::class, 'updateStatus'])->name('sliders.updateStatus');
 
+        Route::get('/support', [SupportController::class, 'index'])->name('admin.support.index'); // Support dashboard
+    Route::get('/support/ticket/{ticket}', [SupportController::class, 'show'])->name('admin.support.show'); // View ticket details
+    Route::post('/support/ticket/{ticket}/assign', [SupportController::class, 'assignAgent'])->name('admin.support.assign'); // Assign support agent
+    Route::post('/support/ticket/{ticket}/status', [SupportController::class, 'updateStatus'])->name('admin.support.status'); // Update ticket status
         route::prefix('setting')->group(function () {
             Route::get('profile', [AdminProfileController::class,'show'])->name('admin.profile');
             Route::post('profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
@@ -161,6 +188,10 @@ Route::middleware(['auth'])->group(function () {
 
         });
     });
+   
+        Route::get('/agent/tickets', [AgentTicketController::class, 'index'])->name('agent.tickets');
+        Route::get('/agent/tickets/{ticket}', [AgentTicketController::class, 'show'])->name('agent.tickets.show');
+        Route::post('/agent/tickets/{ticket}/resolve', [AgentTicketController::class, 'resolve'])->name('agent.tickets.resolve');
 
     
 
@@ -169,7 +200,27 @@ Route::middleware(['auth'])->group(function () {
         Route::get('profile', [StudentHomeController::class, 'index'])->name('student.profile');
         Route::put('profile/update-details', [StudentHomeController::class, 'updateDetails'])->name('student.profile.updateDetails');
         Route::put('profile/update-image', [StudentHomeController::class, 'updateImage'])->name('student.profile.updateImage');
+        Route::get('/home' , [StudentCourseController::class,'index'])->name('student.home');
+        Route::get('/course/detail/{id}' , [StudentCourseController::class,'details'])->name('student.details');
+        Route::get('/courses', [StudentCourseController::class, 'courses'])->name('courses.index');
+        Route::get('/books', [StudentBookController::class, 'index'])->name('courses.books');
+        Route::get('/books/{id}', [StudentBookController::class, 'show'])->name('books.show');
+        Route::get('/support', [StudentSupportController::class, 'index'])->name('student.support.index'); // List tickets
+        Route::get('/support/ticket/create', [StudentSupportController::class, 'create'])->name('student.support.create'); // Create ticket form
+        Route::post('/support/ticket/store', [StudentSupportController::class, 'store'])->name('student.support.store'); // Store new ticket
+        Route::put('/ticket/{id}/reopen', [StudentSupportController::class, 'reopenTicket'])->name('student.support.reopen');
 
+        Route::get('/support/ticket/{ticket}', [StudentSupportController::class, 'show'])->name('student.support.show'); // View ticket details
+        Route::post('/support/ticket/{ticket}/reply', [StudentSupportController::class, 'reply'])->name('student.support.reply'); // Reply to a ticket
+Route::get('/api/courses', [StudentCourseController::class, 'getCourses'])->name('api.courses');
+Route::get('/support/messages/{ticket}', [StudentSupportController::class, 'getMessages'])->name('student.support.getMessages');
+Route::post('/support/reply/{ticket}', [StudentSupportController::class, 'reply']);
+
+
+Route::get('/courses/{id}', [StudentCourseController::class, 'show'])->name('courses.show');
+Route::post('/courses/{id}/enroll', [StudentCourseController::class, 'enroll'])->name('courses.enroll');
+Route::get('/courses/{courseId}/videos/{videoId}', [StudentCourseController::class, 'watchVideo'])->name('courses.watch-video');
+Route::get('/courses/{courseId}/videos/{videoId}/pdf', [StudentCourseController::class, 'downloadPDF'])->name('courses.download-pdf');
     });
 
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
@@ -177,6 +228,9 @@ Route::middleware(['auth'])->group(function () {
 
 
 });
+
+
+
 Route::get('/mock-test', MockTest::class)->name('mock_sample');
 Route::get('/mock-test/ques', QuestionManagement::class)->name('mock.man');
 // Auth::routes();

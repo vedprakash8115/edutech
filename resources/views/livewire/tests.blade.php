@@ -1,6 +1,6 @@
 <div class="col-md-12">
   
-    @livewire('header')
+    @livewire('header', ['currentStep' => 0, 'maxStep' => 2])
 
     
 <div class="card ">
