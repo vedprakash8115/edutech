@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class ChatController extends Controller
 {
     public function index(){
-
+        
         $videoCourses = VideoCourse::all();
         return view('ins.content.chat-support.chats',compact('videoCourses'));
     }
