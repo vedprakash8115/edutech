@@ -184,9 +184,13 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/sliders/{id}/status', [SliderController::class, 'updateStatus'])->name('sliders.updateStatus');
 
         Route::get('/support', [SupportController::class, 'index'])->name('admin.support.index'); // Support dashboard
-        Route::get('/support/ticket/{ticket}', [SupportController::class, 'show'])->name('admin.support.show'); // View ticket details
-        Route::post('/support/ticket/{ticket}/assign', [SupportController::class, 'assignAgent'])->name('admin.support.assign'); // Assign support agent
-        Route::post('/support/ticket/{ticket}/status', [SupportController::class, 'updateStatus'])->name('admin.support.status'); // Update ticket status
+        Route::get('/admin/support/tickets/search', [SupportController::class, 'search'])->name('tickets.search');
+
+    Route::get('/support/ticket/{ticket}', [SupportController::class, 'show'])->name('admin.support.show'); // View ticket detailsśśś
+    Route::delete('/admin/support/ticket/{ticket}', [SupportController::class, 'destroy'])->name('admin.support.delete'); // View ticket detailsśśś
+    Route::get('/support/ticket/{ticket}', [SupportController::class, 'show'])->name('admin.support.show'); // View ticket details
+    Route::post('/support/ticket/{ticket}/assign', [SupportController::class, 'assignAgent'])->name('admin.support.assign'); // Assign support agent
+    Route::post('/support/ticket/{ticket}/status', [SupportController::class, 'updateStatus'])->name('admin.support.status'); // Update ticket status
         route::prefix('setting')->group(function () {
             Route::get('profile', [AdminProfileController::class, 'show'])->name('admin.profile');
             Route::post('profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
