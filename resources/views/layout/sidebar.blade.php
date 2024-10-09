@@ -301,12 +301,12 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link" >
+                  <a href="{{route('admin.block-user')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Under Maintenance">Blocked Users</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link" >
+                  <a href="#" class="menu-link" >
                     <div class="ms-2" data-i18n="Under Maintenance">Sub-admin</div>
                   </a>
                 </li>

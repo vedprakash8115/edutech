@@ -197,6 +197,9 @@ Route::middleware(['auth'])->group(function () {
             Route::post('user/add', [AdminProfileController::class, 'addUser'])->name('admin.user.add');
             route::post('user/bulk-add-users', [AdminProfileController::class, 'bulkAddUsers'])->name('admin.bulkAddUsers');
 
+            Route::get('blocked-users', [AdminProfileController::class, 'blockUsers'])->name('admin.block-user');
+            Route::get('blocked-users/update/{id}', [AdminProfileController::class, 'blockUpdate'])->name('block-users.update');
+
         });
 
         // View file manager for a video course

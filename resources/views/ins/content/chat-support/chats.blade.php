@@ -1,6 +1,8 @@
-@extends('layout.app')
+@extends(Auth::user()->hasRole('admin|teacher') ? 'layout.app' : 'user-account.layout.app')
 
 @section('content')
+
+
 <div class="courses-container">
         <div class="courses-header">
             <h1 class="mb-0 text-white"><i class="fas fa-graduation-cap me-2"></i>Chat Support</h1>

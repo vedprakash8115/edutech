@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;   
 use League\Csv\Reader;
+use Yajra\DataTables\DataTables;
 
 
 class AdminProfileController extends Controller
@@ -99,5 +100,37 @@ class AdminProfileController extends Controller
         }
 
         return redirect()->back()->with('success', 'Users have been successfully added from CSV.');
+    }
+    public function blockUsers(Request $request)
+    {
+        if ($request->ajax()) {
+            $counter = 0;
+            $users = User::with('role')->where(['status' => '0'])->get(); // Assuming 'role' is a relationship
+            return DataTables::of($users)
+                ->addIndexColumn()
+                ->addColumn('id', function () use (&$counter) {
+                    return ++$counter;
+                })
+                ->addColumn('role', function ($user) {
+                    return $user->role ? $user->role->name : 'N/A'; // Return role name or N/A if no role
+                })
+                ->addColumn('action', function ($row) {
+                    return '<a href="' . route('block-users.update', $row->id) . '" class="btn btn-info btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i></a>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('admin.setting.blocked_users');
+    }
+    public function blockUpdate(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!empty($user)) {
+            $user->status = '1';
+            $user->update();
+            return redirect()->route('admin.block-user')->with('success', 'User has been activated successfully.');
+        } else {
+            return redirect()->route('admin.block-user')->with('error', 'Something went.');
+        }
     }
 }

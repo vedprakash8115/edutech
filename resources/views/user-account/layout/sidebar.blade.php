@@ -45,9 +45,9 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link" {{ Route::is('user.ebooks') ? 'active' : '' }}>
+            <a href="{{route('courses.books')}}" class="sidebar-link" {{ Route::is('user.ebooks') ? 'active' : '' }}>
                 <i class="bi bi-file-earmark-pdf me-2"></i>
-                My eBooks
+                My Books
             </a>
         </li>
         <li class="sidebar-item">
@@ -60,6 +60,12 @@
             <a href="{{route('chats')}}" class="sidebar-link" {{ Route::is('user.ebooks') ? 'active' : '' }}>
                 <i class="bi bi-file-earmark-pdf me-2"></i>
                 Chat Support
+            </a>
+        </li>
+        <li class="chats">
+            <a href="{{route('student.profile')}}" class="sidebar-link" {{ Route::is('user.ebooks') ? 'active' : '' }}>
+                <i class="bi bi-file-earmark-pdf me-2"></i>
+                Profile
             </a>
         </li>
     </ul>
