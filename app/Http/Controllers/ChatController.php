@@ -13,6 +13,14 @@ use Illuminate\Http\Request;
 class ChatController extends Controller
 {
     public function index(){
+        $user = auth()->user();
+
+        if($user -> hasRole("student")){
+            $userId = $user -> id;
+            $videoCourses = $user -> purchasedCourses;
+            return view('ins.content.chat-support.chats',compact('videoCourses'));
+
+        }
 
         $videoCourses = VideoCourse::all();
         return view('ins.content.chat-support.chats',compact('videoCourses'));
@@ -31,6 +39,9 @@ class ChatController extends Controller
         } elseif ($user->hasRole('admin')) {
             // If the user is an admin, return all groups
             $groups = Group::with('teacher')->where('video_course_id', $videoCourseId)->get();
+        }
+        elseif( $user->hasRole('student')){
+            $groups = $user->groups->where('video_course_id',$videoCourseId);
         }
 
 

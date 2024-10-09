@@ -61,5 +61,10 @@ class User extends Authenticatable
         return $this->belongsToMany(VideoCourse::class, 'video_course_user')->withTimestamps();
     }
 
+    public function Groups()
+    {
+        return $this->belongsToMany(Group::class,'group_user')->withTimestamps();
+    }
+
 
 }

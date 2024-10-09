@@ -1,6 +1,8 @@
-@extends('layout.app')
+@extends(Auth::user()->hasRole('admin|teacher') ? 'layout.app' : 'user-account.layout.app')
 
 @section('content')
+
+
 <div class="chat-container">
         <div class="row g-0">
             <!-- Groups Section -->
@@ -119,7 +121,6 @@ $(document).ready(function() {
     $('.group-item').on('click', function() {
         
         var groupId = $(this).data('group-id'); // Get the group ID from data attribute
-        console.log('Group ID:', groupId);
         loadChat(groupId); // Call the loadChat function
     });
 });
@@ -129,6 +130,7 @@ function loadChat(groupId) {
         url: '/chat-support/groups/' + groupId + '/load-chat',  // Your dynamic route to load the chat
         type: 'GET',
         success: function(response) {
+            console.log(response)
             $('.chat-section').html(response);  // Load the chat Blade into the chat messages section
         },
         error: function() {

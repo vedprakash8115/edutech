@@ -14,14 +14,14 @@ class MessageController extends Controller
 {
     public function index($groupId) {
         try {
+
             $data = $this->getGroupData($groupId); 
 
-    
+            Log::info($data['messages']);
             // Return a view with all relevant data
             return view('ins.content.chat-support.message', $data);
         } catch (\Exception $e) {
             // Log the error
-            \Log::error($e->getMessage());
             return back()->with('error', 'Something went wrong.');
         }
     }
@@ -88,7 +88,6 @@ class MessageController extends Controller
         $group = Group::with('teacher')->findOrFail($groupId); // Load the group with the teacher relationship
         $messages = Message::with('user')->where('group_id', $groupId)->orderBy('created_at', 'asc')->get();
         $videoCourseId = $group->video_course_id;
-        Log::info($group -> teacher);
         if ($group->teacher && $group->teacher->role_id === 3) {
             $teacherName = $group->teacher->name;
         } else {

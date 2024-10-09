@@ -57,8 +57,8 @@ Route::get('/login', function () {
 Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
-// Route::get('/',[HomeController::class,'index'])->name('index');
-
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/course-details/{id}', [HomeController::class, 'details'])->name('course.details');
 
 // Route::post('login', [LoginController::class, 'login'])->name('login');
 
@@ -136,16 +136,16 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('/ins/content/e-library', [ElibraryController::class, 'index'])->name('elibrary.store');
         // Route::get('/upload-monitor', [UploadMonitorController::class, 'index'])->name('upload.monitor');
         Route::resource('users', UserController::class);
-     
-      
+
+
 
         Route::get('/books', [BookController::class, 'index'])->name('books.index');
-Route::post('/books', [BookController::class, 'store'])->name('books.store');
-Route::get('/books/{book}', [BookController::class, 'edit'])->name('books.edit');
-Route::get('/' , [BookController::class , 'show'] )->name('books.files');
+        Route::post('/books', [BookController::class, 'store'])->name('books.store');
+        Route::get('/books/{book}', [BookController::class, 'edit'])->name('books.edit');
+        Route::get('/', [BookController::class, 'show'])->name('books.files');
 
-Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
-Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
+        Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
+        Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
         // ----------------------------Mock test ------------------------------------------------------------------
         Route::get('/ins/content/mock', [MockTestController::class, 'index'])->name('mock');
         Route::get('/ins/content/mock/submit-form', [MockTestController::class, 'form'])->name('mock.subject_form');
@@ -153,7 +153,7 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
         Route::get('/ins/content/mock/test', Tests::class)->name('mock_test');
         Route::get('/ins/content/mock/subjects', SubjectForm::class)->name('mock_subjects');
         Route::get('/ins/content/mock/question', QuestionForm::class)->name('mock_questions');
-        Route::resource('coupons',CouponController::class);
+        Route::resource('coupons', CouponController::class);
 
 
         // ----------------------------------testing--------------------------------------
@@ -163,10 +163,10 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
 
 
         Route::prefix('live-class-pdfs')->group(function () {
-            Route::get('/live-class-pdf/{id}', [LiveClassPdfController::class,'index'])->name('live-class-pdfs.index');
-            Route::post('/upload', [LiveClassPdfController::class , 'upload'])->name('live-class-pdfs.upload');
-            Route::delete('/delete/{id}', [LiveClassPdfController::class , 'delete'])->name('live-class-pdfs.delete');
-            Route::post('/delete-multiple', [LiveClassPdfController::class , 'deleteMultiple'])->name('live-class-pdfs.deleteMultiple');
+            Route::get('/live-class-pdf/{id}', [LiveClassPdfController::class, 'index'])->name('live-class-pdfs.index');
+            Route::post('/upload', [LiveClassPdfController::class, 'upload'])->name('live-class-pdfs.upload');
+            Route::delete('/delete/{id}', [LiveClassPdfController::class, 'delete'])->name('live-class-pdfs.delete');
+            Route::post('/delete-multiple', [LiveClassPdfController::class, 'deleteMultiple'])->name('live-class-pdfs.deleteMultiple');
         });
 
 
@@ -177,10 +177,10 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
 
 
 
-        Route::resource('testimonials',TestimonialController::class);
+        Route::resource('testimonials', TestimonialController::class);
         Route::put('/testimonials/{id}/status', [TestimonialController::class, 'updateStatus'])->name('testimonials.updateStatus');
         Route::get('/userroles/{id}', [TestimonialController::class, 'getRolesByUser'])->name('roles.byUser');
-        Route::resource('sliders',SliderController::class);
+        Route::resource('sliders', SliderController::class);
         Route::put('/sliders/{id}/status', [SliderController::class, 'updateStatus'])->name('sliders.updateStatus');
 
         Route::get('/support', [SupportController::class, 'index'])->name('admin.support.index'); // Support dashboard
@@ -192,14 +192,17 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
     Route::post('/support/ticket/{ticket}/assign', [SupportController::class, 'assignAgent'])->name('admin.support.assign'); // Assign support agent
     Route::post('/support/ticket/{ticket}/status', [SupportController::class, 'updateStatus'])->name('admin.support.status'); // Update ticket status
         route::prefix('setting')->group(function () {
-            Route::get('profile', [AdminProfileController::class,'show'])->name('admin.profile');
+            Route::get('profile', [AdminProfileController::class, 'show'])->name('admin.profile');
             Route::post('profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
             Route::post('user/add', [AdminProfileController::class, 'addUser'])->name('admin.user.add');
             route::post('user/bulk-add-users', [AdminProfileController::class, 'bulkAddUsers'])->name('admin.bulkAddUsers');
 
+            Route::get('blocked-users', [AdminProfileController::class, 'blockUsers'])->name('admin.block-user');
+            Route::get('blocked-users/update/{id}', [AdminProfileController::class, 'blockUpdate'])->name('block-users.update');
+
         });
 
-                // View file manager for a video course
+        // View file manager for a video course
         Route::get('/video-course/{id}/folders', [FolderController::class, 'index'])->name('folders.index');
         Route::get('folder/{folderId}', [FolderController::class, 'showFolder'])->name('folders.show');
 
@@ -221,44 +224,29 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
         Route::get('/hierarchy/{videoCourseId}', [FolderController::class, 'showHierarchy'])->name('folders.hierarchy');
         Route::get('/folders/load-subfolders/{parentId}', [FolderController::class, 'loadSubfolders'])->name('folder.subfolders');
         Route::post('/move-folder/{draggedId}/to/{targetId}', [FolderController::class, 'moveFolder']);
-        Route::post('/move-file/{fileId}/to/{targetFolderId}', [FileController::class,'moveFile']);
+        Route::post('/move-file/{fileId}/to/{targetFolderId}', [FileController::class, 'moveFile']);
 
 
 
-        // chats
-        Route::get('/chat-support',[ChatController::class,'index'])->name('chats'); 
-        Route::get('/chat-support/{videoCoursesId}/groups', [ChatController::class, 'chatroom'])->name('chats.groups');
-        Route::post('groups/store', [ChatController::class, 'storeGroup'])->name('groups.store');
-
-        Route::post('groups/add-people/{groupId}', [MessageController::class, 'addPeopleToGroup'])->name('groups.addPeople');
-        Route::get('/chat-support/groups/{groupId}/load-chat', [MessageController::class, 'index'])->name('groups.loadChat');
-        Route::post('/chat-support/messages/store', [MessageController::class, 'store'])->name('messages.store');
-        Route::get('/chat-support/groups/{groupId}/available-students', [MessageController::class, 'availableStudents']);
-        // Route to fetch available teachers
-        Route::get('/chat-support/groups/teachers', [MessageController::class, 'getAvailableTeachers']);
-
-        // Route to assign a teacher to a group
-        Route::post('/chat-support/groups/{groupId}/assign-teacher', [MessageController::class, 'assignTeacher']);
+        
 
 
 
-
-                    
     });
-   
-        Route::get('/agent/tickets', [AgentTicketController::class, 'index'])->name('agent.tickets');
-        Route::get('/agent/tickets/{ticket}', [AgentTicketController::class, 'show'])->name('agent.tickets.show');
-        Route::post('/agent/tickets/{ticket}/resolve', [AgentTicketController::class, 'resolve'])->name('agent.tickets.resolve');
 
-    
+    Route::get('/agent/tickets', [AgentTicketController::class, 'index'])->name('agent.tickets');
+    Route::get('/agent/tickets/{ticket}', [AgentTicketController::class, 'show'])->name('agent.tickets.show');
+    Route::post('/agent/tickets/{ticket}/resolve', [AgentTicketController::class, 'resolve'])->name('agent.tickets.resolve');
+
+
 
     // Student Dashboard Route (accessible only by student)
     Route::prefix('student')->middleware(['auth', 'role:student'])->group(function () {
         Route::get('profile', [StudentHomeController::class, 'index'])->name('student.profile');
         Route::put('profile/update-details', [StudentHomeController::class, 'updateDetails'])->name('student.profile.updateDetails');
         Route::put('profile/update-image', [StudentHomeController::class, 'updateImage'])->name('student.profile.updateImage');
-        Route::get('/home' , [StudentCourseController::class,'index'])->name('student.home');
-        Route::get('/course/detail/{id}' , [StudentCourseController::class,'details'])->name('student.details');
+        Route::get('/home', [StudentCourseController::class, 'index'])->name('student.home');
+        Route::get('/course/detail/{id}', [StudentCourseController::class, 'details'])->name('student.details');
         Route::get('/courses', [StudentCourseController::class, 'courses'])->name('courses.index');
         Route::get('/books', [StudentBookController::class, 'index'])->name('courses.books');
         Route::get('/books/{id}', [StudentBookController::class, 'show'])->name('books.show');
@@ -269,7 +257,7 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
 
         Route::get('tests', [TestController::class, 'index'])->name('tests');
 
-        
+
 
 
         Route::get('/support/ticket/{ticket}', [StudentSupportController::class, 'show'])->name('student.support.show'); // View ticket details
@@ -284,6 +272,23 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
         Route::get('/courses/{courseId}/videos/{videoId}', [StudentCourseController::class, 'watchVideo'])->name('courses.watch-video');
         Route::get('/courses/{courseId}/videos/{videoId}/pdf', [StudentCourseController::class, 'downloadPDF'])->name('courses.download-pdf');
     });
+
+    // chats
+    Route::get('/chat-support', [ChatController::class, 'index'])->name('chats');
+    Route::get('/chat-support/{videoCoursesId}/groups', [ChatController::class, 'chatroom'])->name('chats.groups');
+    Route::post('groups/store', [ChatController::class, 'storeGroup'])->name('groups.store');
+
+    Route::post('groups/add-people/{groupId}', [MessageController::class, 'addPeopleToGroup'])->name('groups.addPeople');
+    Route::get('/chat-support/groups/{groupId}/load-chat', [MessageController::class, 'index'])->name('groups.loadChat');
+    Route::post('/chat-support/messages/store', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/chat-support/groups/{groupId}/available-students', [MessageController::class, 'availableStudents']);
+    // Route to fetch available teachers
+    Route::get('/chat-support/groups/teachers', [MessageController::class, 'getAvailableTeachers']);
+
+    // Route to assign a teacher to a group
+    Route::post('/chat-support/groups/{groupId}/assign-teacher', [MessageController::class, 'assignTeacher']);
+
+
 
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 

@@ -266,7 +266,7 @@
         </div>
 
         <!-- modal  -->
-        <div class="modal fade" id="contentModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
+        <div class="modal fade top-0" id="contentModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg-custom">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -280,7 +280,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
+        <div class="modal fade top-0" id="userModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg-custom">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -294,7 +294,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="marketingModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
+        <div class="modal fade top-0" id="marketingModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg-custom">
                 <div class="modal-content">
                     <div class="modal-header">

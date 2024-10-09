@@ -253,9 +253,11 @@
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle" >
-                  <i class="menu-icon fas fa-bullhorn"></i>
-                  <div class="ms-2" data-i18n="Authentications">Support</div>
+              <a href="{{route('admin.support.index')}}" class="menu-link" >
+                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
+                <i class="menu-icon fas fa-headset"></i> <!-- Headset icon -->
+
+                <div class="ms-2" data-i18n="Authentications">Support</div>
               </a>
 
               <ul class="menu-sub">
@@ -313,12 +315,12 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link" >
+                  <a href="{{route('admin.block-user')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Under Maintenance">Blocked Users</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link" >
+                  <a href="#" class="menu-link" >
                     <div class="ms-2" data-i18n="Under Maintenance">Sub-admin</div>
                   </a>
                 </li>
