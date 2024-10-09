@@ -32,7 +32,8 @@
 <div class="modal fade" id="uploadPdfModal" tabindex="-1" aria-labelledby="uploadPdfModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="uploadPdfForm" enctype="multipart/form-data"> 
+            <form action="{{ isset($folder) ? route('folders.subfolder.upload', [$videoCourse ?? $videoCourse->id, $folder->id]) : route('folders.upload', $videoCourse->id) }}"
+                method="POST" id="uploadPdfForm" enctype="multipart/form-data"> 
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="uploadPdfModalLabel">Upload PDF</h5>
