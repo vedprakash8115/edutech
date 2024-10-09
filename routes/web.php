@@ -57,8 +57,8 @@ Route::get('/login', function () {
 Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
-Route::get('/',[HomeController::class,'index'])->name('index');
-Route::get('/course-details/{id}',[HomeController::class,'details'])->name('course.details');
+// Route::get('/',[HomeController::class,'index'])->name('index');
+
 
 // Route::post('login', [LoginController::class, 'login'])->name('login');
 
@@ -297,4 +297,5 @@ Route::get('/mock-test', MockTest::class)->name('mock_sample');
 Route::get('/mock-test/ques', QuestionManagement::class)->name('mock.man');
 // Auth::routes();
 // Route::get('/check' , Check::class);
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/course-details/{id}',[HomeController::class,'details'])->name('course.details');

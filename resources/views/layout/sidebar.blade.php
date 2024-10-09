@@ -254,12 +254,24 @@
 
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle" >
-                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fas fa-headset"></i> <!-- Headset icon -->
-
-                <div class="ms-2" data-i18n="Authentications">Support</div>
+                  <i class="menu-icon fas fa-bullhorn"></i>
+                  <div class="ms-2" data-i18n="Authentications">Support</div>
               </a>
-            </li>
+
+              <ul class="menu-sub">
+                  <li class="menu-item {{ request()->routeIs('coupons.index') ? 'active' : '' }}">
+                      <a href="{{ route('admin.support.index') }}" class="menu-link" >
+                          <div class="ms-2" data-i18n="Without menu">Admin Support</div>
+                      </a>
+                  </li>
+                  <li class="menu-item {{ request()->routeIs('sliders.index') ? 'active' : '' }}">
+                      <a href="{{ route('agent.tickets') }}" class="menu-link">
+                          <div class="ms-2" data-i18n="Without menu">Agent Support</div>
+                      </a>
+                  </li>
+                
+              </ul>
+          </li>
             <li class="menu-item">
               <a href="{{route('mock_test')}}" class="menu-link" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
