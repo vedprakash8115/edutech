@@ -220,7 +220,7 @@ class FolderController extends Controller
             FolderHierarchy::where('descendant_id', $folder->id)->delete();
     
             // Always create a self-relation (folder is its own ancestor with depth 0)
-            FolderHierarchy::create([
+            FolderHierarchy::firstOrCreate([
                 'ancestor_id' => $folder->id,
                 'descendant_id' => $folder->id,
                 'depth' => 0,
@@ -231,7 +231,7 @@ class FolderController extends Controller
     
                 // Insert the parent and all of its ancestors as ancestors of this folder
                 foreach ($parentFolder->ancestors as $ancestor) {
-                    FolderHierarchy::create([
+                    FolderHierarchy::firstOrCreate([
                         'ancestor_id' => $ancestor->id,
                         'descendant_id' => $folder->id,
                         'depth' => $ancestor->pivot->depth + 1,
@@ -239,7 +239,7 @@ class FolderController extends Controller
                 }
     
                 // Direct parent-child relationship (depth 1)
-                FolderHierarchy::create([
+                FolderHierarchy::firstOrCreate([
                     'ancestor_id' => $parentFolder->id,
                     'descendant_id' => $folder->id,
                     'depth' => 1,
