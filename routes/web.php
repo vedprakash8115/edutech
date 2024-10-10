@@ -5,6 +5,8 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\SEOController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\StudentHomeController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -57,7 +59,7 @@ Route::get('/login', function () {
 Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
-Route::get('/', [HomeController::class, 'index'])->name('index');
+// Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/course-details/{id}', [HomeController::class, 'details'])->name('course.details');
 
 // Route::post('login', [LoginController::class, 'login'])->name('login');
@@ -156,8 +158,26 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('coupons', CouponController::class);
 
 
+
+
+
         // ----------------------------------testing--------------------------------------
-        // Route::get('/ins/content/test')
+         Route::get('/admin/seo', [SEOController::class, 'index'])->name('seo.index');
+
+    // Route to display the form for creating new SEO data
+    Route::get('/admin/seo/create', [SEOController::class, 'create'])->name('seo.create');
+
+    // Route to store the new SEO data in the database
+    Route::post('/admin/seo', [SEOController::class, 'store'])->name('seo.store');
+
+    // Route to display the form for editing existing SEO data
+    Route::get('/admin/seo/{id}/edit', [SEOController::class, 'edit'])->name('seo.edit');
+
+    // Route to update the existing SEO data in the database
+    Route::put('/admin/seo/{id}', [SEOController::class, 'update'])->name('seo.update');
+
+    // Route to delete the SEO data
+    Route::delete('/admin/seo/{id}', [SEOController::class, 'destroy'])->name('seo.destroy');
 
         // ----------------------------------------------------------------------------------
 
@@ -304,3 +324,4 @@ Route::get('/mock-test/ques', QuestionManagement::class)->name('mock.man');
 // Route::get('/check' , Check::class);
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/course-details/{id}',[HomeController::class,'details'])->name('course.details');
+Route::get('/generate-sitemap', [SitemapController::class, 'index']);

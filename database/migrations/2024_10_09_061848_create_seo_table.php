@@ -13,14 +13,27 @@ return new class extends Migration
     {
         Schema::create('seo', function (Blueprint $table) {
             $table->id();
-            $table->string('page_slug');
-            $table->string('meta_title');
+            $table->string('page_slug')->unique();
+            $table->string('title', 60);
             $table->text('meta_description');
-            $table->string('canonical_url')->nullable();
-            $table->string('keywords')->nullable();
-            $table->string('og_title')->nullable(); // Open Graph
+            $table->string('meta_keywords')->nullable();
+            $table->string('viewport')->nullable();
+            $table->string('robots')->nullable();
+            $table->string('author')->nullable();
+            $table->string('copyright')->nullable();
+            $table->string('og_title', 60)->nullable();
+            $table->string('og_type')->nullable();
+            $table->string('og_url')->nullable();
+            $table->string('og_image')->nullable();
             $table->text('og_description')->nullable();
-            $table->string('schema_markup')->nullable(); // JSON-LD Schema
+            $table->string('og_site_name')->nullable();
+            $table->string('og_locale')->nullable();
+            $table->string('og_audio')->nullable();
+            $table->string('og_video')->nullable();
+            $table->string('canonical_url')->nullable();
+            $table->text('robots_txt')->nullable();
+            $table->text('schema_markup')->nullable();
+            $table->string('sitemap_url')->nullable();
             $table->timestamps();
         });
     }
