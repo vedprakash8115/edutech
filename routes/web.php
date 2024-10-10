@@ -55,7 +55,10 @@ Route::get('/login', function () {
 // Route::get('login', function () {
 //     return view('dashboard');
 // });
-
+Route::get('/clear-route-cache', function () {
+    Artisan::call('route:clear');
+    return "Route cache cleared!";
+});
 Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
@@ -149,9 +152,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
         Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
         // ----------------------------Mock test ------------------------------------------------------------------
-        Route::get('/ins/content/mock', [MockTestController::class, 'index'])->name('mock');
-        Route::get('/ins/content/mock/submit-form', [MockTestController::class, 'form'])->name('mock.subject_form');
-        Route::get('/ins/content/mock/question-form', [MockTestController::class, 'question'])->name('mock.question_form');
+        // Route::get('/ins/content/mock', [MockTestController::class, 'index'])->name('mock');
+        // Route::get('/ins/content/mock/submit-form', [MockTestController::class, 'form'])->name('mock.subject_form');
+        // Route::get('/ins/content/mock/question-form', [MockTestController::class, 'question'])->name('mock.question_form');
         Route::get('/ins/content/mock/test', Tests::class)->name('mock_test');
         Route::get('/ins/content/mock/subjects', SubjectForm::class)->name('mock_subjects');
         Route::get('/ins/content/mock/question', QuestionForm::class)->name('mock_questions');
@@ -319,6 +322,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('/mock-test', MockTest::class)->name('mock_sample');
+Route::get('/check', App\Livewire\Check::class)->name('mock_sample');
 Route::get('/mock-test/ques', QuestionManagement::class)->name('mock.man');
 // Auth::routes();
 // Route::get('/check' , Check::class);
