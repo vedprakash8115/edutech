@@ -78,7 +78,7 @@
 
             <!-- Layouts -->
 
-            <li class="menu-item">
+            <li class="menu-item {{ request()->routeIs('liveclass') ? 'active' : '' }}">
               <a href="{{ route('liveclass') }}" class="menu-link " >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-video"></i> <!-- Video icon -->
@@ -95,17 +95,17 @@
               </a>
 
               <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {{ request()->routeIs('videocourse') ? 'active' : '' }}">
                   <a href="{{route('videocourse')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Without menu">Courses</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item ">
                   <a href="{{route('videocourse')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Without navbar">News</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item  {{ request()->routeIs('elibrary') ? 'active' : '' }}">
                   <a href="{{route('elibrary')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Container">E-Library</div>
                   </a>
@@ -158,12 +158,12 @@
                 <div class="ms-2" data-i18n="Authentications">User Management</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item  {{ request()->routeIs('users.index') ? 'active' : '' }}">
                   <a href="{{ route('users.index')}}" class="menu-link {{ request()->routeIs('users.index') ? 'active' : '' }}" >
                     <div class="ms-2" data-i18n="Basic">Manage Users</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item  {{ request()->routeIs('roles.index') ? 'active' : '' }}">
                     <a href="{{ route('roles.index') }}" class="menu-link {{ request()->routeIs('roles.index') ? 'active' : '' }}" >
                       <div class="ms-2" data-i18n="Basic">Add Roles</div>
                     </a>
@@ -234,8 +234,8 @@
               </a>
             </li> -->
 
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle" >
+            <li class="menu-item  {{ request()->routeIs('books.index') ? 'active' : '' }}">
+              <a href="{{route('books.index')}}" class="menu-link" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-book"></i> <!-- Book icon -->
 
@@ -252,7 +252,7 @@
               </a>
             </li>
 
-            <li class="menu-item">
+            <li class="menu-item  {{ request()->routeIs('admin.support.index') ? 'active' : '' }}">
               <a href="{{route('admin.support.index')}}" class="menu-link" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-headset"></i> <!-- Headset icon -->
@@ -274,7 +274,7 @@
                 
               </ul>
           </li>
-            <li class="menu-item">
+            <li class="menu-item  {{ request()->routeIs('mock_test') ? 'active' : '' }}">
               <a href="{{route('mock_test')}}" class="menu-link" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-flask"></i>  <!-- Headset icon -->
@@ -285,7 +285,7 @@
 
 
 
-            <li class="menu-item">
+            <li class="menu-item  {{ request()->routeIs('chats') ? 'active' : '' }}">
               <a href="{{route('chats')}}" class="menu-link" >
                 <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
                 <i class="menu-icon fas fa-comments"></i> <!-- Comments icon -->
@@ -309,12 +309,12 @@
                 <div class="ms-2" data-i18n="Misc">Setting</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item  {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
                   <a href="{{route('admin.profile')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Error">Profile</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item  {{ request()->routeIs('admin.block-user') ? 'active' : '' }}">
                   <a href="{{route('admin.block-user')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Under Maintenance">Blocked Users</div>
                   </a>
@@ -324,7 +324,7 @@
                     <div class="ms-2" data-i18n="Under Maintenance">Sub-admin</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item  {{ request()->routeIs('addlevel0') ? 'active' : '' }}">
                   <a href="{{route('addlevel0')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Under Maintenance">Manage Categories</div>
                   </a>

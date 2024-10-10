@@ -15101,6 +15101,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 .menu-vertical .menu-item.active:not(.open) > .menu-link {
   font-weight: 600;
 }
+
 .menu-vertical .menu-item .menu-toggle {
   padding-right: calc(1rem + 1.26em);
 }
