@@ -112,68 +112,31 @@
             padding: 5px 10px;
             border-radius: 5px;
         }
-    </style>
-</head>
-<body>
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<div id="timeline"></div>
-
-<div id="event-panel">
-    <h3>Event Details</h3>
-    <input type="text" id="event-name" placeholder="Event Name" required>
-    <textarea id="event-content" placeholder="Content" rows="3" required></textarea>
-    <input type="datetime-local" id="event-start" required>
-    <input type="datetime-local" id="event-end" placeholder="End Date (optional)">
-    <button id="save-event">Save Event</button>
-    <button id="delete-event">Delete Event</button>
-</div>
 
 <script>
-    const events = [
-        {
-            start_date: { year: 2024, month: 1, day: 1 },
-            text: { headline: "Event 1", text: "Details of event 1" }
+$(document).ready(function() {
+    // Add click event listener for group items
+    $('.group-item').on('click', function() {
+        
+        var groupId = $(this).data('group-id'); // Get the group ID from data attribute
+        loadChat(groupId); // Call the loadChat function
+    });
+});
+
+function loadChat(groupId) {
+    $.ajax({
+        url: '/chat-support/groups/' + groupId + '/load-chat',  // Your dynamic route to load the chat
+        type: 'GET',
+        success: function(response) {
+            $('.chat-section').html(response);  // Load the chat Blade into the chat messages section
         },
-        {
-            start_date: { year: 2024, month: 2, day: 1 },
-            text: { headline: "Event 2", text: "Details of event 2" }
-        },
-    ];
-
-    function renderTimeline() {
-        new TL.Timeline('timeline', { events });
-    }
-
-    renderTimeline(); // Initial render
-
-    document.getElementById('save-event').addEventListener('click', () => {
-        const newEvent = {
-            start_date: {
-                year: new Date(document.getElementById('event-start').value).getFullYear(),
-                month: new Date(document.getElementById('event-start').value).getMonth() + 1,
-                day: new Date(document.getElementById('event-start').value).getDate()
-            },
-            text: {
-                headline: document.getElementById('event-name').value,
-                text: document.getElementById('event-content').value
-            }
-        };
-        events.push(newEvent);
-        renderTimeline(); // Re-render timeline with new event
-        document.getElementById('event-panel').style.display = 'none'; // Hide event panel
+        error: function() {
+            alert('Failed to load chat. Please try again.');
+        }
     });
-
-    document.getElementById('delete-event').addEventListener('click', () => {
-        // Implement deletion logic
-    });
-
-    // Example for adding new event on double click
-    document.getElementById('timeline').addEventListener('dblclick', () => {
-        const clickedTime = new Date(); // Get current time for simplicity
-        document.getElementById('event-start').value = clickedTime.toISOString().slice(0, 16);
-        document.getElementById('event-panel').style.display = 'block';
-    });
+}
 </script>
-
-</body>
-</html>
+@endsection
