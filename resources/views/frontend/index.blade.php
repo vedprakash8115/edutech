@@ -33,53 +33,59 @@
     <!-- header -->
 
     <header>
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
-          <!-- Logo -->
-          <a class="navbar-brand" href="#">Logo</a>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-graduation-cap me-2"></i>Edutech
+            </a>
 
-          <!-- Search Bar -->
-          <div class="d-none d-lg-flex flex-row align-items-center search-btn">
-            <form class="d-flex me-auto ms-lg-3 my-2 my-lg-0">
-              <input class="me-2" type="search" placeholder="Search courses" aria-label="Search" />
-              <button class="btn" type="submit">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                </svg>
-              </button>
-            </form>
-          </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-          <!-- Custom Sidebar Toggle Button - Visible Only on Smaller Screens -->
-          <button class="custom-toggler d-lg-none" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
-          </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="d-flex flex-column flex-lg-row align-items-center w-100">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                All Courses
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Web Development</a></li>
+                                <li><a class="dropdown-item" href="#">Data Science</a></li>
+                                <li><a class="dropdown-item" href="#">Mobile App Development</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#popularCourses"><i class="fas fa-book me-1"></i>Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#explore"><i class="fas fa-calendar-alt me-1"></i>Explore</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#study-resources"><i class="fas fa-users me-1"></i>Study Resources</a>
+                        </li>
+                    </ul>
 
-          <!-- Collapsible content - Visible on Larger Screens -->
-          <div class="collapse navbar-collapse d-lg-flex" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <!-- Dropdown for All Courses -->
-              <li class="nav-item dropdown">
-                <a class="nav-link" href="#" id="navbarDropdown" role="button">
-                  All courses <i class="fas fa-arrow-right"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li class="dropdown-item"><a href="#">Course 1</a></li>
-                  <li class="dropdown-item"><a href="#">Course 2</a></li>
-                  <li class="dropdown-item"><a href="#">Course 3</a></li>
-                </ul>
-              </li>
-              <!-- Right-aligned Navbar Links -->
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ route('index') }}">Home</a></li>
-              {{-- <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Another Link</a></li> --}}
-            </ul>
-            <button class="btn bell-icon"><i class="fas fa-bell"></i></button>
-            <!-- Login/Register Button -->
-            <a  href="{{ route('login')}}" class="btn login-btn ms-lg-2 btn-success" type="submit">Login</a>
-          </div>
+                    <div class="d-flex align-items-center">
+                        <div class="search-btn me-3">
+                            <input type="search" placeholder="Search courses" aria-label="Search" />
+                            <button type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <button class="btn-icon me-3" title="Notifications">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        <button class="btn-icon me-3" title="Messages">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                        <a href="#" class="login-btn">Login</a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </nav>
+    </nav>
 
       <!-- Sidebar Content - Only Visible on Smaller Screens -->
       <div class="sidebar" id="sidebar">
@@ -138,35 +144,32 @@
     <!-- carousel -->
 
     <section id="carouselBanners">
-      <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-              @foreach ($sliders as $index => $slider)
+        <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @foreach ($sliders as $index => $slider)
+                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}" style="background-image: url('{{ asset($slider->image) }}');">
+                        <div class="carousel-caption d-md-block">
+                            <h5>{{ $slider->title }}</h5>
+                            <p>{{ $slider->description }}</p>
+                            @if ($slider->button_name && $slider->link)
+                                <a href="{{ $slider->link }}" class="btn btn-primary">{{ $slider->button_name }}</a>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
 
-                  <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                      <img src="{{ asset($slider->image) }}" class="d-block w-100" alt="{{ $slider->title }}">
-                      <div class="carousel-caption d-none d-md-block">
-                          <h5>{{ $slider->title }}</h5>
-                          <p>{{ $slider->description }}</p>
-                          @if ($slider->button_name && $slider->link)
-                              <a href="{{ $slider->link }}" class="btn btn-primary">{{ $slider->button_name }}</a>
-                          @endif
-                      </div>
-                  </div>
-              @endforeach
-          </div>
-
-          <!-- Carousel Controls -->
-          <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-          </button>
-      </div>
-  </section>
-
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
 
     <!-- carousel  -->
 

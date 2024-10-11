@@ -1,3 +1,5 @@
+
+
 <div class="chat-header bg-white shadow-sm rounded-lg p-3">
     <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
@@ -5,14 +7,14 @@
             <span class="badge bg-success ms-2 py-1 px-2">Active</span>
         </div>
 
-        
+
         <div class="d-flex align-items-center">
             <button class="btn btn-info btn-sm me-1" id="openGroupInfoBtn">
                 <i class="fas fa-info-circle"></i>
             </button>
             <div class="dropdown me-3">
             @role('admin') <!-- Check if the user is an admin -->
-                <button class="btn btn-outline-primary btn-sm dropdown-toggle d-flex align-items-center" 
+                <button class="btn btn-outline-primary btn-sm dropdown-toggle d-flex align-items-center"
                     type="button" id="teacherDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-chalkboard-teacher me-2"></i>
                     {{ ($group->teacher_id) ? 'Change Teacher' : 'Assign Teacher' }}
@@ -23,7 +25,7 @@
                     <!-- Teachers will be dynamically loaded here -->
                 </ul>
             </div>
-            
+
             <button class="btn btn-primary btn-sm d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#addPeopleModal" data-group-id="{{ $group->id }}">
                 <i class="fas fa-user-plus me-2"></i> Add People
             </button>
@@ -34,13 +36,13 @@
         <small><i class="fas fa-user-tie me-1"></i> Teacher: <span id="teacherNameDisplay">{{ $teacherName }}</span></small>
     </div>
     </div>
-    
+
 </div>
 <div class="chat-messages">
     @foreach($messages as $message)
         <div class="message-wrapper {{ $message->user_id === auth()->id() ? '' : 'wrapper-received' }}">
             <div class="user {{ $message->user_id === auth()->id() ? 'current-user' : '' }}">
-                {{$message->user->name}} 
+                {{$message->user->name}}
             </div>
             <div class="message {{ $message->user_id === auth()->id() ? 'message-sent' : 'message-received' }}">
                 {{ $message->content }}
@@ -247,6 +249,7 @@
         background-color: #128C7E;
     }
 </style>
+
 <script>
 $(document).ready(function() {
     // Open the modal
@@ -275,10 +278,10 @@ $(document).ready(function() {
 </script>
 <script>
 $(document).ready(function() {
+    // Handle message sending
     $('#sendMessage').on('click', function() {
         var content = $('#messageContent').val();
         var groupId = $('#groupId').val();
-
         // Send AJAX request to store the message
         $.ajax({
             url: '/chat-support/messages/store',
@@ -300,8 +303,12 @@ $(document).ready(function() {
             }
         });
     });
+
 });
+
+
 </script>
+
 <script>
     $(document).ready(function() {
     // Fetch and populate the teacher dropdown when the page loads
@@ -313,7 +320,6 @@ $(document).ready(function() {
             type: 'GET',
             success: function(response) {
                 $('#teacherDropdownMenu').empty(); // Clear existing options
-                console.log(response)
                 response.teachers.forEach(function(teacher) {
                     $('#teacherDropdownMenu').append(
                         '<li><a class="dropdown-item" href="#" data-teacher-id="' + teacher.id + '">' + teacher.name + '</a></li>'
@@ -344,7 +350,6 @@ $(document).ready(function() {
         success: function(response) {
             // Assuming response contains the updated teacher's name
             const teacherName = response[0].teacher_name;
-            console.log(teacherName)
 
             // Update the displayed teacher name in the DOM
             $('#teacherNameDisplay').text(teacherName); // Update the teacher name dynamically

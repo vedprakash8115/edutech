@@ -130,3 +130,14 @@ let menu, animate;
 //   document.body.setAttribute('data-theme', newTheme);
 //   localStorage.setItem('theme', newTheme);
 // });
+
+    window.Pusher = Pusher;
+    
+    // Initialize Echo with Pusher
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: "2ca60163325399dec913", // Your Pusher App Key
+        cluster: "ap2", // Your Pusher App Cluster
+        forceTLS: true, // Enable secure connection (wss)
+        encrypted: true // This is for TLS/SSL encryption
+    });

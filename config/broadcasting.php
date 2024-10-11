@@ -13,9 +13,9 @@ return [
     |
     | Supported: "pusher", "ably", "redis", "log", "null"
     |
-    */
+     */
 
-    'default' => env('BROADCAST_DRIVER', 'null'),
+    'default' => env('BROADCAST_DRIVER', 'pusher'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,44 +26,38 @@ return [
     | to broadcast events to other systems or over websockets. Samples of
     | each available type of connection are provided inside this array.
     |
-    */
+     */
 
     'connections' => [
 
         'pusher' => [
             'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
+            'key' => "2ca60163325399dec913",
+            'secret' => "16003e4cf5b3b4e8335f",
+            'app_id' => '1878072',
             'options' => [
-                'host' => env('PUSHER_HOST') ?: 'api-'.env('PUSHER_APP_CLUSTER', 'mt1').'.pusher.com',
-                'port' => env('PUSHER_PORT', 443),
-                'scheme' => env('PUSHER_SCHEME', 'https'),
-                'encrypted' => true,
-                'useTLS' => env('PUSHER_SCHEME', 'https') === 'https',
-            ],
-            'client_options' => [
-                // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
+                'cluster' => "ap2",
+                'useTLS' => true,
             ],
         ],
 
-        'ably' => [
-            'driver' => 'ably',
-            'key' => env('ABLY_KEY'),
-        ],
+            'ably' => [
+                'driver' => 'ably',
+                'key' => env('ABLY_KEY'),
+            ],
 
-        'redis' => [
-            'driver' => 'redis',
-            'connection' => 'default',
-        ],
+            'redis' => [
+                'driver' => 'redis',
+                'connection' => 'default',
+            ],
 
-        'log' => [
-            'driver' => 'log',
-        ],
+            'log' => [
+                'driver' => 'log',
+            ],
 
-        'null' => [
-            'driver' => 'null',
-        ],
+            'null' => [
+                'driver' => 'null',
+            ],
 
     ],
 

@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\MessageSent;
+use App\Events\TestEvent;
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FileController;
@@ -7,6 +9,8 @@ use App\Http\Controllers\FolderController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\StudentHomeController;
 use App\Http\Controllers\TestController;
+use Illuminate\Broadcasting\BroadcastController;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CouponController;
@@ -287,7 +291,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Route to assign a teacher to a group
     Route::post('/chat-support/groups/{groupId}/assign-teacher', [MessageController::class, 'assignTeacher']);
-
+    
 
 
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
@@ -295,6 +299,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 });
+Route::post('/broadcasting/auth', [BroadcastController::class,'authenticate']);
+
 
 
 
