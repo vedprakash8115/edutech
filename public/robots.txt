@@ -1,2 +1,12 @@
 User-agent: *
 Disallow:
+# This is a comment. Robots don't understand comments.
+
+User-agent: *
+Disallow: /admin/
+Disallow: /student/
+
+
+Sitemap: http://127.0.0.1:8000/sitemap.xml
+
+Explanation of the Directives:

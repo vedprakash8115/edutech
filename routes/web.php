@@ -7,6 +7,8 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\SEOController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\StudentHomeController;
 use App\Http\Controllers\TestController;
 use Illuminate\Broadcasting\BroadcastController;
@@ -57,11 +59,14 @@ Route::get('/login', function () {
 // Route::get('login', function () {
 //     return view('dashboard');
 // });
-
+Route::get('/clear-route-cache', function () {
+    Artisan::call('route:clear');
+    return "Route cache cleared!";
+});
 Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
-Route::get('/', [HomeController::class, 'index'])->name('index');
+// Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/course-details/{id}', [HomeController::class, 'details'])->name('course.details');
 
 // Route::post('login', [LoginController::class, 'login'])->name('login');
@@ -151,17 +156,35 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
         Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
         // ----------------------------Mock test ------------------------------------------------------------------
-        Route::get('/ins/content/mock', [MockTestController::class, 'index'])->name('mock');
-        Route::get('/ins/content/mock/submit-form', [MockTestController::class, 'form'])->name('mock.subject_form');
-        Route::get('/ins/content/mock/question-form', [MockTestController::class, 'question'])->name('mock.question_form');
+        // Route::get('/ins/content/mock', [MockTestController::class, 'index'])->name('mock');
+        // Route::get('/ins/content/mock/submit-form', [MockTestController::class, 'form'])->name('mock.subject_form');
+        // Route::get('/ins/content/mock/question-form', [MockTestController::class, 'question'])->name('mock.question_form');
         Route::get('/ins/content/mock/test', Tests::class)->name('mock_test');
         Route::get('/ins/content/mock/subjects', SubjectForm::class)->name('mock_subjects');
         Route::get('/ins/content/mock/question', QuestionForm::class)->name('mock_questions');
         Route::resource('coupons', CouponController::class);
 
 
+
+
+
         // ----------------------------------testing--------------------------------------
-        // Route::get('/ins/content/test')
+         Route::get('/admin/seo', [SEOController::class, 'index'])->name('seo.index');
+
+    // Route to display the form for creating new SEO data
+    Route::get('/admin/seo/create', [SEOController::class, 'create'])->name('seo.create');
+
+    // Route to store the new SEO data in the database
+    Route::post('/admin/seo', [SEOController::class, 'store'])->name('seo.store');
+
+    // Route to display the form for editing existing SEO data
+    Route::get('/admin/seo/{id}/edit', [SEOController::class, 'edit'])->name('seo.edit');
+
+    // Route to update the existing SEO data in the database
+    Route::put('/admin/seo/{id}', [SEOController::class, 'update'])->name('seo.update');
+
+    // Route to delete the SEO data
+    Route::delete('/admin/seo/{id}', [SEOController::class, 'destroy'])->name('seo.destroy');
 
         // ----------------------------------------------------------------------------------
 
@@ -305,8 +328,10 @@ Route::post('/broadcasting/auth', [BroadcastController::class,'authenticate']);
 
 
 Route::get('/mock-test', MockTest::class)->name('mock_sample');
+Route::get('/check', App\Livewire\Check::class)->name('mock_sample');
 Route::get('/mock-test/ques', QuestionManagement::class)->name('mock.man');
 // Auth::routes();
 // Route::get('/check' , Check::class);
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/course-details/{id}',[HomeController::class,'details'])->name('course.details');
+Route::get('/generate-sitemap', [SitemapController::class, 'index']);
