@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseCategory0;
-use App\Models\ELibrary;
-use App\Models\ELibraryFile;
+use App\Models\Elibrary;
+use App\Models\ElibraryFile;
 use RealRashid\SweetAlert\Facades\Alert;
-use App\DataTables\ELibraryDataTable;
+use App\DataTables\ElibraryDataTable;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -113,7 +113,7 @@ class ElibraryController extends Controller
      */
     public function edit(ElibraryDataTable $dataTable, $id, Request $request)
     {
-        $single_data = ELibrary::findOrFail($id);
+        $single_data = Elibrary::findOrFail($id);
 
         // Fetch paginated elibrary items (similar to the index method)
         $perPage = $request->input('per_page', 10);
@@ -135,7 +135,7 @@ class ElibraryController extends Controller
     public function update(Request $request, $id)
     {
         // Find the E-Library item by ID or throw an exception if not found
-        $eLibrary = ELibrary::findOrFail($id);
+        $eLibrary = Elibrary::findOrFail($id);
         $categories = CourseCategory0::all();
 
         // Validate the request inputs
@@ -177,7 +177,7 @@ class ElibraryController extends Controller
     public function files(Request $request, $id)
     {
         // Fetch the eLibrary item along with related files, filtered by the given ID, and paginate the result
-        $elibraryItems = ELibrary::with('files')
+        $elibraryItems = Elibrary::with('files')
             ->where('id', $id)
             ->paginate(10);  // Apply pagination after filtering by ID
 
@@ -196,7 +196,7 @@ class ElibraryController extends Controller
         }
 
         try {
-            $files = ELibraryFile::whereIn('id', $fileIds)->get();
+            $files = ElibraryFile::whereIn('id', $fileIds)->get();
 
             foreach ($files as $file) {
                 $file->delete();

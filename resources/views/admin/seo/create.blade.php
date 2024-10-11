@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="container-fluid mt-5">
-    <h1 class="mb-4 text-primary">SEO Management</h1>
+    <h1 class="mb-4 text-primary" style="font-family:Georgia, 'Times New Roman', Times, serif">SEO SETTINGS</h1>
     <form action="{{ route('seo.store') }}" method="POST" id="seoForm">
         @csrf
         <div class="row">
             <div class="col-md-6 mb-4">
                 <div class="card glassmorphism">
-                    <h3 class="card-title mb-4">Basic SEO Settings</h3>
+                    <h3 class="card-title mb-4" style="font-family: Georgia, 'Times New Roman', Times, serif; color:rgb(114, 114, 114)">Basic SEO Settings</h3>
                     <div class="card-body">
                     
                         <div class="mb-3 position-relative">
@@ -339,6 +339,12 @@
         box-shadow: 0px 2px 2px rgba(22, 21, 21, 0.485);
         overflow: hidden;
     }
+    h3
+    {
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        color:rgb(114, 114, 114) !important;
+    }
+
     .form-label {
         font-weight: 700;
         letter-spacing: 0.5px;
@@ -400,46 +406,221 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('seoForm');
+    const titleInput = document.getElementById('title');
+    const metaDescriptionInput = document.getElementById('meta_description');
+    const metaKeywordsInput = document.getElementById('meta_keywords');
+    const schemaMarkupTextarea = document.getElementById('schema_markup');
+
+    // Word counter for meta title and description
+    function createWordCounter(inputElement, maxWords) {
+        const counterSpan = document.createElement('span');
+        counterSpan.className = 'word-count text-muted small ms-2';
+        inputElement.parentNode.appendChild(counterSpan);
+
+        function updateWordCount() {
+            const wordCount = inputElement.value.trim().split(/\s+/).length;
+            counterSpan.textContent = `${wordCount}/${maxWords} words`;
+            counterSpan.classList.toggle('text-danger', wordCount > maxWords);
+        }
+
+        inputElement.addEventListener('input', updateWordCount);
+        updateWordCount(); // Initial count
+    }
+
+    createWordCounter(titleInput, 10); // Most search engines display up to 50-60 characters
+    createWordCounter(metaDescriptionInput, 30); // Most search engines display up to 150-160 characters
+
+    // JSON validation for schema markup
+    function validateSchemaMarkup() {
+        try {
+            JSON.parse(schemaMarkupTextarea.value);
+            schemaMarkupTextarea.classList.remove('is-invalid');
+            schemaMarkupTextarea.classList.add('is-valid');
+        } catch (e) {
+            schemaMarkupTextarea.classList.remove('is-valid');
+            schemaMarkupTextarea.classList.add('is-invalid');
+        }
+    }
+
+    schemaMarkupTextarea.addEventListener('input', validateSchemaMarkup);
+
+    // Keyword suggestion feature
+    function suggestKeywords() {
+        const title = titleInput.value.toLowerCase();
+        const description = metaDescriptionInput.value.toLowerCase();
+        const words = (title + ' ' + description).split(/\s+/);
+        const wordCounts = {};
+
+        words.forEach(word => {
+            if (word.length > 3) { // Ignore short words
+                wordCounts[word] = (wordCounts[word] || 0) + 1;
+            }
+        });
+
+        const sortedWords = Object.entries(wordCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(entry => entry[0]);
+
+        const suggestionDiv = document.createElement('div');
+        suggestionDiv.className = 'mt-2';
+        suggestionDiv.innerHTML = '<strong>Suggested keywords:</strong> ' + sortedWords.join(', ');
+
+        const existingSuggestion = metaKeywordsInput.parentNode.querySelector('.keyword-suggestion');
+        if (existingSuggestion) {
+            existingSuggestion.remove();
+        }
+
+        suggestionDiv.classList.add('keyword-suggestion');
+        metaKeywordsInput.parentNode.appendChild(suggestionDiv);
+    }
+
+    titleInput.addEventListener('input', suggestKeywords);
+    metaDescriptionInput.addEventListener('input', suggestKeywords);
+
+    // Character count for Open Graph fields
+    function addCharCounter(inputElement, maxChars) {
+        const counterSpan = document.createElement('span');
+        counterSpan.className = 'char-count text-muted small ms-2';
+        inputElement.parentNode.appendChild(counterSpan);
+
+        function updateCharCount() {
+            const charCount = inputElement.value.length;
+            counterSpan.textContent = `${charCount}/${maxChars} characters`;
+            counterSpan.classList.toggle('text-danger', charCount > maxChars);
+        }
+
+        inputElement.addEventListener('input', updateCharCount);
+        updateCharCount(); // Initial count
+    }
+
+    addCharCounter(document.getElementById('og_title'), 60);
+    addCharCounter(document.getElementById('og_description'), 200);
+
+    // Preview function for Open Graph
+    function updateOGPreview() {
+        const previewDiv = document.getElementById('og-preview') || document.createElement('div');
+        previewDiv.id = 'og-preview';
+        previewDiv.className = 'card mt-3';
+        previewDiv.innerHTML = `
+            <div class="card-body">
+                <h5 class="card-title">Open Graph Preview</h5>
+                <div class="og-title">${document.getElementById('og_title').value}</div>
+                <div class="og-description">${document.getElementById('og_description').value}</div>
+                <div class="og-url">${document.getElementById('og_url').value}</div>
+                <img src="${document.getElementById('og_image').value}" alt="OG Image" style="max-width: 100%; height: auto;">
+            </div>
+        `;
+        document.getElementById('og_image').parentNode.appendChild(previewDiv);
+    }
+
+    ['og_title', 'og_description', 'og_url', 'og_image'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateOGPreview);
+    });
+
+    // Form field completion progress bar
+    const progressBar = document.createElement('div');
+    progressBar.className = 'progress mt-3 mb-3';
+    progressBar.innerHTML = '<div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>';
+    form.prepend(progressBar);
+
+    function updateProgress() {
+        const fields = form.querySelectorAll('input[type="text"], input[type="url"], textarea, select');
+        const totalFields = fields.length;
+        let filledFields = 0;
+
+        fields.forEach(field => {
+            if (field.value.trim() !== '') filledFields++;
+        });
+
+        const progress = Math.round((filledFields / totalFields) * 100);
+        const progressBarInner = progressBar.querySelector('.progress-bar');
+        progressBarInner.style.width = `${progress}%`;
+        progressBarInner.textContent = `${progress}%`;
+        progressBarInner.setAttribute('aria-valuenow', progress);
+    }
+
+    form.addEventListener('input', updateProgress);
+
+    // Save form data to localStorage
+    function saveToLocalStorage() {
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        localStorage.setItem('seoFormData', JSON.stringify(data));
+    }
+
+    function loadFromLocalStorage() {
+        const savedData = localStorage.getItem('seoFormData');
+        if (savedData) {
+            const data = JSON.parse(savedData);
+            Object.keys(data).forEach(key => {
+                const field = form.elements[key];
+                if (field) field.value = data[key];
+            });
+            updateProgress();
+            updateOGPreview();
+        }
+    }
+
+    form.addEventListener('input', saveToLocalStorage);
+    window.addEventListener('load', loadFromLocalStorage);
+
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+    // Call initial functions
+    validateSchemaMarkup();
+    suggestKeywords();
+    updateOGPreview();
+    updateProgress();
+});
+</script>
+<script>
 // Wait for the DOM to be fully loaded before executing the script
 document.addEventListener('DOMContentLoaded', function() {
     // Get the schema markup textarea element
-    const textarea = document.getElementById('schema_markup');
-    // Store the initial content of the textarea
-    let lastValidContent = textarea.value;
+    // const textarea = document.getElementById('schema_markup');
+    // // Store the initial content of the textarea
+    // let lastValidContent = textarea.value;
     
-    // Add an event listener for changes to the textarea
-    textarea.addEventListener('input', function(e) {
-        // Split the textarea content into lines
-        const lines = this.value.split('\n');
-        let isValid = true;
+    // // Add an event listener for changes to the textarea
+    // textarea.addEventListener('input', function(e) {
+    //     // Split the textarea content into lines
+    //     const lines = this.value.split('\n');
+    //     let isValid = true;
         
-        // Check each line of the textarea
-        for (let i = 0; i < lines.length; i++) {
-            const line = lines[i];
-            // Check if the line is editable (contains the '/* EDITABLE */' comment)
-            const isEditableLine = line.includes('/* EDITABLE */');
+    //     // Check each line of the textarea
+    //     for (let i = 0; i < lines.length; i++) {
+    //         const line = lines[i];
+    //         // Check if the line is editable (contains the '/* EDITABLE */' comment)
+    //         const isEditableLine = line.includes('/* EDITABLE */');
             
-            if (!isEditableLine) {
-                // If the line is not editable, compare it with the original content
-                const originalLine = lastValidContent.split('\n')[i];
-                if (line !== originalLine) {
-                    // If the line has changed, mark the content as invalid
-                    isValid = false;
-                    break;
-                }
-            }
-        }
+    //         if (!isEditableLine) {
+    //             // If the line is not editable, compare it with the original content
+    //             const originalLine = lastValidContent.split('\n')[i];
+    //             if (line !== originalLine) {
+    //                 // If the line has changed, mark the content as invalid
+    //                 isValid = false;
+    //                 break;
+    //             }
+    //         }
+    //     }
         
-        if (isValid) {
-            // If the content is valid, update the lastValidContent
-            lastValidContent = this.value;
-        } else {
-            // If the content is invalid, revert to the last valid content
-            this.value = lastValidContent;
-            // Restore the cursor position
-            this.setSelectionRange(e.target.selectionStart - 1, e.target.selectionStart - 1);
-        }
-    });
+    //     if (isValid) {
+    //         // If the content is valid, update the lastValidContent
+    //         lastValidContent = this.value;
+    //     } else {
+    //         // If the content is invalid, revert to the last valid content
+    //         this.value = lastValidContent;
+    //         // Restore the cursor position
+    //         this.setSelectionRange(e.target.selectionStart - 1, e.target.selectionStart - 1);
+    //     }
+    // });
 
     // Add an event listener for the instructions modal
     $('#instructionsModal').on('show.bs.modal', function (event) {

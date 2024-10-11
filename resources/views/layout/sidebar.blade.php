@@ -243,13 +243,12 @@
               </a>
             </li>
 
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle" >
-                <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-                <i class="menu-icon fas fa-globe"></i> <!-- Globe icon -->
+            <li class="menu-item">              <a href="{{route('seo.index')}}" class="menu-link" >
+              <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
+              <i class="menu-icon fas fa-headset"></i> <!-- Headset icon -->
 
-                <div class="ms-2" data-i18n="Authentications">Website</div>
-              </a>
+              <div class="ms-2" data-i18n="Authentications">Website</div>
+            </a>
             </li>
 
             <li class="menu-item">

@@ -305,6 +305,133 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('seoForm');
+    const metaTitleInput = document.getElementById('meta_title');
+    const metaDescriptionInput = document.getElementById('meta_description');
+    const keywordsInput = document.getElementById('keywords');
+    const schemaMarkupTextarea = document.getElementById('schema_markup');
+
+    // Word counter for meta title and description
+    function createWordCounter(inputElement, maxWords) {
+        const counterSpan = document.createElement('span');
+        counterSpan.className = 'word-count text-muted small ms-2';
+        inputElement.parentNode.appendChild(counterSpan);
+
+        function updateWordCount() {
+            const wordCount = inputElement.value.trim().split(/\s+/).length;
+            counterSpan.textContent = `${wordCount}/${maxWords} words`;
+            counterSpan.classList.toggle('text-danger', wordCount > maxWords);
+        }
+
+        inputElement.addEventListener('input', updateWordCount);
+        updateWordCount(); // Initial count
+    }
+
+    createWordCounter(metaTitleInput, 10); // Most search engines display up to 50-60 characters
+    createWordCounter(metaDescriptionInput, 30); // Most search engines display up to 150-160 characters
+
+    // JSON validation for schema markup
+    function validateSchemaMarkup() {
+        try {
+            JSON.parse(schemaMarkupTextarea.value);
+            schemaMarkupTextarea.classList.remove('is-invalid');
+            schemaMarkupTextarea.classList.add('is-valid');
+        } catch (e) {
+            schemaMarkupTextarea.classList.remove('is-valid');
+            schemaMarkupTextarea.classList.add('is-invalid');
+        }
+    }
+
+    schemaMarkupTextarea.addEventListener('input', validateSchemaMarkup);
+
+    // Keyword suggestion feature
+    function suggestKeywords() {
+        const title = metaTitleInput.value.toLowerCase();
+        const description = metaDescriptionInput.value.toLowerCase();
+        const words = (title + ' ' + description).split(/\s+/);
+        const wordCounts = {};
+
+        words.forEach(word => {
+            if (word.length > 3) { // Ignore short words
+                wordCounts[word] = (wordCounts[word] || 0) + 1;
+            }
+        });
+
+        const sortedWords = Object.entries(wordCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(entry => entry[0]);
+
+        const suggestionDiv = document.createElement('div');
+        suggestionDiv.className = 'mt-2';
+        suggestionDiv.innerHTML = '<strong>Suggested keywords:</strong> ' + sortedWords.join(', ');
+
+        const existingSuggestion = keywordsInput.parentNode.querySelector('.keyword-suggestion');
+        if (existingSuggestion) {
+            existingSuggestion.remove();
+        }
+
+        suggestionDiv.classList.add('keyword-suggestion');
+        keywordsInput.parentNode.appendChild(suggestionDiv);
+    }
+
+    metaTitleInput.addEventListener('input', suggestKeywords);
+    metaDescriptionInput.addEventListener('input', suggestKeywords);
+
+    // Character count for Open Graph fields
+    function addCharCounter(inputElement, maxChars) {
+        const counterSpan = document.createElement('span');
+        counterSpan.className = 'char-count text-muted small ms-2';
+        inputElement.parentNode.appendChild(counterSpan);
+
+        function updateCharCount() {
+            const charCount = inputElement.value.length;
+            counterSpan.textContent = `${charCount}/${maxChars} characters`;
+            counterSpan.classList.toggle('text-danger', charCount > maxChars);
+        }
+
+        inputElement.addEventListener('input', updateCharCount);
+        updateCharCount(); // Initial count
+    }
+
+    addCharCounter(document.getElementById('og_title'), 60);
+    addCharCounter(document.getElementById('og_description'), 200);
+
+    // Preview function for Open Graph
+    function updateOGPreview() {
+        const previewDiv = document.getElementById('og-preview') || document.createElement('div');
+        previewDiv.id = 'og-preview';
+        previewDiv.className = 'card mt-3';
+        previewDiv.innerHTML = `
+            <div class="card-body">
+                <h5 class="card-title">Open Graph Preview</h5>
+                <div class="og-title">${document.getElementById('og_title').value}</div>
+                <div class="og-description">${document.getElementById('og_description').value}</div>
+                <div class="og-url">${document.getElementById('og_url').value}</div>
+                <img src="${document.getElementById('og_image').value}" alt="OG Image" style="max-width: 100%; height: auto;">
+            </div>
+        `;
+        document.getElementById('og_image').parentNode.after(previewDiv);
+    }
+
+    ['og_title', 'og_description', 'og_url', 'og_image'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateOGPreview);
+    });
+
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+    // Call initial functions
+    validateSchemaMarkup();
+    suggestKeywords();
+    updateOGPreview();
+});
+</script>
+<script>
 $(document).ready(function() {
     $('#instructionsModal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);

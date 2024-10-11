@@ -150,36 +150,7 @@ class VideoCourseController extends Controller
             $categories = CourseCategory0::all();
             $perPage = $request->input('per_page', 10);
             $videoCourses = VideoCourse::with('videos')->paginate($perPage)->appends($request->query());
-            $subjectsJson = $request->input('subjects');
-
-            // Decode the JSON string into a PHP array
-            $subjects = json_decode($subjectsJson, true);
-
-            // Check if the decoded subjects array is valid
-            if (is_array($subjects) && !empty($subjects)) {
-                // Retrieve existing subjects for the specified video course
-                $existingSubjects = Course_subject::where('video_course_id', $id)->pluck('name', 'id')->toArray();
-
-                // Find new subjects that need to be added
-                $newSubjects = array_diff($subjects, $existingSubjects);
-
-                // Find subjects that need to be removed (not in the updated list anymore)
-                $subjectsToRemove = array_diff($existingSubjects, $subjects);
-
-                // Add new subjects that are not already in the database
-                foreach ($newSubjects as $subject) {
-                    Course_subject::create([
-                        'name' => $subject,
-                        'video_course_id' => $id
-                    ]);
-                }
-
-                // Remove subjects that are no longer needed
-                if (!empty($subjectsToRemove)) {
-                    Course_subject::whereIn('name', $subjectsToRemove)->where('video_course_id', $id)->delete();
-                }
-
-            }
+       
             return $dataTable->render('ins.content.videocourse', [
                 'single_data' => $single_data,
                 'videoCourses' => $videoCourses,
@@ -278,7 +249,7 @@ class VideoCourseController extends Controller
                 'course_category_id' => 'required',
                 'from' => 'required|date',
                 'to' => 'required|date|after:from',
-                'about_course' => 'required|string',
+               
                 'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'course_validity' => 'nullable|string',
             ]);
@@ -311,6 +282,37 @@ class VideoCourseController extends Controller
     
             $videoCourse->update($validatedData);
     
+
+            $subjectsJson = $request->input('subjects');
+
+            // Decode the JSON string into a PHP array
+            $subjects = json_decode($subjectsJson, true);
+
+            // Check if the decoded subjects array is valid
+            if (is_array($subjects) && !empty($subjects)) {
+                // Retrieve existing subjects for the specified video course
+                $existingSubjects = Course_subject::where('video_course_id', $id)->pluck('name', 'id')->toArray();
+
+                // Find new subjects that need to be added
+                $newSubjects = array_diff($subjects, $existingSubjects);
+
+                // Find subjects that need to be removed (not in the updated list anymore)
+                $subjectsToRemove = array_diff($existingSubjects, $subjects);
+
+                // Add new subjects that are not already in the database
+                foreach ($newSubjects as $subject) {
+                    Course_subject::create([
+                        'name' => $subject,
+                        'video_course_id' => $id
+                    ]);
+                }
+
+                // Remove subjects that are no longer needed
+                if (!empty($subjectsToRemove)) {
+                    Course_subject::whereIn('name', $subjectsToRemove)->where('video_course_id', $id)->delete();
+                }
+
+            } 
             toast('Video Course updated successfully', 'success');
             return redirect()->route('videocourse');
         } catch (\Exception $e) {
