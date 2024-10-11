@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+Broadcast::channel('presence-chat.{groupId}', function ($user, $groupId) {
+    // Check if the user is authorized to join this chat group
+    if (auth()->check() && $user->canJoinGroup($groupId)) {
+        return ['id' => $user->id, 'name' => $user->name];
+    }
+});

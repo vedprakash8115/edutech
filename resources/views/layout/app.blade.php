@@ -32,6 +32,9 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/apex-charts/apex-charts.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf_viewer.min.css">
+
+    
+   
     
 
 
@@ -53,6 +56,11 @@
 <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
 <script src="{{asset('assets/js/config.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+<script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js"></script>
+
+    
+
 
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script> --}}
@@ -113,6 +121,9 @@
 
     <!-- Page JS -->
     <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
+
+  
+
 
     <!-- Place this tag in your head or just before your close body tag. -->
     {{-- <script async defer src="https://buttons.github.io/buttons.js"></script> --}}

@@ -115,6 +115,7 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
 <script>
 $(document).ready(function() {
     // Add click event listener for group items
@@ -130,7 +131,6 @@ function loadChat(groupId) {
         url: '/chat-support/groups/' + groupId + '/load-chat',  // Your dynamic route to load the chat
         type: 'GET',
         success: function(response) {
-            console.log(response)
             $('.chat-section').html(response);  // Load the chat Blade into the chat messages section
         },
         error: function() {

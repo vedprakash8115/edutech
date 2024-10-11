@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\Message;
@@ -46,6 +47,7 @@ class MessageController extends Controller
         $message->is_sent = true; // Set to true, assuming it's a sent message
         $message->save(); // Save the message to the database
 
+        broadcast(new MessageSent($message))->toOthers();
         // Optionally, return a response (you might want to return the created message)
         return response()->json(['message' => 'Message sent successfully!', 'data' => $message], 201);
     }
@@ -142,7 +144,9 @@ class MessageController extends Controller
         // Return a success response
         return response()->json(['success' => true, ['teacher_id' => $group->teacher_id,'teacher_name'=> $teacherName]]);
     }
-
+    public function test(Request $request){
+        Log::info($request);
+    }
 
 }
 

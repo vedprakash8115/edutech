@@ -5,7 +5,7 @@
     {{-- <div class="container-xxl flex-grow-1 container-p-y"> --}}
 
     <div class="row" >
-        <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Live And Webinar">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4" title="Live And Webinar">
             <div class="card-hover card" >
                 <a href="{{route('liveclass')}}">
                     <div class="card-body" >
@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3 content-tile" title="Content" data-bs-toggle="modal" data-bs-target="#contentModal" style="cursor: pointer;">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4 content-tile" title="Content" data-bs-toggle="modal" data-bs-target="#contentModal" style="cursor: pointer;">
             <div class="card-hover card">
                 <a href="javascript:void(0)">
 
@@ -51,7 +51,7 @@
             </div>
         </div>
 
-         <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3 user-management-tile" title="User Management" data-bs-toggle="modal" data-bs-target="#userModal" style="cursor: pointer;">
+         <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4 user-management-tile" title="User Management" data-bs-toggle="modal" data-bs-target="#userModal" style="cursor: pointer;">
             <div class="card-hover card">
                 <a href="javascript:void(0)">
                     <div class="card-body">
@@ -74,7 +74,7 @@
             </div>
         </div>
 
-         <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3 marketing-tile" title="Marketing" data-bs-toggle="modal" data-bs-target="#MarketingModal" style="cursor: pointer;">
+         <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4 marketing-tile" title="Marketing" data-bs-toggle="modal" data-bs-target="#MarketingModal" style="cursor: pointer;">
             <div class="card-hover card">
                 <a href="javascript:void(0)">
                     <div class="card-body">
@@ -97,7 +97,7 @@
             </div>
         </div>
 
-         <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Sliders">
+         <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4" title="Sliders">
             <div class="card-hover card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
@@ -118,7 +118,7 @@
             </div>
         </div>
 
-          <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Books">
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4" title="Books">
             <div class="card-hover card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
@@ -139,7 +139,7 @@
             </div>
         </div>
 
-         <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Website">
+         <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4" title="Website">
             <div class="card-hover card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
@@ -160,7 +160,7 @@
             </div>
         </div>
 
-          <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Support">
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4" title="Support">
             <div class="card-hover card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
@@ -181,7 +181,7 @@
             </div>
         </div>
 
-          <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Test Practicals" onclick="window.location.href = '{{route('mock_test')}}'" style="cursor:pointer">
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4" title="Test Practicals" onclick="window.location.href = '{{route('mock_test')}}'" style="cursor:pointer">
             <div class="card-hover card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
@@ -202,7 +202,7 @@
             </div>
         </div>
 
-         <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Chat Support">
+         <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4" title="Chat Support">
             <div class="card-hover card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
@@ -223,7 +223,7 @@
             </div>
         </div>
 
-         <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Reports">
+         <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4" title="Reports">
             <div class="card-hover card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
@@ -244,7 +244,7 @@
             </div>
         </div>
 
-         <div class="col-12 col-md-8 col-lg-3 order-3 order-md-2 mt-3" title="Setting">
+         <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4" title="Setting">
             <div class="card-hover card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
