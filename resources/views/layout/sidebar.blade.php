@@ -245,7 +245,7 @@
 
             <li class="menu-item">              <a href="{{route('seo.index')}}" class="menu-link" >
               <!-- <i class="menu-icon tf-icons bx bx-lock-open-alt"></i> -->
-              <i class="menu-icon fas fa-headset"></i> <!-- Headset icon -->
+              <i class="menu-icon fas fa-globe"></i> <!-- Headset icon -->
 
               <div class="ms-2" data-i18n="Authentications">Website</div>
             </a>
