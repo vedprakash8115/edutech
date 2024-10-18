@@ -40,12 +40,12 @@
       href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{{ asset('landing_ui/assets/css/_variable.css')}}">
-    <link rel="stylesheet" href="{{ asset('landing_ui/assets/css/_navbar.css')}}">
-    <link rel="stylesheet" href="{{ asset('landing_ui/assets/css/_footer.css')}}">
-    <link rel="stylesheet" href="{{ asset('landing_ui/assets/css/_components.css')}}">
+    <link rel="stylesheet" href="{{ asset('public/landing_ui/assets/css/_variable.css')}}">
+    <link rel="stylesheet" href="{{ asset('public/landing_ui/assets/css/_navbar.css')}}">
+    <link rel="stylesheet" href="{{ asset('public/landing_ui/assets/css/_footer.css')}}">
+    <link rel="stylesheet" href="{{ asset('public/landing_ui/assets/css/_components.css')}}">
 
-    <link rel="stylesheet" href="{{ asset('landing_ui/assets/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/landing_ui/assets/css/style.css') }}" />
   </head>
 <body>
   <header>

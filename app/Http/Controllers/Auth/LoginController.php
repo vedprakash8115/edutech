@@ -15,6 +15,7 @@ class LoginController extends Controller
 
     }
     public function login(Request $request){
+        // dd($request->all());
         $request->validate([
             'email' => 'required',
             'password' => 'required',
@@ -37,12 +38,13 @@ class LoginController extends Controller
             }
 
         }
+
         Alert::alert('Error', 'Email or Password is incurrect!');
         return redirect("login");
     }
     public function logout(){
         Auth::logout();
         Alert::alert('Great', 'You have successfully logout!');
-        return redirect()->route('inslogin');
+        return redirect()->route('login');
     }
 }

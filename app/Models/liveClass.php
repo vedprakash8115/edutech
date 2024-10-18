@@ -18,5 +18,10 @@ class liveClass extends Model
     //     }
     //     return null;
     // }
+
+    public function folders()
+    {
+        return $this->belongsToMany(Folder::class, 'folder_liveclass');
+    }
     
 }

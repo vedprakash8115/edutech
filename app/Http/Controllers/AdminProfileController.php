@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;   
+use Illuminate\Support\Facades\Log;
 use League\Csv\Reader;
 use Yajra\DataTables\DataTables;
 
@@ -34,6 +35,7 @@ class AdminProfileController extends Controller
 
     public function addUser(Request $request)
     {
+        Log::info($request);
         $request->validate([
             'user_name' => 'required|string|max:255',
             'user_email' => 'required|email|unique:users,email',

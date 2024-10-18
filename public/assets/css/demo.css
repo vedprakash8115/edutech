@@ -662,4 +662,9 @@
 
 }
 
-/* navbar update */
+.selected-folder{
+    margin-bottom: 0;
+}
+.selected-folder span{
+    color: green;
+}

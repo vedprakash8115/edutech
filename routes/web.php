@@ -85,6 +85,8 @@ Route::middleware(['auth'])->group(function () {
 
         // Route for deleting a live class
         Route::delete('/live-Classes/{id}', [LiveClassController::class, 'destroy'])->name('liveClasses.destroy');
+        Route::get('/live-class/allCourses', [LiveClassController::class, 'allCourses']);
+
         Route::get('/live-classes/clear-session', [LiveClassController::class, 'resetSession'])->name('liveclass.reset');
 
         // In get Category route , fetching category 1 and category 2
@@ -162,6 +164,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/ins/content/mock/test', Tests::class)->name('mock_test');
         Route::get('/ins/content/mock/subjects', SubjectForm::class)->name('mock_subjects');
         Route::get('/ins/content/mock/question', QuestionForm::class)->name('mock_questions');
+        
         Route::resource('coupons', CouponController::class);
 
 
