@@ -90,7 +90,7 @@
                         <button class="btn-icon me-3" title="Messages">
                             <i class="fas fa-envelope"></i>
                         </button>
-                        <a href="#" class="login-btn">Login</a>
+                        <a href="{{route('login')}}" class="login-btn">Login</a>
                         <a href="#" class="login-btn">Register</a>
                     </div>
                 </div>
