@@ -33,7 +33,7 @@ return [
         'pusher' => [
             'driver' => 'pusher',
             'key' => "2ca60163325399dec913",
-            'secret' => "16003e4cf5b3b4e8335f",
+            'secret' => "e535a301f0ec928604fe",
             'app_id' => '1878072',
             'options' => [
                 'cluster' => "ap2",

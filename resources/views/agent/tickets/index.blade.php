@@ -3,6 +3,7 @@
 @section('styles')
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 <style>
     body {
         font-family: 'Poppins', sans-serif;
@@ -32,6 +33,35 @@
         background-color: #007bff;
         color: #fff;
     }
+    .dataTables_wrapper .dataTables_length, 
+    .dataTables_wrapper .dataTables_filter, 
+    .dataTables_wrapper .dataTables_info, 
+    .dataTables_wrapper .dataTables_processing, 
+    .dataTables_wrapper .dataTables_paginate {
+        color: #4a5568;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.5em 1em;
+        margin-left: 2px;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.25rem;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: #007bff;
+        color: white !important;
+        border-color: #007bff;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #e2e8f0;
+        color: #2d3748 !important;
+    }
+    .custom-buttons {
+        margin-bottom: 1rem;
+    }
+    .custom-buttons .btn {
+        margin-right: 0.5rem;
+    }
 </style>
 @endsection
 
@@ -49,8 +79,23 @@
     @endif
     
     <div class="card shadow-sm">
-        <div class="card-body p-0">
-            <table class="table table-hover mb-0">
+        <div class="card-body">
+            <div class="custom-buttons">
+                <button id="refreshBtn" class="btn btn-outline-secondary">
+                    <i class="fas fa-sync-alt me-1"></i> Refresh
+                </button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-filter me-1"></i> Filter
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item filter-option" data-filter="all" href="#">All</a></li>
+                        <li><a class="dropdown-item filter-option" data-filter="open" href="#">Open</a></li>
+                        <li><a class="dropdown-item filter-option" data-filter="closed" href="#">Closed</a></li>
+                    </ul>
+                </div>
+            </div>
+            <table id="ticketsTable" class="table table-hover mb-0">
                 <thead class="table-light">
                     <tr>
                         <th class="px-4 py-3">ID</th>
@@ -94,4 +139,39 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<script>
+$(document).ready(function() {
+    var table = $('#ticketsTable').DataTable({
+        "order": [[0, "desc"]],
+        "pageLength": 10,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "language": {
+            "search": "",
+            "searchPlaceholder": "Search tickets..."
+        }
+    });
+
+    // Refresh button
+    $('#refreshBtn').on('click', function() {
+        table.ajax.reload();
+    });
+
+    // Filter dropdown
+    $('.filter-option').on('click', function(e) {
+        e.preventDefault();
+        var filter = $(this).data('filter');
+        if (filter === 'all') {
+            table.column(2).search('').draw();
+        } else {
+            table.column(2).search(filter).draw();
+        }
+    });
+});
+</script>
 @endsection

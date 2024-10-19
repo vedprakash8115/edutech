@@ -12,7 +12,7 @@ use App\DataTables\LiveClassesDataTable;
 use App\Models\CourseSubCategory;
 use App\Models\VideoCourse;
 use App\Models\LiveClassPdf;
-use App\Http\Requests\StoreLiveClassRequest;
+use App\Http\Requests\StoreliveClassRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Exception;
@@ -102,7 +102,7 @@ class LiveClassController extends Controller
         }
     }
 
-    public function store(StoreLiveClassRequest $request)
+    public function store(StoreliveClassRequest $request)
     {
         try {
             // Validate the input data

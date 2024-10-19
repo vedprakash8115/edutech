@@ -1,20 +1,40 @@
-
 @extends('layout.app')
 
 @section('content')
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="fw-light text-primary">Support Tickets</h1>
-        <div class="input-group" style="max-width: 300px;">
-            <span class="input-group-text bg-white border-end-0">
-                <i class="fas fa-search text-muted"></i>
-            </span>
-            <input type="text" class="form-control border-start-0 search-input" placeholder="Search tickets...">
-        </div>
     </div>
 
     <div class="card border-0 shadow-sm">
-        <div class="card-body p-0">
+        <div class="card-body">
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <button id="refreshBtn" class="btn btn-outline-secondary me-2">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item filter-option" data-filter="all" href="#">All</a></li>
+                            <li><a class="dropdown-item filter-option" data-filter="open" href="#">Open</a></li>
+                            <li><a class="dropdown-item filter-option" data-filter="in progress" href="#">In Progress</a></li>
+                            <li><a class="dropdown-item filter-option" data-filter="resolved" href="#">Resolved</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="input-group" style="width: 300px;">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" id="ticketSearch" placeholder="Search tickets...">
+                    </div>
+                </div>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-hover mb-0" id="ticketsTable">
                     <thead>
@@ -35,18 +55,18 @@
                             <td class="py-3 px-4">#{{ $ticket->id }}</td>
                             <td class="py-3 px-4 text-primary">{{ $ticket->subject }}</td>
                             <td class="py-3 px-4">
-                                <span class="badge rounded-pill category-badge">{{ $ticket->category->name }}</span>
+                                <span class="badge rounded-pill category-badge text-dark">{{ $ticket->category->name }}</span>
                             </td>
                             <td class="py-3 px-4">
                                 <div class="d-flex align-items-center">
                                     <div class="avatar-circle me-2">{{ strtoupper(substr($ticket->user->name, 0, 1)) }}</div>
-                                    <span>{{ $ticket->user->name }}</span>
+                                    <span class="text-dark">{{ $ticket->user->name }}</span>
                                 </div>
                             </td>
                             <td class="py-3 px-4">
                                 @if($ticket->assignedAgent)
                                     <div class="d-flex align-items-center">
-                                        <div class="avatar-circle me-2 bg-light">
+                                        <div class="avatar-circle me-2 bg-light text-dark">
                                             {{ strtoupper(substr($ticket->assignedAgent->name, 0, 1)) }}
                                         </div>
                                         <span>{{ $ticket->assignedAgent->name }}</span>
@@ -56,12 +76,12 @@
                                 @endif
                             </td>
                             <td class="py-3 px-4">
-                                <span class="badge status-badge {{ $ticket->status == 'open' ? 'status-open' : ($ticket->status == 'in progress' ? 'status-progress' : 'status-resolved') }}">
+                                <span class="badge status-badge {{ $ticket->status == 'open' ? 'status-open' : ($ticket->status == 'in progress' ? 'status-progress text-danger' : 'status-resolved text-success') }} ">
                                     {{ ucfirst($ticket->status) }}
                                 </span>
                             </td>
                             <td class="py-3 px-4">
-                                <span class="badge priority-badge priority-{{ strtolower($ticket->priority) }}">
+                                <span class="badge priority-badge priority-{{ strtolower($ticket->priority) }} text-dark">
                                     {{ ucfirst($ticket->priority) }}
                                 </span>
                             </td>
@@ -70,39 +90,24 @@
                                     <a href="{{ route('admin.support.show', $ticket->id) }}" class="btn btn-sm btn-outline-primary me-2">
                                         <i class="fas fa-eye me-1"></i> View
                                     </a>
-                                    <!-- Example Delete Button -->
-<button class="btn btn-sm btn-outline-danger delete-btn" 
-data-ticket-id="{{ $ticket->id }}" 
-data-bs-toggle="modal" 
-data-bs-target="#deleteModal">
-<i class="fas fa-trash-alt me-1"></i> Delete
-</button>
-
+                                    <button class="btn btn-sm btn-outline-danger delete-btn" 
+                                            data-ticket-id="{{ $ticket->id }}" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#deleteModal">
+                                        <i class="fas fa-trash-alt me-1"></i> Delete
+                                    </button>
                                 </div>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
-                <div id="noResults" class="text-center py-4 d-none">
-                    <div class="text-muted">
-                        <i class="fas fa-search fa-3x mb-3"></i>
-                        <h5>No tickets found</h5>
-                        <p>Try adjusting your search terms</p>
-                    </div>
-                </div>
-                <div id="loadingIndicator" class="text-center py-4 d-none">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Delete Confirmation Modal -->
-<!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -124,268 +129,116 @@ data-bs-target="#deleteModal">
         </div>
     </div>
 </div>
-
 @endsection
 
 @push('styles')
-
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 <style>
+/* ... (keep all the existing styles) ... */
 
-.card {
-    border-radius: 0.75rem;
+/* Additional styles for DataTables */
+.dataTables_wrapper .dataTables_length, 
+.dataTables_wrapper .dataTables_filter, 
+.dataTables_wrapper .dataTables_info, 
+.dataTables_wrapper .dataTables_processing, 
+.dataTables_wrapper .dataTables_paginate {
+    color: #4a5568;
 }
 
-.search-input {
-    border-color: #e2e8f0;
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.5em 1em;
+    margin-left: 2px;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
 }
 
-.search-input:focus {
-    box-shadow: none;
-    border-color: #2b6cb0;
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: #3182ce;
+    color: white !important;
+    border-color: #3182ce;
 }
 
-.avatar-circle {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: #e2e8f0;
-    color: #1a365d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 500;
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #edf2f7;
+    color: #2d3748 !important;
 }
 
-.status-badge, .priority-badge {
-    font-weight: 500;
-    padding: 0.5rem 0.75rem;
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    padding: 0.25rem 2rem 0.25rem 0.5rem;
 }
 
-.status-open { background-color: #fed7d7; color: #9b2c2c; }
-.status-progress { background-color: #feebc8; color: #9c4221; }
-.status-resolved { background-color: #c6f6d5; color: #276749; }
-
-.priority-high { background-color: #fed7d7; color: #9b2c2c; }
-.priority-medium { background-color: #feebc8; color: #9c4221; }
-.priority-low { background-color: #e2e8f0; color: #2d3748; }
-
-.category-badge {
-    background-color: #ebf4ff;
-    color: #2b6cb0;
-    font-weight: 500;
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
 }
-
-.ticket-row {
-    transition: all 0.2s ease-in-out;
-}
-
-.ticket-row:hover {
-    background-color: #f8f9fa;
-}
-
-.action-buttons .btn {
-    font-weight: 500;
-}
-
-/* Ensure dropdown menus are always on top */
-
-
-@media (max-width: 768px) {
-    .table-responsive {
-        border: 0;
-    }
-
-    .table-responsive table {
-        display: block;
-    }
-
-    .table-responsive thead {
-        display: none;
-    }
-
-    .table-responsive tbody tr {
-        display: block;
-        margin-bottom: 1rem;
-        border: 1px solid #e2e8f0;
-        border-radius: 0.5rem;
-    }
-
-    .table-responsive td {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border: none;
-        padding: 0.75rem 1rem;
-    }
-
-    .table-responsive td::before {
-        content: attr(data-label);
-        font-weight: 500;
-        margin-right: 1rem;
-    }
-
-    .action-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-        margin-top: 0.5rem;
-    }
-}
-    #noResults {
-        min-height: 200px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    #loadingIndicator {
-        min-height: 200px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity 0.3s;
-    }
-    .fade-enter, .fade-leave-to {
-        opacity: 0;
-    }
 </style>
 @endpush
 
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script>
-
-    // Wait for the document to be ready
-document.addEventListener('DOMContentLoaded', function () {
-    // Attach click event to delete buttons
-    document.querySelectorAll('.delete-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            const ticketId = this.getAttribute('data-ticket-id'); // Get the ticket ID
-            const deleteForm = document.getElementById('deleteForm');
-            const actionUrl = `{{ route('admin.support.delete', '') }}/${ticketId}`; // Construct the URL
-            deleteForm.setAttribute('action', actionUrl); // Update the form action
-        });
-    });
-});
-
 document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.querySelector('.search-input');
-    const ticketsTableBody = document.querySelector('#ticketsTable tbody');
-    const noResultsDiv = document.getElementById('noResults');
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    const originalTickets = ticketsTableBody.innerHTML;
-    let searchTimeout;
-
-    searchInput.addEventListener('input', function(e) {
-        const searchTerm = e.target.value.trim().toLowerCase();
-        
-        // Clear previous timeout
-        clearTimeout(searchTimeout);
-        
-        if (searchTerm === '') {
-            // Restore original tickets immediately
-            ticketsTableBody.innerHTML = originalTickets;
-            ticketsTableBody.classList.remove('d-none');
-            noResultsDiv.classList.add('d-none');
-            return;
+    // Initialize DataTable
+    const table = $('#ticketsTable').DataTable({
+        "order": [[0, "desc"]],
+        "pageLength": 10,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "language": {
+            "search": "",
+            "searchPlaceholder": "Search tickets..."
+        },
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+               "<'row'<'col-sm-12'tr>>" +
+               "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        "drawCallback": function(settings) {
+            // Re-initialize delete buttons after draw
+            initDeleteButtons();
         }
+    });
 
-        // Set new timeout for search
-        searchTimeout = setTimeout(() => {
-            // Show loading indicator
-            ticketsTableBody.classList.add('d-none');
-            noResultsDiv.classList.add('d-none');
-            loadingIndicator.classList.remove('d-none');
+    // Custom search box
+    $('#ticketSearch').on('keyup', function() {
+        table.search(this.value).draw();
+    });
 
-            // Perform an AJAX request
-            fetch(`/admin/support/tickets/search?searchTerm=${encodeURIComponent(searchTerm)}`)
-                .then(response => response.json())
-                .then(data => {
-                    loadingIndicator.classList.add('d-none');
-                    
-                    if (data.length === 0) {
-                        ticketsTableBody.classList.add('d-none');
-                        noResultsDiv.classList.remove('d-none');
-                    } else {
-                        ticketsTableBody.classList.remove('d-none');
-                        noResultsDiv.classList.add('d-none');
-                        
-                        // Update table with search results
-                        ticketsTableBody.innerHTML = data.map(ticket => `
-                            <tr class="ticket-row">
-                                <td class="py-3 px-4">#${ticket.id}</td>
-                                <td class="py-3 px-4 text-primary">${ticket.subject}</td>
-                                <td class="py-3 px-4">
-                                    <span class="badge rounded-pill category-badge">${ticket.category.name}</span>
-                                </td>
-                                <td class="py-3 px-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar-circle me-2">${ticket.user.name.charAt(0).toUpperCase()}</div>
-                                        <span>${ticket.user.name}</span>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-4">
-                                    ${ticket.assigned_agent ? `
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar-circle me-2 bg-light">
-                                                ${ticket.assigned_agent.name.charAt(0).toUpperCase()}
-                                            </div>
-                                            <span>${ticket.assigned_agent.name}</span>
-                                        </div>
-                                    ` : '<span class="text-muted">Unassigned</span>'}
-                                </td>
-                                <td class="py-3 px-4">
-                                    <span class="badge status-badge ${
-                                        ticket.status === 'open' ? 'status-open' : 
-                                        (ticket.status === 'in progress' ? 'status-progress' : 'status-resolved')
-                                    }">
-                                        ${ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
-                                    </span>
-                                </td>
-                                <td class="py-3 px-4">
-                                    <span class="badge priority-badge priority-${ticket.priority.toLowerCase()}">
-                                        ${ticket.priority.charAt(0).toUpperCase() + ticket.priority.slice(1)}
-                                    </span>
-                                </td>
-                                <td class="py-3 px-4 text-center">
-                                    <div class="action-buttons">
-                                        <a href="/admin/support/tickets/${ticket.id}" class="btn btn-sm btn-outline-primary me-2">
-                                            <i class="fas fa-eye me-1"></i> View
-                                        </a>
-                                        <button class="btn btn-sm btn-outline-danger delete-btn" 
-                                                data-ticket-id="${ticket.id}"
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#deleteModal">
-                                            <i class="fas fa-trash-alt me-1"></i> Delete
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        `).join('');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    loadingIndicator.classList.add('d-none');
-                    // Handle error - you might want to show an error message to the user
-                });
-        }, 300); // 300ms delay
+    // Refresh button
+    $('#refreshBtn').on('click', function() {
+        table.ajax.reload();
+    });
+
+    // Filter dropdown
+    $('.filter-option').on('click', function(e) {
+        e.preventDefault();
+        const filter = $(this).data('filter');
+        if (filter === 'all') {
+            table.column(5).search('').draw();
+        } else {
+            table.column(5).search(filter).draw();
+        }
     });
 
     // Delete modal functionality
-    const deleteModal = document.getElementById('deleteModal');
-    const deleteForm = document.getElementById('deleteForm');
-    
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('delete-btn')) {
-            const ticketId = e.target.getAttribute('data-ticket-id');
-            deleteForm.action = `/admin/support/tickets/${ticketId}`;
-        }
-    });
+    function initDeleteButtons() {
+        const deleteModal = document.getElementById('deleteModal');
+        const deleteForm = document.getElementById('deleteForm');
+        
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const ticketId = this.getAttribute('data-ticket-id');
+                const actionUrl = `{{ route('admin.support.delete', '') }}/${ticketId}`;
+                deleteForm.setAttribute('action', actionUrl);
+            });
+        });
+    }
+
+    // Initial call to set up delete buttons
+    initDeleteButtons();
 });
 </script>
 @endpush

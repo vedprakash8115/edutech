@@ -21,6 +21,83 @@
 
         
     }
+    .image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.course-banner {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+@keyframes pulse {
+    0% {
+        transform: rotate(45deg) scale(1);
+    }
+    50% {
+        transform: rotate(45deg) scale(1.05);
+    }
+    100% {
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+.new-badge {
+    position: absolute;
+    top: 2px;
+    right: -36px;
+    /* background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3); */
+    background: red;
+    color: rgb(255, 255, 255);
+    padding: 5px 40px;
+    /* font-weight: bold; */
+    font-size: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 1;
+    animation: pulse 2s infinite ease-in-out;
+    transition: all 0.3s ease;
+}
+
+.new-badge:hover {
+    transform: rotate(45deg) scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.new-badge span {
+    display: block;
+    transform: rotate(-45deg);
+    font-size: 0.8rem;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+.new-badge::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0) 30%,
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0) 70%
+    );
+    opacity: 0.6;
+    z-index: 1;
+    animation: shimmer 3s infinite;
+    background-size: 200% 100%;
+}
     .carousel-caption {
         /* bottom: auto; */
         top: 0%;
@@ -418,85 +495,91 @@
         @php
             $defaultRatings = [3, 3.5, 4, 4.5, 5];
         @endphp
-        @foreach($courses as $course)
-            @php
-                $rating = $defaultRatings[array_rand($defaultRatings)];
-            @endphp
-            <div class="col-md-6 col-lg-4">
-                <div class="course-card">
-                    <div class="course-card-inner">
-                        <div class="course-card-front">
-                            <img src="{{ asset($course->banner) }}" alt="{{ $course->title }}" class="course-banner">
-                            <h3 class="course-title">{{ $course->title }}</h3>
-                            <div class="course-rating">
-                                @for($i = 1; $i <= 5; $i++)
-                                    @if($i <= $rating)
-                                        <i class="fas fa-star"></i>
-                                    @elseif($i - 0.5 <= $rating)
-                                        <i class="fas fa-star-half-alt"></i>
-                                    @else
-                                        <i class="far fa-star"></i>
-                                    @endif
-                                @endfor
-                            </div>
-                            <div class="course-price">
-                                @if($course->original_price === null && $course->discount_price === null)
-                                    <span class="free-price"><i class="fas fa-gift me-2"></i>Free</span>
-                                @else
-                                    @if($course->price)
-                                        <span class="original-price">${{ number_format($course->price, 2) }}</span>
-                                    @endif
-                                    <br>
-                                    @if($course->discount_price)
-                                        <span class="discount-price">
-                                            <i class="fas fa-tags me-2"></i>Now at $<span class="typed-price" data-price="{{ number_format($course->discount_price, 2) }}"></span>
-                                        </span>
-                                    @endif
-                                @endif
-                            </div>
-                            <a href="{{ route('courses.show', $course->id) }}
-" class="btn-learn-more">
-                                <i class="fas fa-graduation-cap me-2"></i>Learn More
-                            </a>
-                        </div>
-                        <div class="course-card-back">
-                            <h3 class="course-title">{{ $course->course_name }}</h3>
-                            <p class="course-description">{{ $course->about_course }}</p>
-                            <div class="course-price">
-                                @if($course->original_price === null && $course->discount_price === null)
-                                    <span class="free-price"><i class="fas fa-gift me-2"></i>Free</span>
-                                @else
-                                    @if($course->price)
-                                        <span class="original-price">${{ number_format($course->price, 2) }}</span>
-                                    @endif
-                                    <br>
-                                    @if($course->discount_price)
-                                        <span class="discount-price">
-                                            <i class="fas fa-tags me-2"></i>Now at $<span class="typed-price" data-price="{{ number_format($course->discount_price, 2) }}"></span>
-                                        </span>
-                                    @endif
-                                @endif
-                            </div>
-                            <div class="course-rating">
-                                @for($i = 1; $i <= 5; $i++)
-                                    @if($i <= $rating)
-                                        <i class="fas fa-star"></i>
-                                    @elseif($i - 0.5 <= $rating)
-                                        <i class="fas fa-star-half-alt"></i>
-                                    @else
-                                        <i class="far fa-star"></i>
-                                    @endif
-                                @endfor
-                            </div>
-                            <a href="{{ route('courses.show', $course->id) }}
-" class="btn-learn-more">
-                                <i class="fas fa-info-circle me-2"></i>More Details
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
+   @foreach($courses as $course)
+   @php
+       $rating = $defaultRatings[array_rand($defaultRatings)];
+       $isNew = $course->created_at->diffInDays(now()) <= 15;
+   @endphp
+   <div class="col-md-6 col-lg-4">
+       <div class="course-card">
+           <div class="course-card-inner">
+               <div class="course-card-front">
+                   <div class="image-container">
+                       <img src="{{ asset($course->banner) }}" alt="{{ $course->title }}" class="course-banner">
+                       @if($isNew)
+                       <div class="new-badge">
+                           <span>New</span>
+                       </div>
+                   @endif
+                   </div>
+                   <h3 class="course-title">{{ $course->title }}</h3>
+                   <div class="course-rating">
+                       @for($i = 1; $i <= 5; $i++)
+                           @if($i <= $rating)
+                               <i class="fas fa-star"></i>
+                           @elseif($i - 0.5 <= $rating)
+                               <i class="fas fa-star-half-alt"></i>
+                           @else
+                               <i class="far fa-star"></i>
+                           @endif
+                       @endfor
+                   </div>
+                   <div class="course-price">
+                       @if($course->original_price === null && $course->discount_price === null)
+                           <span class="free-price"><i class="fas fa-gift me-2"></i>Free</span>
+                       @else
+                           @if($course->price)
+                               <span class="original-price">${{ number_format($course->price, 2) }}</span>
+                           @endif
+                           <br>
+                           @if($course->discount_price)
+                               <span class="discount-price">
+                                   <i class="fas fa-tags me-2"></i>Now at $<span class="typed-price" data-price="{{ number_format($course->discount_price, 2) }}"></span>
+                               </span>
+                           @endif
+                       @endif
+                   </div>
+                   <a href="{{ route('courses.show', $course->id) }}" class="btn-learn-more">
+                       <i class="fas fa-graduation-cap me-2"></i>Learn More
+                   </a>
+               </div>
+               <div class="course-card-back">
+                   <h3 class="course-title">{{ $course->course_name }}</h3>
+                   <p class="course-description">{{ $course->about_course }}</p>
+                   <div class="course-price">
+                       @if($course->original_price === null && $course->discount_price === null)
+                           <span class="free-price"><i class="fas fa-gift me-2"></i>Free</span>
+                       @else
+                           @if($course->price)
+                               <span class="original-price">${{ number_format($course->price, 2) }}</span>
+                           @endif
+                           <br>
+                           @if($course->discount_price)
+                               <span class="discount-price">
+                                   <i class="fas fa-tags me-2"></i>Now at $<span class="typed-price" data-price="{{ number_format($course->discount_price, 2) }}"></span>
+                               </span>
+                           @endif
+                       @endif
+                   </div>
+                   <div class="course-rating">
+                       @for($i = 1; $i <= 5; $i++)
+                           @if($i <= $rating)
+                               <i class="fas fa-star"></i>
+                           @elseif($i - 0.5 <= $rating)
+                               <i class="fas fa-star-half-alt"></i>
+                           @else
+                               <i class="far fa-star"></i>
+                           @endif
+                       @endfor
+                   </div>
+                   <a href="{{ route('courses.show', $course->id) }}" class="btn-learn-more">
+                       <i class="fas fa-info-circle me-2"></i>More Details
+                   </a>
+               </div>
+           </div>
+       </div>
+   </div>
+@endforeach
     </div>
 
     

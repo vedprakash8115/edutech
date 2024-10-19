@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
+use App\Http\Controllers\GraphicsController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SEOController;
 use App\Http\Controllers\SitemapController;
@@ -38,6 +39,7 @@ use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\StudentBookController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StudentSupportController;
 use App\Http\Controllers\AgentTicketController;
 // use App\Livewire\Test;
@@ -53,9 +55,17 @@ use App\Http\Controllers\AgentTicketController;
 |
 */
 
+Route::post('/register' , [RegisterController::class , 'store']);
 Route::get('/login', function () {
     return view('auth.login');
 });
+Route::get('/index2', function () {
+    return view('frontend.index2');
+});
+
+
+
+
 // Route::get('login', function () {
 //     return view('dashboard');
 // });
@@ -95,6 +105,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('ins/video', [VideoCourseController::class, 'store'])->name('videocourse.store');
         Route::get('ins/video/edit/{id}', [VideoCourseController::class, 'edit'])->name('videocourse.edit');
         // Route for the update method in VideoCourseController
+        Route::post('videocourse/{id}/update-status', [VideoCourseController::class, 'updateStatus'])->name('videocourse.updateStatus');
+
         Route::put('/videocourses/{id}', [VideoCourseController::class, 'update'])->name('videocourse.update');
         Route::get('/videocourses/{id}/videos', [VideoCourseController::class, 'showVideos'])->name('videocourse.showVideos');
         Route::delete('/videos/{id}', [VideoCourseController::class, 'destroy'])->name('videocourse.deleteVideo');
@@ -145,6 +157,7 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('/ins/content/e-library', [ElibraryController::class, 'index'])->name('elibrary.store');
         // Route::get('/upload-monitor', [UploadMonitorController::class, 'index'])->name('upload.monitor');
         Route::resource('users', UserController::class);
+        Route::resource('graphics', GraphicsController::class);
 
 
 
@@ -162,7 +175,20 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/ins/content/mock/test', Tests::class)->name('mock_test');
         Route::get('/ins/content/mock/subjects', SubjectForm::class)->name('mock_subjects');
         Route::get('/ins/content/mock/question', QuestionForm::class)->name('mock_questions');
+
+
         Route::resource('coupons', CouponController::class);
+        // Route::get('/coupons', [CouponController::class, 'index'])->name('coupons.index');
+        // Route::get('/coupons/create', [CouponController::class, 'create'])->name('coupons.create');
+
+        // Route::post('/coupons', [CouponController::class, 'store'])->name('coupons.store');
+        // Route::get('/coupons/{id}', [CouponController::class, 'edit'])->name('coupons.edit');
+        // // Route::get('/ins/content/e-library/show', [CouponController::class, 'show'])->name('elibrary.show');
+        // Route::put('/coupons/update/{id}', [ElibraryController::class, 'update'])->name('coupons.update');
+        // Route::get('/ins/content/e-library/files/{id}', [ElibraryController::class, 'files'])->name('elibrary.files'); 
+        // web.php
+Route::get('live-classes/{id}', [CouponController::class, 'getLiveClasses'])->name('live-classes');
+
 
 
 
@@ -335,3 +361,6 @@ Route::get('/mock-test/ques', QuestionManagement::class)->name('mock.man');
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/course-details/{id}',[HomeController::class,'details'])->name('course.details');
 Route::get('/generate-sitemap', [SitemapController::class, 'index']);
+// Route::get('/register', function () {
+//     return view('auth.register');
+// });

@@ -62,4 +62,5 @@ if ($route == 'index') {
         return view('frontend.details', compact('video' ,'seos'));
     }
     
+    
 }

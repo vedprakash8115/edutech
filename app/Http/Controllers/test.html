@@ -1,110 +1,68 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="{{ $seoSetting->viewport ?? 'width=device-width, initial-scale=1' }}">
-
-    {{-- CSRF Token --}}
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ $seoSetting->title ?? config('app.name', 'Laravel') }}</title>
-
-    {{-- SEO Meta Tags --}}
-    <meta name="description" content="{{ $seoSetting->meta_description ?? '' }}">
-    @if($seoSetting->meta_keywords)
-        <meta name="keywords" content="{{ $seoSetting->meta_keywords }}">
-    @endif
-    @if($seoSetting->author)
-        <meta name="author" content="{{ $seoSetting->author }}">
-    @endif
-    @if($seoSetting->robots)
-        <meta name="robots" content="{{ $seoSetting->robots }}">
-    @endif
-    @if($seoSetting->copyright)
-        <meta name="copyright" content="{{ $seoSetting->copyright }}">
-    @endif
-
-    {{-- Canonical URL --}}
-    @if($seoSetting->canonical_url)
-        <link rel="canonical" href="{{ $seoSetting->canonical_url }}">
-    @endif
-
-    {{-- Open Graph Meta Tags --}}
-    @if($seoSetting->og_title)
-        <meta property="og:title" content="{{ $seoSetting->og_title }}">
-    @endif
-    @if($seoSetting->og_type)
-        <meta property="og:type" content="{{ $seoSetting->og_type }}">
-    @endif
-    @if($seoSetting->og_url)
-        <meta property="og:url" content="{{ $seoSetting->og_url }}">
-    @endif
-    @if($seoSetting->og_image)
-        <meta property="og:image" content="{{ $seoSetting->og_image }}">
-    @endif
-    @if($seoSetting->og_description)
-        <meta property="og:description" content="{{ $seoSetting->og_description }}">
-    @endif
-    @if($seoSetting->og_site_name)
-        <meta property="og:site_name" content="{{ $seoSetting->og_site_name }}">
-    @endif
-    @if($seoSetting->og_locale)
-        <meta property="og:locale" content="{{ $seoSetting->og_locale }}">
-    @endif
-    @if($seoSetting->og_audio)
-        <meta property="og:audio" content="{{ $seoSetting->og_audio }}">
-    @endif
-    @if($seoSetting->og_video)
-        <meta property="og:video" content="{{ $seoSetting->og_video }}">
-    @endif
-
-    {{-- Schema Markup --}}
-    @if($seoSetting->schema_markup)
-        <script type="application/ld+json">
-            {!! $seoSetting->schema_markup !!}
-        </script>
-    @endif
-
-    {{-- Styles --}}
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    {{-- Additional Styles --}}
-    @stack('styles')
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locomotive Scroll Horizontal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .scroll-container {
+            display: flex;
+            width: 400%; /* Adjust to fit your content */
+        }
+        .section {
+            flex: 1 0 100%; /* Each section takes 100% of the viewport width */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        .section-1 { background: #ff7e5f; }
+        .section-2 { background: #f6a1e3; }
+        .section-3 { background: #a1c4fd; }
+        .section-4 { background: #edf0db; }
+    </style>
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    {{-- Left Side Of Navbar --}}
-                    <ul class="navbar-nav me-auto">
-                        {{-- Add your menu items here --}}
-                    </ul>
-
-                    {{-- Right Side Of Navbar --}}
-                    <ul class="navbar-nav ms-auto">
-                        {{-- Add authentication links or other menu items here --}}
-                    </ul>
-                </div>
+    <div class="container" data-scroll-container>
+        <div class="scroll-container">
+            <div class="section section-1" data-scroll-section>
+                <h1>Section 1</h1>
             </div>
-        </nav>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
+            <div class="section section-2" data-scroll-section>
+                <h1>Section 2</h1>
+            </div>
+            <div class="section section-3" data-scroll-section>
+                <h1>Section 3</h1>
+            </div>
+            <div class="section section-4" data-scroll-section>
+                <h1>Section 4</h1>
+            </div>
+        </div>
     </div>
 
-    {{-- Scripts --}}
-    <script src="{{ asset('js/app.js') }}"></script>
-
-    {{-- Additional Scripts --}}
-    @stack('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    <script>
+        const scroll = new LocomotiveScroll({
+            el: document.querySelector('[data-scroll-container]'),
+            smooth: true,
+            direction: 'horizontal'
+        });
+    </script>
 </body>
 </html>

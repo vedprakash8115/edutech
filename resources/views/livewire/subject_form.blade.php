@@ -1,8 +1,8 @@
-<div class="col-md-12">
+<div class="col-md-12" x-data="formHandler()">
     @livewire('header', ['currentStep' => 2, 'maxStep' => 2])
-    <div class="card py-2">
+    <div class="card">
+        <h3 class="card-title mb-4" style="font-family: Georgia, 'Times New Roman', Times, serif; color:rgb(114, 114, 114)"> <i class="fa fa-bars text-dark" style="font-size: 20px;  "></i></h3>
         <div class="card-body">
-            <div class="card-title">Create Subjects</div>
             <form wire:submit.prevent="store">
                 <!-- Test Dropdown -->
                 <div class="form-group mb-4">
@@ -112,7 +112,6 @@
                     </button>
                 </div>
             </form>
-            
         </div>
     </div>
 
@@ -122,20 +121,117 @@
             {{ session('message') }}
         </div>
     @endif
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('livewire:initialized', () => {
-        Livewire.on('swal:toast', (data) => {
-            Swal.fire({
-                icon: data[0].icon,
-                title: data[0].title,
-                toast: true,
-                position: data[0].position || 'top-end',
-                showConfirmButton: false,
-                timer: data[0].timer || 3000,
-                timerProgressBar: true,
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('swal:toast', (data) => {
+                Swal.fire({
+                    icon: data[0].icon,
+                    title: data[0].title,
+                    toast: true,
+                    position: data[0].position || 'top-end',
+                    showConfirmButton: false,
+                    timer: data[0].timer || 3000,
+                    timerProgressBar: true,
+                });
             });
         });
-    });
-</script>
+
+        function formHandler() {
+            return {
+                formData: {
+                    test_id: '',
+                    subjects: []
+                },
+                wordCounts: [],
+                autoSaveEnabled: true,
+                autoSaveInterval: null,
+
+                init() {
+                    this.loadFormData();
+                    this.startAutoSave();
+                    this.$watch('formData', () => {
+                        if (this.autoSaveEnabled) {
+                            this.saveFormData();
+                        }
+                    });
+                },
+
+                saveFormData() {
+                    localStorage.setItem('subjectsFormData', JSON.stringify(this.formData));
+                    console.log('Form data saved');
+                },
+
+                loadFormData() {
+                    const savedData = localStorage.getItem('subjectsFormData');
+                    if (savedData) {
+                        this.formData = JSON.parse(savedData);
+                        this.updateAllWordCounts();
+                    }
+                },
+
+                validateField(field) {
+                    field.setCustomValidity('');
+                    if (!field.checkValidity()) {
+                        field.setCustomValidity(field.validationMessage);
+                    }
+                },
+
+                updateWordCount(field, index) {
+                    this.wordCounts[index] = field.value.trim().split(/\s+/).length;
+                },
+
+                updateAllWordCounts() {
+                    this.formData.subjects.forEach((subject, index) => {
+                        if (subject.description) {
+                            this.wordCounts[index] = subject.description.trim().split(/\s+/).length;
+                        }
+                    });
+                },
+
+                resetForm() {
+                    this.formData = {
+                        test_id: '',
+                        subjects: []
+                    };
+                    this.wordCounts = [];
+                    localStorage.removeItem('subjectsFormData');
+                },
+
+                clearForm() {
+                    this.resetForm();
+                },
+
+                toggleAutoSave() {
+                    this.autoSaveEnabled = !this.autoSaveEnabled;
+                    if (this.autoSaveEnabled) {
+                        this.startAutoSave();
+                    } else {
+                        clearInterval(this.autoSaveInterval);
+                    }
+                },
+
+                startAutoSave() {
+                    this.autoSaveInterval = setInterval(() => {
+                        if (this.autoSaveEnabled) {
+                            this.saveFormData();
+                        }
+                    }, 30000); // Auto-save every 30 seconds
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .input-focus {
+            box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+            border: 1px solid rgba(81, 203, 238, 1);
+        }
+        .word-count {
+            font-size: 0.8em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+    </style>
 </div>

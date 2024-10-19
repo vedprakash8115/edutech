@@ -1,5 +1,66 @@
 <html lang="en">
   <head>
+    <style>
+      body, html {
+          margin: 0;
+          padding: 0;
+          height: 100%;
+          overflow: hidden;
+          font-family: Arial, sans-serif;
+      }
+      #overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.8);
+          backdrop-filter: blur(8px);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.3s, visibility 0.3s;
+      }
+      #overlay.visible {
+          opacity: 1;
+          visibility: visible;
+      }
+      .loader {
+          width: 120px;
+          height: 120px;
+          border: 5px solid #f3f3f3;
+          border-top: 5px solid #3498db;
+          border-radius: 50%;
+          animation: spin 1s linear infinite, pulse 2s ease-in-out infinite;
+      }
+      .loading-text {
+          color: #ffffff;
+          font-size: 18px;
+          margin-top: 20px;
+          letter-spacing: 2px;
+          animation: fadeInOut 1.5s ease-in-out infinite;
+      }
+      @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+      }
+      @keyframes pulse {
+          0%, 100% { transform: scale(1) rotate(0deg); }
+          50% { transform: scale(1.1) rotate(540deg); }
+      }
+      @keyframes fadeInOut {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 1; }
+      }
+  </style>
+  
+  
+ 
+
     
     <meta charset="utf-8" />
     <meta
@@ -34,24 +95,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf_viewer.min.css">
 
     
-   
+ 
     
 
 
 <!-- dark theme  -->
 <link id="dark-theme-stylesheet" href="{{ asset('assets/css/dark-theme.css') }}" rel="stylesheet" disabled>
-<script>
-  (function() {
-    const savedTheme = localStorage.getItem('theme') || 'light'; // Default to 'light' if not set
-    document.documentElement.setAttribute('data-bs-theme', savedTheme);
-    
-    // Handle dark theme stylesheets
-    const darkThemeStylesheet = document.getElementById('dark-theme-stylesheet');
-    if (darkThemeStylesheet) {
-      darkThemeStylesheet.disabled = savedTheme === 'light';
-    }
-  })();
-  </script>
+
 
 <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
 <script src="{{asset('assets/js/config.js')}}"></script>
@@ -69,13 +119,71 @@
             width: 250px; /* Set the desired width */
             max-width: 100%; /* Ensure it doesn't exceed the container's width */
         }
+        
 
       </style>
+ 
+    
     @stack('styles')
   </head>
 
   <body>
+    <div id="overlay">
+      <div class="loader"></div>
+      <div class="loading-text">LOADING...</div>
+  </div>
+  <script>
+    (function() {
+        const overlay = document.getElementById('overlay');
+        let loadStartTime;
+
+        function showOverlay() {
+            overlay.classList.add('visible');
+            loadStartTime = Date.now();
+        }
+
+        function hideOverlay() {
+            const minDisplayTime = 500; // Minimum time to display the loader (in milliseconds)
+            const elapsedTime = Date.now() - loadStartTime;
+            const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
+
+            setTimeout(() => {
+                overlay.classList.remove('visible');
+            }, remainingTime);
+        }
+
+        // Show overlay on initial page load
+        showOverlay();
+
+        // Hide overlay when page is fully loaded
+        window.addEventListener('load', hideOverlay);
+
+        // Show overlay when clicking on anchor tags
+        document.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() === 'a') {
+        showOverlay();
+    }
+});
+
+        // Handle page show/hide events (for bfcache)
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                // Page was restored from bfcache
+                hideOverlay();
+            }
+        });
+
+        window.addEventListener('pagehide', function() {
+            showOverlay();
+        });
+
+        // Fallback: hide overlay after 10 seconds if 'load' event doesn't fire
+        setTimeout(hideOverlay, 10000);
+    })();
+    </script>
     @livewireScripts
+ 
+  
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
@@ -99,7 +207,7 @@
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

@@ -10,6 +10,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
+
 class UserController extends Controller
 {
     /**
@@ -100,7 +101,7 @@ class UserController extends Controller
             }
 
             // Create user
-            User::create([
+           $user =  User::create([
                 'name' => $request->name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
@@ -120,7 +121,8 @@ class UserController extends Controller
                 'linkedin_url' => $request->linkedin_url,
                 'password' => Hash::make($request->password),
             ]);
-
+            $role = Role::findById($request->role_id); // Fetch role by ID
+            $user->assignRole($role);
             Alert::toast('User successfully added!', 'success');
         } catch (ValidationException $e) {
             Alert::error( 'error', 'Validation error: ' . $e->getMessage());

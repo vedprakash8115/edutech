@@ -97,10 +97,10 @@
                 }
             
                 .card-title {
-                    color: #333;
+                    /* color: #333;
                     font-size: 1.5rem;
-                    font-weight: bold;
-                    margin-bottom: 1.5rem;
+                    /* font-weight: bold; */
+                    /* margin-bottom: 1.5rem; */ */
                 }
             
                 .flow-steps {
@@ -257,7 +257,7 @@
                         @if ($activeQuestion === $i)
                             <div class="card mb-4 border-primary" wire:key="question-card-{{ $i }}">
                                 <div class="card-header bg-primary text-white">
-                                    <p class="card-title text-white mb-0" style="font-weight:100">Question {{ $i + 1 }}</p>
+                                    <p class="card-title text-white mb-0" style="font-weight:100; background:transparent; box-shadow:none; color:whitesmoke; font-size:25px; border:none;">Question {{ $i + 1 }}</p>
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-3">
@@ -418,6 +418,86 @@
             });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    // Function to save questions to localStorage
+    function saveQuestionsToLocalStorage(testId, subjectId, questions) {
+        if (!testId || !subjectId) {
+            console.warn("Test ID or Subject ID is missing. Cannot save questions.");
+            return;
+        }
+
+        // Create a unique key for the combination of test and subject
+        const localStorageKey = `questions_${testId}_${subjectId}`;
+
+        // Convert the questions to a string and save to localStorage
+        localStorage.setItem(localStorageKey, JSON.stringify(questions));
+        console.log(`Questions saved for Test ID: ${testId}, Subject ID: ${subjectId}`);
+    }
+
+    // Function to get questions from localStorage
+    function getQuestionsFromLocalStorage(testId, subjectId) {
+        if (!testId || !subjectId) {
+            console.warn("Test ID or Subject ID is missing. Cannot get questions.");
+            return null;
+        }
+
+        const localStorageKey = `questions_${testId}_${subjectId}`;
+        const storedQuestions = localStorage.getItem(localStorageKey);
+
+        return storedQuestions ? JSON.parse(storedQuestions) : null;
+    }
+
+    // Event listener to store questions when the form is submitted
+    document.querySelector('form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Retrieve test and subject IDs
+        const testId = document.getElementById('test_id').value;
+        const subjectId = document.getElementById('subject_id').value;
+
+        // Retrieve questions from Livewire's bound inputs (You need to customize this part)
+        const questions = [];
+        document.querySelectorAll('[wire\\:model\\.live^="quesarray"]').forEach(function (element) {
+            const questionIndex = element.getAttribute('wire:model.live').match(/quesarray\.(\d+)/)[1];
+            const questionText = document.querySelector(`#question_text_${questionIndex}`).value;
+            const questionType = document.querySelector(`#question_type_${questionIndex}`).value;
+            const marks = document.querySelector(`#marks_${questionIndex}`).value;
+            
+            // Collect data based on the question type
+            const options = {};
+            if (questionType === 'multiple_choice') {
+                ['a', 'b', 'c', 'd'].forEach(option => {
+                    const optionText = document.querySelector(`#${option}_text_${questionIndex}`).value;
+                    options[option] = { text: optionText };
+                });
+            }
+
+            const questionData = {
+                question_text: questionText,
+                question_type: questionType,
+                marks: marks,
+                options: options,
+            };
+
+            questions.push(questionData);
+        });
+
+        // Save questions to localStorage
+        saveQuestionsToLocalStorage(testId, subjectId, questions);
+    });
+
+    // Example: Load existing questions from localStorage when the page is loaded
+    const testId = document.getElementById('test_id').value;
+    const subjectId = document.getElementById('subject_id').value;
+    const existingQuestions = getQuestionsFromLocalStorage(testId, subjectId);
+
+    if (existingQuestions) {
+        // Populate form with existing questions (Custom logic required here)
+        console.log("Loaded existing questions from localStorage:", existingQuestions);
+    }
+});
+
 </script>
 
 
