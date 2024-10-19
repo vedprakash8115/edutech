@@ -205,6 +205,11 @@
 .card-hover{
     height: 8rem;
 }
+@media (max-width: 576px) {
+    .card-hover {
+        height: auto; /* Adjust height for smaller screens */
+    }
+}
 
 .card-header {
     background-color: #cfc3ff;
