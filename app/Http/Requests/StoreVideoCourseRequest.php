@@ -27,13 +27,14 @@ class StoreVideoCourseRequest extends FormRequest
             'is_paid' => 'boolean',
                 'price' => 'nullable|numeric|min:0',
                 'discount_price' => 'nullable|numeric|min:0',
-            'banner' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // Changed to nullable for optional updates
+            'banner' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'about_course' => 'nullable|string', // Changed to nullable for optional updates
             'course_category_id' => 'required|integer',
             'from' => 'required|date',
             'to' => 'required|date',
             'course_validity' => 'nullable|string',
-            'subject' => 'nullable'
-        
+            'subject' => 'nullable',
+            'show_on_website' => 'nullable'
         ];
     }
 }

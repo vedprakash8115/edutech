@@ -143,14 +143,12 @@
                                     </div>
                                     <div class="col-md-6" data-aos="fade-right" data-aos-delay="500">
                                         <div class="form-floating">
-                                            <i class="fas fa-clock form-icon"></i>
-                                            <input type="time" class="form-control"
-                                                value="{{ isset($single_data->Course_duration) ? \Carbon\Carbon::parse($single_data->Course_duration)->format('H:i') : '' }}"
-                                                id="course_duration" name="course_duration" required>
-                                            <label for="course_duration" class="text-secondary">Course Duration <span
-                                                    class="text-danger">*</span></label>
+                                            <i class="fas fa-calendar-day form-icon"></i>
+                                            <input type="number" class="form-control" value="{{ isset($single_data->Course_duration) ? $single_data->Course_duration : '' }}" id="course_duration" name="course_duration" min="1" required>
+                                            <label for="course_duration" class="text-secondary">Course Duration (Days) <span class="text-danger">*</span></label>
                                         </div>
                                     </div>
+                                    
                                     <div class="col-md-6" data-aos="fade-left" data-aos-delay="600">
                                         <div class="form-floating">
                                             <i class="fas fa-list form-icon"></i>

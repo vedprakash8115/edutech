@@ -1,38 +1,40 @@
-{{-- <section>
-    <div class="container  d-flex justify-content-center">
-        <div class="card bg-light w-100  overflow-hidden" style="">
-            <div id="particles-js" class="position-absolute w-100 h-100" style="z-index: 0;"></div>
-            
-            <div class="card-body d-flex justify-content-center align-items-center  " style="z-index: 1;">
-                <button 
-                    class="btn m-2 custom-btn" 
-                    onclick="window.location.href='{{ route('mock_test') }}'">
-                    Manage Tests
-                </button>
-                
-                <!-- Vertical Line -->
-                <div style="border-left: 2px solid #000; height: 40px; margin: 0 15px;"></div>
-                
-                <button 
-                    class="btn m-2 custom-btn" 
-                    onclick="window.location.href='{{ route('mock_subjects') }}'">
-                    Manage Subjects
-                </button>
-                
-                <div style="border-left: 2px solid #000; height: 40px; margin: 0 15px;"></div>
-                <button 
-                    class="btn m-2 custom-btn" 
-                    onclick="window.location.href='{{ route('mock_questions') }}'">
-                    Manage Questions
-                </button>
-                <div style="border-left: 2px solid #000; height: 40px; margin: 0 15px;"></div>
-                <button 
-                    class="btn m-2 custom-btn" 
-                    onclick="window.location.href='{{ route('mock_sample') }}'">
-                    Sample View
-                </button>
-            </div>
-        </div>
+<section>
+    <div class="  d-flex justify-content-center" style="">
+  <div class="card bg-light w-100 overflow-hidden" style="border-radius:5px;">
+    <h3 class="card-title mb-4" style="font-family: Georgia, 'Times New Roman', Times, serif; color:rgb(114, 114, 114)">NAVIGATION PANEL</h3>
+    <div class="card-body d-flex justify-content-center align-items-center py-0" style="z-index: 1;">
+        
+        <button 
+            class="btn m-2  {{ request()->routeIs('mock_test') ? 'btn-primary' : 'custom-btn' }}" 
+            onclick="window.location.href='{{ route('mock_test') }}'">
+            Manage Tests
+        </button>
+        
+        <!-- Vertical Line -->
+        <div style="border-left: 2px solid #000; height: 40px; margin: 0 15px;"></div>
+        
+        <button 
+            class="btn m-2  {{ request()->routeIs('mock_subjects') ? 'btn-primary' : 'custom-btn' }}" 
+            onclick="window.location.href='{{ route('mock_subjects') }}'">
+            Manage Subjects
+        </button>
+        
+        <div style="border-left: 2px solid #000; height: 40px; margin: 0 15px;"></div>
+        <button 
+            class="btn m-2  {{ request()->routeIs('mock_questions') ?  'btn-primary' : 'custom-btn' }}" 
+            onclick="window.location.href='{{ route('mock_questions') }}'">
+            Manage Questions
+        </button>
+        
+        <div style="border-left: 2px solid #000; height: 40px; margin: 0 15px;"></div>
+        <button 
+            class="btn m-2  {{ request()->routeIs('mock_sample') ?  'btn-primary' : 'custom-btn' }}" 
+            onclick="window.location.href='{{ route('mock_sample') }}'">
+            Sample View
+        </button>
+    </div>
+</div>
+
     </div>
     
 
@@ -54,12 +56,16 @@
 
 .card-title {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: #000 !important;
+    font-weight: 100 !important;
 }
 
 .custom-btn {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    background: #ff6464;
+    color: white;
 }
 
 .custom-btn::before {
@@ -72,12 +78,39 @@
     background: linear-gradient(
         120deg,
         transparent,
-        rgba(255, 255, 255, 0.5),
+        rgb(255, 252, 246),
         transparent
     );
     transition: all 0.5s;
+    color: white;
 }
 
+.card {
+        /* background: rgba(236, 220, 220, 0.8); */
+        backdrop-filter: blur(10px);
+        border-radius: 2px !important;
+        /* border: 1px solid rgba(15, 33, 232, 0.801); */
+        box-shadow: 0 1px 8px 2px #bbbcc4 ;
+    }
+    .card-title
+    {
+        padding: 15px 0px 10px 0px  ;
+        background: #fc7f7f;
+        color: rgba(149, 149, 149, 0.968);
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-content: center;
+        /* border-bottom: 1px solid black; */
+        box-shadow: 0px 2px 2px rgba(22, 21, 21, 0.485);
+        overflow: hidden;
+    }
+    h3
+    {
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        color:rgb(34, 31, 31) !important;
+    }
+   
 .custom-btn:hover::before {
     left: 100%;
 }
@@ -85,6 +118,7 @@
 .custom-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: white;
 }
 
 @media (max-width: 768px) {
@@ -94,6 +128,10 @@
     .custom-btn {
         width: 100%;
         margin: 0.5rem 0 !important;
+    }
+    .btn-danger
+    {
+        background-color: rgb(204, 106, 106) !important;
     }
 }
 </style>
@@ -120,4 +158,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-</section> --}}
+</section>

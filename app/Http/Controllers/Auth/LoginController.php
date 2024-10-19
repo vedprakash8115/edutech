@@ -14,20 +14,55 @@ class LoginController extends Controller
         return view('auth.login');
 
     }
-    public function login(Request $request){
-        // dd($request->all());
+    // public function login(Request $request){
+    //     $request->validate([
+    //         'email' => 'required',
+    //         'password' => 'required',
+    //     ]);
+    //     if (Auth::attempt(['email'=>$request->email,'password'=>$request->password])) {
+    //         Alert::alert('Great', 'You have successfully Login!');
+    //         $curr_user = Auth::user();
+            
+    //         $user_role = $curr_user->roles()->first();
+    //         // dd($user_role);
+    //          // Check if user has admin role and redirect accordingly
+    //          if ($curr_user->hasAnyRole(['admin', 'agent','teacher'])) {
+    //             return redirect()->route('insdashboard');
+    //         } elseif ($curr_user->hasRole('student')) {
+    //             return redirect()->route('student.home');
+    //         } else {
+    //             Auth::logout(); // Logout if role doesn't match expected roles
+    //             Alert::alert('Error', 'You do not have the correct role.');
+    //             return redirect()->route('inslogin');
+    //         }
+
+    //     }
+    //     Alert::alert('Error', 'Email or Password is incurrect!');
+    //     return redirect("login");
+    // }
+
+    public function login(Request $request) {
         $request->validate([
             'email' => 'required',
             'password' => 'required',
         ]);
-        if (Auth::attempt(['email'=>$request->email,'password'=>$request->password])) {
-            Alert::alert('Great', 'You have successfully Login!');
+    
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            Alert::alert('Great', 'You have successfully logged in!');
             $curr_user = Auth::user();
-            
             $user_role = $curr_user->roles()->first();
-            // dd($user_role);
-             // Check if user has admin role and redirect accordingly
-             if ($curr_user->hasAnyRole(['admin', 'agent','teacher'])) {
+    
+            // If request is from mobile, return JSON response
+            if ($request->has('mobile')) {
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Login successful',
+                    'user' => $curr_user,
+                ], 200);
+            }
+    
+            // Check if user has admin, agent, or teacher role and redirect accordingly
+            if ($curr_user->hasAnyRole(['admin', 'agent', 'teacher'])) {
                 return redirect()->route('insdashboard');
             } elseif ($curr_user->hasRole('student')) {
                 return redirect()->route('student.home');
@@ -36,12 +71,21 @@ class LoginController extends Controller
                 Alert::alert('Error', 'You do not have the correct role.');
                 return redirect()->route('inslogin');
             }
-
         }
-
-        Alert::alert('Error', 'Email or Password is incurrect!');
+    
+        Alert::alert('Error', 'Email or Password is incorrect!');
+        
+        // If request is from mobile, return JSON error response
+        if ($request->has('mobile')) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Email or Password is incorrect!',
+            ], 401);
+        }
+        
         return redirect("login");
     }
+    
     public function logout(){
         Auth::logout();
         Alert::alert('Great', 'You have successfully logout!');

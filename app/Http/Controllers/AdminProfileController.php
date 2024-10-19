@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use League\Csv\Reader;
 use Yajra\DataTables\DataTables;
-
+use Spatie\Permission\Models\Role;
 
 class AdminProfileController extends Controller
 {
@@ -66,7 +66,7 @@ class AdminProfileController extends Controller
             'country' => $request->user_country,
             'password' => Hash::make($password),
         ]);
-
+     
         return redirect()->back()->with('success', 'User added successfully');
     }
 

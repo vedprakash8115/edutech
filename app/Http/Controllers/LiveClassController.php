@@ -15,7 +15,7 @@ use App\DataTables\LiveClassesDataTable;
 use App\Models\CourseSubCategory;
 use App\Models\VideoCourse;
 use App\Models\LiveClassPdf;
-use App\Http\Requests\StoreLiveClassRequest;
+use App\Http\Requests\StoreliveClassRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 

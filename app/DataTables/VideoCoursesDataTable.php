@@ -16,34 +16,35 @@ class VideoCoursesDataTable extends DataTable
      * Build the DataTable class.
      *
      * @param QueryBuilder $query Results from query() method.
-     */
-    public function dataTable(QueryBuilder $query): EloquentDataTable
-    {
-        return (new EloquentDataTable($query))
+     */public function dataTable(QueryBuilder $query): EloquentDataTable
+{
+    return (new EloquentDataTable($query))
         ->addColumn('action', function ($row) {
             return '
                 <a href="'.route('videocourse.edit', $row->id).'" class="btn btn-sm btn-primary my-2" style="width:100px;">Edit</a>
-                
                 <a href="'.route('folders.index', $row->id).'" class="btn btn-sm btn-secondary my-2" style="width:100px;">Add content</a>
-                
-        
-                
+                <form id="toggleForm_'.$row->id.'" action="'.route('videocourse.updateStatus', $row->id).'" method="POST">
+                    '.csrf_field().'
+                    <select class="form-select '.($row->status == 1 ? 'btn-outline-success' : 'btn-outline-danger').' btn btn-sm my-2" style="width:100px; -webkit-appearance: none;" name="status" onchange="this.form.submit()">
+                        <option value="1" '.($row->status == 1 ? 'selected' : '').'>Enabled</option>
+                        <option value="0" '.($row->status == 0 ? 'selected' : '').'>Disabled</option>
+                    </select>
+                </form>
             ';
         })
-        // <button class="btn btn-sm btn-danger my-2" onclick="deleteCourse('.$row->id.')">Delete</button>
-        
-            ->editColumn('banner', function ($row) {
-                return '<img src="' . asset($row->banner) . '" class="img img-rounded" style="max-width: 100px; max-height: 100px;">';
-            })
-            ->editColumn('original_price', function ($row) {
-                return number_format($row->original_price, 2);
-            })
-            ->editColumn('discount_price', function ($row) {
-                return number_format($row->discount_price, 2);
-            })
-            ->rawColumns(['action', 'banner'])
-            ->setRowId('id');
-    }
+        ->editColumn('banner', function ($row) {
+            return '<img src="'.asset($row->banner).'" class="img img-rounded" style="max-width: 100px; max-height: 100px;">';
+        })
+        ->editColumn('original_price', function ($row) {
+            return number_format($row->original_price, 2);
+        })
+        ->editColumn('discount_price', function ($row) {
+            return number_format($row->discount_price, 2);
+        })
+        ->rawColumns(['action', 'banner'])
+        ->setRowId('id');
+}
+
 
     /**
      * Get the query source of dataTable.

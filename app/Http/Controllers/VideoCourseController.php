@@ -67,7 +67,7 @@ class VideoCourseController extends Controller
             DB::beginTransaction();
 
             $validatedData = $request->validated();
-    
+            $validatedData['show_on_website'] = $request->has('show_on_website') ? 1 : 0;
             if ($request->hasFile('banner')) {
                 $bannerFile = $request->file('banner');
                 $destinationPath = 'upload_banner';
@@ -251,10 +251,12 @@ class VideoCourseController extends Controller
                 'to' => 'required|date|after:from',
                 'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'course_validity' => 'nullable|string',
+                'show_on_website'=> 'nullable'
             ]);
-    
+            $validatedData['show_on_website'] = $request->show_on_website;
             if ($request->input('is_paid') == 0) {
                 $validatedData['price'] = null;
+                
                 $validatedData['discount_price'] = null;
             } elseif ($request->input('is_paid') == 1 && is_null($request->input('price'))) {
                 return redirect()->back()->withErrors([
@@ -327,6 +329,21 @@ class VideoCourseController extends Controller
             return redirect()->route('videocourse')->withInput();
         }
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:0,1', // Validate that the status is either 0 or 1
+        ]);
+    
+        $videoCourse = VideoCourse::findOrFail($id);
+        $videoCourse->update([
+            'status' => $request->status,
+        ]);
+    
+        return redirect()->back()->with('success', 'Status updated successfully!');
+    }
+    
 
     /**
      * Remove the specified resource from storage.

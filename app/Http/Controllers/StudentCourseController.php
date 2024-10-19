@@ -12,7 +12,8 @@ class StudentCourseController extends Controller
 {
     public function index()
     {
-        $courses = VideoCourse::all();
+        $courses = VideoCourse::where('show_on_website', 1)->get();
+
         $slider = Slider::all();
         return view('user-account.content.home', compact('slider','courses'));
     }

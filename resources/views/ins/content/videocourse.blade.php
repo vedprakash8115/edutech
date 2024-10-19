@@ -151,7 +151,13 @@
                             <input type="hidden" id="subjectsHidden" name="subjects" value="">
                 
                             <!-- About Course -->
-                          
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3" data-aos="fade-right" data-aos-duration="1000">
+                                    <textarea type="text" class="form-control" id="AboutCourse" placeholder="About Course" name="about_course" value="{{ old('about_course', $single_data->about_course ?? '') }}" required></textarea>
+                                    <label for="AboutCourse" class="text-secondary"><i class="fas fa-info-circle"></i> About Course <span class="text-secondary">*</span></label>
+                                </div>
+                            </div>
+                            
                 
                             <!-- Pricing Section - Full Width -->
                             <div class="col-12">
@@ -177,6 +183,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" 
+                                           class="form-check-input" 
+                                           id="showOnWebsite" 
+                                           name="show_on_website" 
+                                           value="1" 
+                                           {{ isset($single_data->show_on_website) && $single_data->show_on_website ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="showOnWebsite">Show on Website</label>
+                                </div>
+                            </div>
+                            
+                            
                 
                         </div>
                 
@@ -322,6 +341,7 @@
                 }
             };
         }
+        
     </script>
     <style>
        

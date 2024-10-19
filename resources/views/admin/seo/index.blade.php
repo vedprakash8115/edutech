@@ -17,7 +17,7 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table id="seo-table" class="table table-hover">
                     <thead class="table-light">
                         <tr>
                             <th>Target Page</th>
@@ -25,7 +25,6 @@
                             <th>Author</th>
                             <th>Open Graph Title</th>
                             <th>Open Graph Type</th>
-                           
                             <th>Meta Keywords</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -37,9 +36,8 @@
                             <td>{{ $item->title }}</td>
                             <td>{{ $item->author }}</td>
                             <td>{{ $item->og_title }}</td>
-                            <td>{{ $item->og_description }}</td>
+                            <td>{{ $item->og_type }}</td>
                             <td>{{ $item->meta_keywords }}</td>
-               
                             <td class="text-center">
                                 <a href="{{ route('seo.edit', $item->id) }}" class="text-warning me-2">
                                     <i class="fas fa-edit"></i>
@@ -59,13 +57,12 @@
             </div>
         </div>
     </div>
-
-    
 </div>
 @endsection
 
 @push('styles')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 <style>
     .btn-primary {
         transition: all 0.3s ease-in-out;
@@ -77,24 +74,18 @@
 @endpush
 
 @push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+        // Initialize DataTable
+        const table = $('#seo-table').DataTable();
 
         // Search functionality
         const searchInput = document.getElementById('search');
-        const tableRows = document.querySelectorAll('tbody tr');
-
+        
         searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            tableRows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            });
+            table.search(this.value).draw();
         });
     });
 </script>

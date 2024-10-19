@@ -1,752 +1,340 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Educational Landing Page</title>
-    
-    <!-- CSS Libraries -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css">
-    
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-        }
-        
-        .hero-section {
-            height: 100vh;
-            background: url({{asset('assets/img/elements/5.jpg')}}) center/cover no-repeat;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .hero-parallax {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-        }
-        
-        .about-image-grid img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            margin-bottom: 15px;
-        }
-        
-        .course-card {
-            transition: transform 0.3s ease;
-        }
-        
-        .course-card:hover {
-            transform: scale(1.05);
-        }
-        
-        .testimonial-section {
-            overflow-x: hidden;
-        }
-        
-        .testimonial-container {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-        
-        .testimonial-card {
-            flex: 0 0 300px;
-            margin-right: 20px;
-        }
-        
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        
-        .timeline {
-            position: relative;
-            padding: 20px 0;
-        }
-        
-        .timeline::before {
-            content: '';
-            position: absolute;
-            width: 2px;
-            background-color: #007bff;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -1px;
-        }
-        
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            background-color: inherit;
-            width: 50%;
-        }
-        
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 25px;
-            height: 25px;
-            right: -17px;
-            background-color: white;
-            border: 4px solid #007bff;
-            top: 15px;
-            border-radius: 50%;
-            z-index: 1;
-        }
-        
-        .left {
-            left: 0;
-        }
-        
-        .right {
-            left: 50%;
-        }
-        
-        .right::after {
-            left: -16px;
-        }
-        
-        .content {
-            padding: 20px 30px;
-            background-color: white;
-            position: relative;
-            border-radius: 6px;
-        }
-        
-        .video-section {
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .video-background {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            transform: translateX(-50%) translateY(-50%);
-        }
-        
-        .parallax-gallery {
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .parallax-layer {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-        }
-        
-        .parallax-layer img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .faq-item {
-            margin-bottom: 1rem;
-        }
-        
-        .faq-question {
-            cursor: pointer;
-            padding: 1rem;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-        }
-        
-        .faq-answer {
-            padding: 1rem;
-            display: none;
-        }
-        
-        .floating-cta {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-        
-        .partner-logo {
-            max-width: 150px;
-            transition: transform 0.3s ease;
-        }
-        
-        .partner-logo:hover {
-            transform: scale(1.1);
-        }
-        :root {
-  /* Colors */
-  --white-color: #0e002f;
-  --dark-color: #252525;
-  --primary-color: #3b141c;
-  --secondary-color: #f3961c;
-  --light-pink-color: #faf4f5;
-  --medium-gray-color: #ccc;
-  /* Font size */
-  --font-size-s: 0.9rem;
-  --font-size-n: 1rem;
-  --font-size-m: 1.12rem;
-  --font-size-l: 1.5rem;
-  --font-size-xl: 2rem;
-  --font-size-xxl: 2.3rem;
-  /* Font weight */
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  /* Border radius */
-  --border-radius-s: 8px;
-  --border-radius-m: 30px;
-  --border-radius-circle: 50%;
-  /* Site max width */
-  --site-max-width: 1300px;
-}
-header {
-  z-index: 5;
-  width: 100%;
-  /* position: fixed; */
-  /* max-height: 50px; */
-  background: transparent;
-}
-header .navbar {
-  display: flex;
-  padding: 20px;
-  align-items: center;
-  margin: 0 auto;
-  justify-content: space-between;
-  max-width: var(--site-max-width);
-}
-.navbar .nav-logo .logo-text {
-  color: var(--white-color);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
-}
-.navbar .nav-menu {
-  gap: 10px;
-  display: flex;
-}
-.navbar .nav-menu .nav-link {
-  padding: 10px 18px;
-  color: var(--white-color);
-  font-size: var(--font-size-m);
-  border-radius: var(--border-radius-m);
-  transition: 0.3s ease;
-}
-.navbar .nav-menu .nav-link:hover {
-  color: var(--primary-color);
-  /* background: var(--secondary-color); */
-}
-.navbar :where(#menu-open-button, #menu-close-button) {
-  display: none;
-}
-/* Sticky Title and Slogan */
-.sticky-title, .sticky-slogan {
-  position: sticky;
-  top: 20px; /* Adjust this value based on your design */
-  z-index: 10;
-}
+@extends('layout.app')
 
-/* Horizontal Scroll for Images */
-.horizontal-scroll {
-  white-space: nowrap;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  display: flex;
-}
+@section('title', 'Enhanced Admin Settings')
 
-.horizontal-scroll .card {
-  flex: 0 0 auto;
-  width: 300px; /* Set a fixed width for each card */
-}
-
-.horizontal-scroll::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for cleaner look */
-}
-
-/* Description Section */
-.description-section {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-/* Centering the description */
-.is-in-view .description-section {
-  opacity: 1;
-  transition-delay: 0.5s;
-}
-
-
-    </style>
-</head>
-<body data-scroll-container>
-    {{-- <header>
-        <nav class="navbar">
-          <a href="#" class="nav-logo">
-            <h2 class="logo-text">☕ Coffee</h2>
-          </a>
-          <ul class="nav-menu">
-            <button id="menu-close-button" class="fas fa-times"></button>
-            <li class="nav-item">
-              <a href="#" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="#about" class="nav-link">About</a>
-            </li>
-            <li class="nav-item">
-              <a href="#menu" class="nav-link">Menu</a>
-            </li>
-            <li class="nav-item">
-              <a href="#testimonials" class="nav-link">Testimonials</a>
-            </li>
-            <li class="nav-item">
-              <a href="#gallery" class="nav-link">Gallery</a>
-            </li>
-            <li class="nav-item">
-              <a href="#contact" class="nav-link">Contact</a>
-            </li>
-          </ul>
-          <button id="menu-open-button" class="fas fa-bars"></button>
-        </nav>
-      </header> --}}
-    <!-- Hero Section -->
-    <section id="hero" class="hero-section d-flex align-items-center" data-scroll-section > 
-        <div class="hero-parallax" data-scroll data-scroll-speed="-7"></div>
-        <div class="container hero-content text-white text-center">
-            <h1 class="display-1 mb-4" data-scroll data-scroll-speed="3" data-scroll-delay="0.2" data-scroll-sticky>Unlock Your Future with Quality Education</h1>
-            <p class="lead mb-4" data-scroll data-scroll-speed="2" data-scroll-delay="0.4">
-                <span id="typed-text" ></span>
-            </p>
-            <div data-scroll data-scroll-speed="1" data-scroll-delay="0.6">
-                <a href="#" class="btn btn-primary btn-lg me-3">Enroll Now</a>
-                <a href="#" class="btn btn-outline-light btn-lg">Discover Courses</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Us Section -->
-    {{-- <section id="about" class="py-5" data-scroll-section>
-        <div class="container">
-            <h2 class="text-center mb-5" data-scroll data-scroll-speed="2" style="font-weight: 100;">About our institution</h2>
-            <div class="row">
-                <div class="col-md-6" data-scroll data-scroll-speed="1">
-                    <p>We are dedicated to providing high-quality education to students worldwide, empowering them to reach their full potential and make a positive impact on the world.</p>
+@section('content')
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h3 mb-0 text-white" style="font-weight: 100;">ADD GRAPHICS</h1>
                 </div>
-                <div class="col-md-6 about-image-grid" data-scroll data-scroll-speed="3">
-                    <div class="row">
-                        <div class="col-6"><img src="https://picsum.photos/300/200"="/api/placeholder/300/200" alt="Campus" class="img-fluid"></div>
-                        <div class="col-6"><img src="https://picsum.photos/300/200"="/api/placeholder/300/200" alt="Students" class="img-fluid"></div>
-                        <div class="col-6"><img src="https://picsum.photos/300/200"="/api/placeholder/300/200" alt="Library" class="img-fluid"></div>
-                        <div class="col-6"><img src="https://picsum.photos/300/200"="/api/placeholder/300/200" alt="Classroom" class="img-fluid"></div>
-                    </div>
+                <div class="card-body">
+                    @if(session('status'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('status') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    <form action="" method="POST" enctype="multipart/form-data" id="settingsForm">
+                        @csrf
+                        @method('PUT')
+                        
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="logo" class="form-label fw-bold">Logo:</label>
+                                    <input type="file" class="form-control" name="logo" id="logo" accept="image/*">
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="logo_width" class="form-label fw-bold">Logo Width:</label>
+                                    <div class="d-flex align-items-center">
+                                        <input type="range" class="form-range flex-grow-1 me-2" name="logo_width" id="logo_width" min="50" max="300" value="150">
+                                        <span id="logo_width_value" class="badge bg-secondary">150px</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="logo_height" class="form-label fw-bold">Logo Height:</label>
+                                    <div class="d-flex align-items-center">
+                                        <input type="range" class="form-range flex-grow-1 me-2" name="logo_height" id="logo_height" min="50" max="300" value="150">
+                                        <span id="logo_height_value" class="badge bg-secondary">150px</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Background Color:</label>
+                                    <div class="mb-2">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="simple_color" name="bg_type" value="simple" checked>
+                                            <label class="form-check-label" for="simple_color">Simple Color</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="gradient_color" name="bg_type" value="gradient">
+                                            <label class="form-check-label" for="gradient_color">Gradient Color</label>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <input type="color" class="form-control form-control-color me-2" id="background_color" name="background_color" value="#ffffff">
+                                        <input type="color" class="form-control form-control-color me-2" id="gradient_color_2" name="gradient_color_2" value="#ffffff" style="display:none;">
+                                        <div class="gradient-preview" id="gradientPreview"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="custom_text" class="form-label fw-bold">Custom Text:</label>
+                                    <input type="text" class="form-control" name="custom_text" id="custom_text">
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <small>Word count: <span id="word_count" class="badge bg-secondary">0</span></small>
+                                        <div>
+                                            <label for="text_size" class="form-label me-2">Text Size:</label>
+                                            <select class="form-select form-select-sm d-inline-block w-auto" id="text_size" name="text_size">
+                                                <option value="small">Small</option>
+                                                <option value="medium" selected>Medium</option>
+                                                <option value="large">Large</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="text_color" class="form-label fw-bold">Text Color:</label>
+                                    <input type="color" class="form-control " id="text_color" name="text_color" value="#000000">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="preview-box mb-4 shadow-sm" id="preview_box">
+                                    <img id="logo_preview" src="/api/placeholder/150/150" alt="Logo Preview" style="max-width: 100%; max-height: 100%;">
+                                </div>
+                                <div id="text_preview" class="p-3 border rounded mb-4"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="custom_url" class="form-label fw-bold">Custom URL:</label>
+                            <input type="url" class="form-control" name="custom_url" id="custom_url">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="condition" class="form-label fw-bold">Condition:</label>
+                            <select class="form-select" name="condition" id="condition">
+                                <option value="none">Select Condition</option>
+                                <option value="date">From - To Date</option>
+                                <option value="time">From - To Time</option>
+                                <option value="interval">Interval</option>
+                            </select>
+                        </div>
+
+                        <div id="date-fields" class="conditional-fields mb-4" style="display:none;">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="from_date" class="form-label fw-bold">From Date:</label>
+                                    <input type="date" class="form-control" name="from_date" id="from_date">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="to_date" class="form-label fw-bold">To Date:</label>
+                                    <input type="date" class="form-control" name="to_date" id="to_date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="time-fields" class="conditional-fields mb-4" style="display:none;">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="from_time" class="form-label fw-bold">From Time:</label>
+                                    <input type="time" class="form-control" name="from_time" id="from_time">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="to_time" class="form-label fw-bold">To Time:</label>
+                                    <input type="time" class="form-control" name="to_time" id="to_time">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="interval-fields" class="conditional-fields mb-4" style="display:none;">
+                            <label for="interval" class="form-label fw-bold">Interval:</label>
+                            <select class="form-select" name="interval" id="interval">
+                                <option value="morning">Morning</option>
+                                <option value="afternoon">Afternoon</option>
+                                <option value="evening">Evening</option>
+                                <option value="night">Night</option>
+                            </select>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">Save Settings</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </section> --}}
-<section id="about" data-scroll-section class="py-5 bg-light">
-  <div class="container">
-    <!-- Title Section -->
-    <div class="row justify-content-center mb-5">
-      <div class="col-lg-8 text-center">
-        <!-- Sticky Title -->
-        <h2 class="display-4 fw-light text-primary mb-3 sticky-title" data-scroll data-scroll-speed="1">
-          About Our Institution
-        </h2>
-        <!-- Sticky Slogan -->
-        <p class="lead text-muted sticky-slogan" data-scroll data-scroll-speed="2">
-          Empowering minds, shaping futures, and fostering innovation since 1950.
-        </p>
-      </div>
     </div>
-    
-    <!-- Horizontal Scroll Image Section -->
-    <div class="row horizontal-scroll mb-5" data-scroll data-scroll-direction="horizontal">
-      <div class="col-md-12 d-flex">
-        <div class="card h-100 shadow-sm me-4">
-          <img src="/api/placeholder/300/200" alt="Campus" class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title">State-of-the-art Campus</h5>
-          </div>
-        </div>
-        <div class="card h-100 shadow-sm me-4">
-          <img src="/api/placeholder/300/200" alt="Laboratory" class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title">Advanced Laboratories</h5>
-          </div>
-        </div>
-        <div class="card h-100 shadow-sm me-4">
-          <img src="/api/placeholder/300/200" alt="Library" class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title">Extensive Library</h5>
-          </div>
-        </div>
-        <div class="card h-100 shadow-sm me-4">
-          <img src="/api/placeholder/300/200" alt="Students" class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title">Diverse Student Body</h5>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Description Section -->
-    <div class="row justify-content-center description-section" data-scroll data-scroll-speed="2">
-      <div class="col-lg-8">
-        <p class="text-muted">
-          Our institution is dedicated to fostering academic excellence, critical thinking, and personal growth...
-        </p>
-        <p class="text-muted">
-          We pride ourselves on our diverse and inclusive community, bringing together minds from all walks of life...
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
+</div>
 
+@endsection
 
-    <!-- Courses Section -->
-    <section id="courses" class="py-5 bg-light" data-scroll-section>
-        <div class="container">
-            <h2 class="text-center mb-5" data-scroll data-scroll-speed="2">Our Courses</h2>
-            <div class="row">
-                <div class="col-md-4 mb-4" data-scroll data-scroll-speed="1">
-                    <div class="card course-card">
-                        <img src="https://picsum.photos/300/200"="/api/placeholder/400/250" class="card-img-top" alt="Web Development">
-                        <div class="card-body">
-                            <h5 class="card-title">Web Development</h5>
-                            <p class="card-text">Learn modern web development techniques and build responsive websites.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4" data-scroll data-scroll-speed="2">
-                    <div class="card course-card">
-                        <img src="https://picsum.photos/300/200"="/api/placeholder/400/250" class="card-img-top" alt="Data Science">
-                        <div class="card-body">
-                            <h5 class="card-title">Data Science</h5>
-                            <p class="card-text">Master data analysis, machine learning, and statistical modeling.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4" data-scroll data-scroll-speed="3">
-                    <div class="card course-card">
-                        <img src="https://picsum.photos/300/200"="/api/placeholder/400/250" class="card-img-top" alt="Digital Marketing">
-                        <div class="card-body">
-                            <h5 class="card-title">Digital Marketing</h5>
-                            <p class="card-text">Develop skills in SEO, social media marketing, and content strategy.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+@push('styles')
+<style>
+    .preview-box {
+        width: 100%;
+        height: 200px;
+        border: 1px solid #dee2e6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa;
+    }
+    .color-preview {
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        margin-left: 10px;
+        border: 1px solid #dee2e6;
+    }
+    .gradient-preview {
+        width: 100px;
+        height: 30px;
+        display: inline-block;
+        margin-left: 10px;
+        border: 1px solid #dee2e6;
+    }
+    #text_preview {
+        min-height: 100px;
+        background-color: #f8f9fa;
+    }
+</style>
+@endpush
 
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="py-5 testimonial-section" data-scroll-section data-scroll-direction="horizontal">
-        <div class="container">
-            <h2 class="text-center mb-5" data-scroll data-scroll-speed="2">What Our Students Say</h2>
-            <div class="testimonial-container" data-scroll data-scroll-speed="-2">
-                <div class="testimonial-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">"The courses here have transformed my career. I'm now working at my dream job!"</p>
-                            <footer class="blockquote-footer">John Doe</footer>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">"The instructors are top-notch and the curriculum is cutting-edge."</p>
-                            <footer class="blockquote-footer">Jane Smith</footer>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">"I've learned more in a few months here than I did in years at university."</p>
-                            <footer class="blockquote-footer">Mike Johnson</footer>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const logoInput = document.getElementById('logo');
+    const logoPreview = document.getElementById('logo_preview');
+    const logoWidth = document.getElementById('logo_width');
+    const logoHeight = document.getElementById('logo_height');
+    const logoWidthValue = document.getElementById('logo_width_value');
+    const logoHeightValue = document.getElementById('logo_height_value');
+    const customText = document.getElementById('custom_text');
+    const wordCount = document.getElementById('word_count');
+    const textPreview = document.getElementById('text_preview');
+    const textColor = document.getElementById('text_color');
+    const textSize = document.getElementById('text_size');
+    const backgroundColor = document.getElementById('background_color');
+    const gradientColor2 = document.getElementById('gradient_color_2');
+    const previewBox = document.getElementById('preview_box');
+    const condition = document.getElementById('condition');
+    const simpleColor = document.getElementById('simple_color');
+    const gradientColor = document.getElementById('gradient_color');
+    const gradientPreview = document.getElementById('gradientPreview');
 
-    <!-- Features Section -->
-    <section id="features" class="py-5 bg-light" data-scroll-section>
-        <div class="container">
-            <h2 class="text-center mb-5" data-scroll data-scroll-speed="2">Our Features</h2>
-            <div class="row text-center">
-                <div class="col-md-4" data-scroll data-scroll-speed="1">
-                    <i class="fas fa-chalkboard-teacher feature-icon"></i>
-                    <h4>Expert Faculty</h4>
-                    <p>Learn from industry professionals and experienced educators.</p>
-                </div>
-                <div class="col-md-4" data-scroll data-scroll-speed="2">
-                    <i class="fas fa-laptop-code feature-icon"></i>
-                    <h4>Hands-on Projects</h4>
-                    <p>Apply your knowledge through real-world projects and case studies.</p>
-                </div>
-                <div class="col-md-4" data-scroll data-scroll-speed="3">
-                    <i class="fas fa-certificate feature-icon"></i>
-                    <h4>Recognized Certifications</h4>
-                    <p>Earn industry-recognized certifications upon course completion.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    logoInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                logoPreview.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
 
-    <!-- Journey Section -->
-    <section id="journey" class="py-5" data-scroll-section>
-        <div class="container">
-            <h2 class="text-center mb-5" data-scroll data-scroll-speed="2">Our Journey</h2>
-            <div class="timeline">
-                <div class="timeline-item left" data-scroll data-scroll-speed="1">
-                    <div class="content">
-                        <h3>2010</h3>
-                        <p>Founded with a mission to provide quality education to all.</p>
-                    </div>
-                </div>
-                <div class="timeline-item right" data-scroll data-scroll-speed="2">
-                    <div class="content">
-                        <h3>2015</h3>
-                        <p>Launched our first online courses, reaching students globally.</p>
-                    </div>
-                </div>
-                <div class="timeline-item left" data-scroll data-scroll-speed="1">
-                    <div class="content">
-                        <h3>2020</h3>
-                        <p>Expanded our course offerings and partnered with leading tech companies.</p>
-                    </div>
-                </div>
-                <div class="timeline-item right" data-scroll data-scroll-speed="2">
-                    <div class="content">
-                        <h3>2024</h3>
-                        <p>Celebrating over 1 million students enrolled worldwide!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    logoWidth.addEventListener('input', function() {
+        logoPreview.style.width = this.value + 'px';
+        logoWidthValue.textContent = this.value + 'px';
+    });
 
-    <!-- Video Section -->
-    <section id="video" class="video-section" data-scroll-section>
-        <video class="video-background" autoplay loop muted data-scroll data-scroll-speed="-1">
-            <source src="{{asset('assets/video/a.mp4')}}" type="video/mp4" style="position:fixed; top:0% ; right:0%;  ">
-        </video>
-        <div class="container h-100 d-flex align-items-center justify-content-center">
-            <div class="text-white text-center" data-scroll data-scroll-speed="2">
-                <h2 class="mb-4">Experience Our Campus</h2>
-                <a href="#" class="btn btn-primary btn-lg">Schedule a Visit</a>
-            </div>
-        </div>
-    </section>
+    logoHeight.addEventListener('input', function() {
+        logoPreview.style.height = this.value + 'px';
+        logoHeightValue.textContent = this.value + 'px';
+    });
 
-    <!-- Parallax Image Gallery -->
-    <!-- Parallax Image Gallery -->
-    <section id="gallery" class="parallax-gallery" data-scroll-section>
-        <div class="parallax-layer" data-scroll data-scroll-speed="-5">
-            <img src="https://picsum.photos/300/200"="/api/placeholder/1920/1080" alt="Background">
-        </div>
-        <div class="parallax-layer" data-scroll data-scroll-speed="-3">
-            <img src="https://picsum.photos/300/200"="/api/placeholder/1600/900" alt="Middle ground">
-        </div>
-        <div class="parallax-layer" data-scroll data-scroll-speed="-1">
-            <img src="https://picsum.photos/300/200"="/api/placeholder/1280/720" alt="Foreground">
-        </div>
-        <div class="container h-100 d-flex align-items-center justify-content-center">
-            <div class="text-white text-center">
-                <h2 class="mb-4">Our Campus Life</h2>
-                <p>Experience the vibrant atmosphere of our institution</p>
-            </div>
-        </div>
-    </section>
+    customText.addEventListener('input', function() {
+        const words = this.value.trim().split(/\s+/);
+        wordCount.textContent = words.length;
+        textPreview.textContent = this.value;
+    });
 
-    <!-- Interactive FAQs Section -->
-    <section id="faqs" class="py-5 bg-light" data-scroll-section>
-        <div class="container">
-            <h2 class="text-center mb-5" data-scroll data-scroll-speed="2">Frequently Asked Questions</h2>
-            <div class="faq-container">
-                <div class="faq-item" data-scroll data-scroll-speed="1">
-                    <div class="faq-question">
-                        <h5>What programs do you offer?</h5>
-                    </div>
-                    <div class="faq-answer">
-                        <p>We offer a wide range of programs including Computer Science, Business Administration, Data Science, and Digital Marketing. Check our course catalog for a complete list.</p>
-                    </div>
-                </div>
-                <div class="faq-item" data-scroll data-scroll-speed="2">
-                    <div class="faq-question">
-                        <h5>Are your courses accredited?</h5>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes, all our courses are accredited by relevant educational bodies and industry partners, ensuring high-quality education and recognition.</p>
-                    </div>
-                </div>
-                <div class="faq-item" data-scroll data-scroll-speed="1">
-                    <div class="faq-question">
-                        <h5>Do you offer online classes?</h5>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes, we offer both online and on-campus options for most of our courses, providing flexibility for students worldwide.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    textColor.addEventListener('input', function() {
+        textPreview.style.color = this.value;
+    });
 
-    <!-- Partners Section -->
-    <section id="partners" class="py-5" data-scroll-section>
-        <div class="container">
-            <h2 class="text-center mb-5" data-scroll data-scroll-speed="2">Our Partners & Accreditations</h2>
-            <div class="row align-items-center">
-                <div class="col-md-3 mb-4" data-scroll data-scroll-speed="1">
-                    <img src="https://picsum.photos/300/200"="/api/placeholder/200/100" alt="Partner 1" class="img-fluid partner-logo">
-                </div>
-                <div class="col-md-3 mb-4" data-scroll data-scroll-speed="2">
-                    <img src="https://picsum.photos/300/200"="/api/placeholder/200/100" alt="Partner 2" class="img-fluid partner-logo">
-                </div>
-                <div class="col-md-3 mb-4" data-scroll data-scroll-speed="1">
-                    <img src="https://picsum.photos/300/200"="/api/placeholder/200/100" alt="Partner 3" class="img-fluid partner-logo">
-                </div>
-                <div class="col-md-3 mb-4" data-scroll data-scroll-speed="2">
-                    <img src="https://picsum.photos/300/200"="/api/placeholder/200/100" alt="Partner 4" class="img-fluid partner-logo">
-                </div>
-            </div>
-        </div>
-    </section>
+    textSize.addEventListener('change', function() {
+        switch(this.value) {
+            case 'small':
+                textPreview.style.fontSize = '0.875rem';
+                break;
+            case 'medium':
+                textPreview.style.fontSize = '1rem';
+                break;
+            case 'large':
+                textPreview.style.fontSize = '1.25rem';
+                break;
+        }
+    });
 
-    <!-- Footer Section -->
-    <footer class="bg-dark text-white py-5" data-scroll-section>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4" data-scroll data-scroll-speed="1">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Home</a></li>
-                        <li><a href="#" class="text-white">About Us</a></li>
-                        <li><a href="#" class="text-white">Courses</a></li>
-                        <li><a href="#" class="text-white">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4 mb-4" data-scroll data-scroll-speed="2">
-                    <h5>Contact Us</h5>
-                    <address>
-                        123 Education St.<br>
-                        Knowledge City, KN 12345<br>
-                        Phone: (123) 456-7890<br>
-                        Email: info@eduplatform.com
-                    </address>
-                </div>
-                <div class="col-md-4 mb-4" data-scroll data-scroll-speed="1">
-                    <h5>Follow Us</h5>
-                    <div class="social-icons">
-                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="text-center" data-scroll data-scroll-speed="2">
-                <p>&copy; 2024 EduPlatform. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    function updateBackgroundColor() {
+        if (simpleColor.checked) {
+            previewBox.style.background = backgroundColor.value;
+            gradientPreview.style.background = backgroundColor.value;
+        } else {
+            const gradient = `linear-gradient(to right, ${backgroundColor.value}, ${gradientColor2.value})`;
+            previewBox.style.background = gradient;
+            gradientPreview.style.background = gradient;
+        }
+    }
 
-    <!-- Floating CTA -->
-    <div class="floating-cta">
-        <button class="btn btn-primary btn-lg" id="floatingCTA">Enroll Now</button>
-    </div>
+    backgroundColor.addEventListener('input', updateBackgroundColor);
+    gradientColor2.addEventListener('input', updateBackgroundColor);
 
-    <!-- JavaScript Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://unpkg.com/tippy.js@6"></script>
+    simpleColor.addEventListener('change', function() {
+        if (this.checked) {
+            gradientColor2.style.display = 'none';
+            updateBackgroundColor();
+        }
+    });
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Locomotive Scroll
-            const scroll = new LocomotiveScroll({
-                el: document.querySelector('[data-scroll-container]'),
-                smooth: true,
-                multiplier: 1,
-                lerp: 0.05
-            });
-            
+    gradientColor.addEventListener('change', function() {
+        if (this.checked) {
+            gradientColor2.style.display = 'inline-block';
+            updateBackgroundColor();
+        }
+    });
 
-            // Initialize Typed.js
-            var typed = new Typed('#typed-text', {
-                strings: ['Learn from Industry Experts', 'Gain Practical Skills', 'Advance Your Career'],
-                typeSpeed: 50,
-                backSpeed: 30,
-                loop: true
-            });
-
-            // Initialize Tippy.js for tooltips
-            tippy('[data-tippy-content]', {
-                animation: 'scale',
-            });
-
-            // FAQ Accordion
-            const faqQuestions = document.querySelectorAll('.faq-question');
-            faqQuestions.forEach(question => {
-                question.addEventListener('click', () => {
-                    const answer = question.nextElementSibling;
-                    answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-                });
-            });
-
-            // Floating CTA visibility
-            const floatingCTA = document.getElementById('floatingCTA');
-            scroll.on('scroll', (args) => {
-                if (args.scroll.y > 500) {
-                    floatingCTA.style.display = 'block';
-                } else {
-                    floatingCTA.style.display = 'none';
-                }
-            });
-
-            // Horizontal scroll for testimonials
-            const testimonialContainer = document.querySelector('.testimonial-container');
-            let scrollAmount = 0;
-            setInterval(() => {
-                scrollAmount += 1;
-                if (scrollAmount >= testimonialContainer.scrollWidth / 2) {
-                    scrollAmount = 0;
-                }
-                testimonialContainer.style.transform = `translateX(-${scrollAmount}px)`;
-            }, 30);
-
-            // Update scroll for any dynamic content changes
-            scroll.update();
+    condition.addEventListener('change', function() {
+        document.querySelectorAll('.conditional-fields').forEach(function(field) {
+            field.style.display = 'none';
         });
-    </script>
-</body>
-</html>
+        const selectedField = document.getElementById(this.value + '-fields');
+        if (selectedField) {
+            selectedField.style.display = 'block';
+        }
+    });
+
+    // Initialize the form with default values
+    logoWidth.value = 150;
+    logoHeight.value = 150;
+    logoWidthValue.textContent = '150px';
+    logoHeightValue.textContent = '150px';
+    updateBackgroundColor();
+});
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('settingsForm');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent the form from submitting
+
+        // Create a FormData object
+        const formData = new FormData(this);
+
+        // Log each form field
+        console.log('Form Data:');
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+
+        // If you want to log file information
+        const logoFile = formData.get('logo');
+        if (logoFile instanceof File) {
+            console.log('Logo File:', {
+                name: logoFile.name,
+                type: logoFile.type,
+                size: logoFile.size + ' bytes'
+            });
+        }
+
+        // Log as a single object (note: this won't include file contents)
+        const formDataObject = Object.fromEntries(formData);
+        console.log('Form Data as Object:', formDataObject);
+
+        // If you still want to submit the form after logging, uncomment the next line
+        // this.submit();
+    });
+});
+</script>
+@endpush

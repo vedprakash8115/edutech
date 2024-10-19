@@ -26,10 +26,10 @@ class StoreliveClassRequest extends FormRequest
             'path.*' => 'integer|exists:folders,id', // Each item in the 'path' array must be an integer and must exist in the 'folders' table
             'course_name' => 'required|string|max:255',
             'language' => 'required|integer',
-            'is_paid' => 'boolean',
-            'price' => 'nullable|numeric|min:0',
-            'discount_price' => 'nullable|numeric|min:0',
-            'course_duration' => 'required|date_format:H:i',  // Should be integer if you store it as integer
+         'is_paid' => 'boolean',
+                'price' => 'nullable|numeric|min:0',
+                'discount_price' => 'nullable|numeric|min:0',
+           'course_duration' => 'required|',  // Should be integer if you store it as integer
             'cat_level_0' => 'required|integer',
             'cat_level_1' => 'nullable|integer',
             'cat_level_2' => 'nullable|integer',

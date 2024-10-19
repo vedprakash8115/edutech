@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('course_name')->nullable();
             $table->string('language')->nullable();
             $table->boolean('is_paid')->default(false);
+            $table->boolean('show_on_website')->default('0');
             $table->decimal('price', 8, 2)->nullable();
             $table->decimal('discount_price', 8, 2)->nullable();
        
