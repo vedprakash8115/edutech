@@ -8,10 +8,11 @@
         max-width: 100%;
         margin: 0 auto;
         overflow: hidden;
+        height: 100vh;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.05);
     }
     .carousel-item {
-        height: 60vh;
+        height: 100vh;
         background: no-repeat center center scroll;
         background-size: cover;
         /* display: flex;
@@ -106,9 +107,9 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        /* justify-content: center; */
         align-content: center;
-        align-items: center;
+        /* align-items: center; */
         /* transform: translateY(-50%); */
         background-color: rgba(0, 0, 0, 0.3);
         /* padding: 2rem; */
@@ -122,7 +123,7 @@
     }
     .carousel-caption p {
         font-size: 1.1rem;
-        line-height: 1.6;
+        /* line-height: 1.6; */
         margin-bottom: 1.5rem;
     }
     .carousel-caption .btn {
@@ -465,8 +466,8 @@
             @foreach($slider as $index => $slide)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}" style="background-image: url('{{ asset($slide->image) }}');">
                     <div class="carousel-caption d-md-block">
-                        <h5 style="font-weight:100;">{{ $slide->title }}</h5>
-                        <p style="font-weight:100;">{{ $slide->description }}</p>
+                        <h5 style="font-weight:100; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size:160px;">{{ $slide->title }}</h5>
+                        <p style="font-weight:100; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:30px;">{{ $slide->description }}</p>
                         <a style="font-weight:100;" href="{{ $slide->link }}" class="btn btn-primary">
                             <i class="fas fa-info-circle me-2"></i>
                             {{ $slide->button_name ?? 'Learn More' }}

@@ -32,12 +32,12 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
-            'key' => "2ca60163325399dec913",
-            'secret' => "e535a301f0ec928604fe",
-            'app_id' => '1878072',
+            'key' => "e535a301f0ec928604fe",
+            'secret' => "c403c1dafbfcd439d55f",
+            'app_id' => '1882614',
             'options' => [
                 'cluster' => "ap2",
-                'useTLS' => true,
+                // 'useTLS' => true,
             ],
         ],
 

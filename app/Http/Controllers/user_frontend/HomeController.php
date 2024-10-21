@@ -10,6 +10,8 @@ use App\Models\Slider;
 use App\Models\SEO;
 use App\Models\CourseCategory0;
 use App\Models\VideoCourse;
+use App\Models\User;
+// use User;
 
 class HomeController extends Controller
 {
@@ -61,6 +63,10 @@ if ($route == 'index') {
         // Pass the video data to the 'course-details' Blade view
         return view('frontend.details', compact('video' ,'seos'));
     }
-    
+    public function index2()
+    {
+        $users = User::all();
+        return view('frontend.index2' , compact('users'));
+    }
     
 }

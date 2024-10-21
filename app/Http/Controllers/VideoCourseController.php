@@ -18,6 +18,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\DataTables\VideoCoursesDataTable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Services\PusherNotifier;
 use App\Jobs\VidUpload;
 
 class VideoCourseController extends Controller
@@ -25,6 +26,12 @@ class VideoCourseController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $pusherNotifier;
+
+    public function __construct(PusherNotifier $pusherNotifier)
+    {
+        $this->pusherNotifier = $pusherNotifier;
+    }
     public function index(VideoCoursesDataTable $dataTable, Request $request)
     {
         try {
@@ -113,6 +120,10 @@ class VideoCourseController extends Controller
     
             DB::commit();
             // toast('The Video Course has been created successfully.', 'success');
+            $message = "There is a new Video Course launched today";
+
+            // Broadcast the success message
+            $this->pusherNotifier->sendMessage('my-channel', 'NotificationSent', $message);
 
             Alert::toast('The Video Course has been created successfully.', 'success');
             return redirect()->back();

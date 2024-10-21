@@ -8,11 +8,13 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\GraphicsController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\SEOController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\StudentHomeController;
 use App\Http\Controllers\TestController;
 use Illuminate\Broadcasting\BroadcastController;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
@@ -42,6 +44,11 @@ use App\Http\Controllers\SupportController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StudentSupportController;
 use App\Http\Controllers\AgentTicketController;
+use App\Http\Controllers\ThemeController;
+use App\Events\Notifications;
+use Illuminate\Support\Facades\Broadcast;
+
+use Pusher\Pusher;
 // use App\Livewire\Test;
 // use livewire\livewire;
 /*
@@ -59,9 +66,7 @@ Route::post('/register' , [RegisterController::class , 'store']);
 Route::get('/login', function () {
     return view('auth.login');
 });
-Route::get('/index2', function () {
-    return view('frontend.index2');
-});
+Route::get('/index2', [HomeController::class ,'index2']);
 
 
 
@@ -158,8 +163,20 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('/upload-monitor', [UploadMonitorController::class, 'index'])->name('upload.monitor');
         Route::resource('users', UserController::class);
         Route::resource('graphics', GraphicsController::class);
+        Route::resource('notification', NotificationsController::class);
+        Route::get('/getGraphicsSettings', [GraphicsController::class, 'getGraphicsSettings']);
+// In routes/web.php
+Route::get('/get-users-by-role', [NotificationsController::class, 'getUsersByRole']);
+Route::get('/get-users-all', [NotificationsController::class, 'getAllUsers'])->name("users.all");
 
 
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::get('themes', [ThemeController::class, 'index'])->name('themes.index');
+            Route::post('themes', [ThemeController::class, 'store'])->name('themes.store');
+            Route::get('themes/{id}/preview', [ThemeController::class, 'preview'])->name('themes.preview');
+            Route::get('themes/{id}/activate', [ThemeController::class, 'activate'])->name('themes.activate');
+        });
+        
 
         Route::get('/books', [BookController::class, 'index'])->name('books.index');
         Route::post('/books', [BookController::class, 'store'])->name('books.store');
@@ -364,3 +381,27 @@ Route::get('/generate-sitemap', [SitemapController::class, 'index']);
 // Route::get('/register', function () {
 //     return view('auth.register');
 // });
+
+
+Route::get('/send-message', function () {
+    $message = "This is a direct notification message!"; // Your message
+
+    // Initialize Pusher instance
+    $options = [
+        'cluster' => 'ap2',
+        'useTLS' => false
+    ];
+
+    $pusher = new Pusher(
+        'e535a301f0ec928604fe', // Your Pusher app key
+        'c403c1dafbfcd439d55f', // Your Pusher app secret
+        '1882614',               // Your Pusher app ID
+        $options
+    );
+
+    // Trigger an event on the channel
+    $pusher->trigger('my-channel', 'NotificationSent', ['message' => $message]);
+
+    return response()->json(['message' => 'Notification sent!']);
+});
+

@@ -65,6 +65,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Group::class,'group_user')->withTimestamps();
     }
-
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class, 'notification_user'); // Assuming your pivot table is named notification_user
+    }
 
 }

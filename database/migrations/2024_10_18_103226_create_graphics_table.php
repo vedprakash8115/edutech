@@ -16,11 +16,16 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->integer('logo_width');
             $table->integer('logo_height');
-            $table->string('background_color');
-            $table->string('gradient_color_2')->nullable();
-            $table->string('custom_text')->nullable();
-            $table->enum('text_size', ['small', 'medium', 'large']);
-            $table->string('text_color');
+            $table->enum('logo_horizontal_position', ['left', 'center', 'right']);
+            $table->enum('logo_vertical_position', ['top', 'middle', 'bottom']);
+            $table->string('header_background_color');
+            $table->string('header_border_color');
+            $table->string('header_text');
+            $table->string('header_text_color');
+            $table->enum('header_text_horizontal_position', ['left', 'center', 'right']);
+            $table->enum('header_text_vertical_position', ['top', 'middle', 'bottom']);
+            $table->string('header_font');
+            $table->integer('header_font_size');
             $table->string('custom_url')->nullable();
             $table->enum('condition', ['none', 'date', 'time', 'interval']);
             $table->date('from_date')->nullable();
@@ -30,6 +35,7 @@ return new class extends Migration
             $table->enum('interval', ['morning', 'afternoon', 'evening', 'night'])->nullable();
             $table->timestamps();
         });
+        
     }
 
     /**

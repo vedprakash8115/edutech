@@ -6,12 +6,20 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
-
+use App\Services\PusherNotifier;
 class LoginController extends Controller
 {
+    protected $pusherNotifier;
+
+    public function __construct(PusherNotifier $pusherNotifier)
+    {
+        $this->pusherNotifier = $pusherNotifier;
+    }
     
     public function insindex(){
+       
         return view('auth.login');
+
 
     }
     // public function login(Request $request){
@@ -60,7 +68,10 @@ class LoginController extends Controller
                     'user' => $curr_user,
                 ], 200);
             }
-    
+            // $message = "User Logged in successfully";
+
+            // // Broadcast the success message
+            // $this->pusherNotifier->sendMessage('my-channel', 'NotificationSent', $message);
             // Check if user has admin, agent, or teacher role and redirect accordingly
             if ($curr_user->hasAnyRole(['admin', 'agent', 'teacher'])) {
                 return redirect()->route('insdashboard');

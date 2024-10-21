@@ -196,6 +196,10 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\PusherServiceProvider::class,
+        App\Providers\GraphicsServiceProvider::class,
+
+    
 
     ],
 
