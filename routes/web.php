@@ -314,7 +314,6 @@ Route::get('live-classes/{id}', [CouponController::class, 'getLiveClasses'])->na
 
 
 
-
         Route::get('/support/ticket/{ticket}', [StudentSupportController::class, 'show'])->name('student.support.show'); // View ticket details
         Route::post('/support/ticket/{ticket}/reply', [StudentSupportController::class, 'reply'])->name('student.support.reply'); // Reply to a ticket
         Route::get('/api/courses', [StudentCourseController::class, 'getCourses'])->name('api.courses');
