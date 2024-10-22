@@ -158,7 +158,7 @@
                         <div class="profile-img">
                             <i class="bi bi-person"></i>
                         </div>
-                        <form action="{{ route('admin.profile.update') }}" method="POST">
+                        <form action="{{ route('admin.profile.update') }}" id="update-profile-form" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label required">Name</label>
@@ -169,11 +169,28 @@
                                 <input type="text" class="form-control" id="phone" name="mobile" value="{{ $admin->phone }}" required>
                             </div>
                             <div class="mb-3">
+                                <label for="current_password" class="form-label required">Current Password</label>
+                                <input type="password" class="form-control" id="current_password" name="current_password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="new_password" class="form-label required">New Password</label>
+                                <input type="password" class="form-control" id="new_password" name="new_password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="new_password_confirmation" class="form-label required">Confirm New Password</label>
+                                <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" required>
+                            </div>
+                            <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" value="{{ $admin->email }}" readonly>
                             </div>
+                            <div class="card mt-3">
+                               
+                           
+                            </div>
+                            
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-gradient text-white">
+                                <button type="submit" id="update-profile-btn" class="btn btn-gradient text-white">
                                     <i class="bi bi-save me-2"></i>Update Profile
                                 </button>
                             </div>
@@ -183,4 +200,63 @@
             </div>
         </div>
     </div>
+    {{-- @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('update-profile-btn').addEventListener('click', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+      
+          const form = document.getElementById('update-profile-form');
+          const formData = new FormData(form);
+          for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+          fetch("{{ route('admin.profile.update') }}", {
+            method: "POST",
+            body: formData,
+            headers: {
+              "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            }
+          })
+          .then(response => response)
+          .then(data => {
+            console.log(data);
+          });
+        //       Swal.fire({
+        //         title: 'Enter OTP',
+        //         input: 'text',
+        //         inputLabel: data.message,
+        //         inputPlaceholder: data.message,
+        //         showCancelButton: true,
+        //         confirmButtonText: 'Verify OTP',
+        //         preConfirm: (otp) => {
+        //           return new Promise((resolve) => {
+        //             fetch("{{ route('admin.profile.verifyOtp') }}", {
+        //               method: "POST",
+        //               body: JSON.stringify({ otp: otp }),
+        //               headers: {
+        //                 "Content-Type": "application/json",
+        //                 "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        //               }
+        //             })
+        //             .then(response => response)
+        //             .then(result => {
+        //                 console.log(result);
+        //               if (result.status === 200) {
+        //                 resolve();
+        //                 location.reload(); // Refresh or redirect as needed
+        //               } else {
+        //                 Swal.showValidationMessage('OTP is incorrect');
+        //               }
+        //             });
+        //           });
+        //         }
+        //       });
+            
+        //   })
+        //   .catch(error => console.error('Error:', error));
+        });
+      </script>
+      
+    @endpush --}}
 @endsection

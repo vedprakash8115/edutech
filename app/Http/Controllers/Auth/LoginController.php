@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TestMail;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Services\PusherNotifier;
+use App\Models\User;
 class LoginController extends Controller
 {
     protected $pusherNotifier;
@@ -100,6 +103,61 @@ class LoginController extends Controller
     public function logout(){
         Auth::logout();
         Alert::alert('Great', 'You have successfully logout!');
-        return redirect()->route('inslogin');
+        return redirect()->route('login');
     }
+    public function forgot()
+    {
+        
+        session(['step1' => true]);
+        return view('auth.forgot');
+    }
+    public function send_otp(Request $request)
+    {
+        // Validate the request to ensure the email is present
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+        session()->forget('step1');
+
+
+        // Check if the user exists with the provided email
+        $user = User::where('email', $request->email)->first();
+    
+        if ($user) {
+            // User exists, generate the OTP
+            $otp = random_int(100000, 999999);
+            
+            // You can store the OTP in session, database, or send it via email
+            session(['otp' => $otp]);
+            session(['step2' => true]);
+    
+            $details = [
+                'title' => "Here is your 6 digit OTP to reset your password",
+                'body' => "The OTP is: " . $otp,
+            ];
+        
+            // Send OTP via email
+            Mail::to($user->email)->send(new TestMail($details));
+            // You may send the OTP to the user's email here (if needed)
+    
+            // return response()->json([
+            //     'status' => true,
+            //     'message' => 'OTP generated successfully.',
+            //     'otp' => $otp // For testing purposes, you might want to remove this later
+            // ]);
+            return redirect()->route('enter_otp')->with([
+                'success' => true,
+                'message' => 'Please enter your OTP.',
+            ]);
+            
+        } else {
+            // User not found, stop execution with a message
+            return redirect()->route('enter_otp')->with([
+                'success' => false,
+                'message' => 'Wrong Credentials.',
+            ]);
+        }
+       
+    }
+    
 }

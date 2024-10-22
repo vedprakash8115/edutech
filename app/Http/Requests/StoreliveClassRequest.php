@@ -22,6 +22,8 @@ class StoreliveClassRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'path' => 'required|array|min:1', // Ensures 'path' is an array with at least one item
+            'path.*' => 'integer|exists:folders,id', // Each item in the 'path' array must be an integer and must exist in the 'folders' table
             'course_name' => 'required|string|max:255',
             'language' => 'required|integer',
          'is_paid' => 'boolean',
@@ -34,7 +36,7 @@ class StoreliveClassRequest extends FormRequest
             'from' => 'required|date',
             'to' => 'nullable|date',
             'about_course' => 'nullable|string',
-        //    'course_pdfs.*' => 'nullable|file|mimes:pdf|max:2048',
+            //    'course_pdfs.*' => 'nullable|file|mimes:pdf|max:2048',
 
             'banner' => 'nullable|file', // Ensure field name matches form input
         ];

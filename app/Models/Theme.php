@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Theme extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'preview_image', 'path', 'is_active'];
+    protected $guarded = [];
 
     /**
      * Get the active theme.

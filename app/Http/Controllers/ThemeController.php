@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Theme;
+use App\Models\Slider;
+use App\Models\VideoCourse;
+use App\Models\liveClass;
 use Illuminate\Http\Request;
 
 class ThemeController extends Controller
@@ -11,51 +13,38 @@ class ThemeController extends Controller
     public function index()
     {
         $themes = Theme::all();
-        return view('admin.themes.index', compact('themes'));
+        return response()->json($themes);
     }
-
-    // Activate a theme
-    public function activate($id)
+    public function render()
     {
-        // Deactivate all themes
-        Theme::query()->update(['is_active' => false]);
-
-        // Activate the selected theme
-        $theme = Theme::findOrFail($id);
-        $theme->is_active = true;
-        $theme->save();
-
-        return redirect()->back()->with('success', 'Theme activated successfully.');
+        return view("admin.themes.index");
     }
 
-    // Preview a theme
     public function preview($id)
     {
         $theme = Theme::findOrFail($id);
-        return view('admin.themes.preview', compact('theme'));
+        $slider = Slider::all();
+        // Generate preview HTML based on the theme
+        $previewHtml = view($theme->path, compact('slider'), ['theme' => $theme])->render();
+        return response($previewHtml);
     }
 
-    // Store new theme
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'preview_image' => 'nullable|image',
-            'path' => 'required|string'
-        ]);
+   public function apply(Request $request)
+{
+    $request->validate([
+        'theme_id' => 'required|exists:themes,id',
+    ]);
 
-        // Handle preview image upload
-        $imagePath = null;
-        if ($request->hasFile('preview_image')) {
-            $imagePath = $request->file('preview_image')->store('theme_previews', 'public');
-        }
+    // Set the status of all themes to 0 (inactive)
+    Theme::where('is_active', 1)->update(['is_active' => 0]);
 
-        Theme::create([
-            'name' => $request->name,
-            'preview_image' => $imagePath,
-            'path' => $request->path,
-        ]);
+    // Set the selected theme's status to 1 (active)
+    $selectedTheme = Theme::find($request->theme_id);
+    $selectedTheme->is_active = 1;
+    $selectedTheme->save();
 
-        return redirect()->back()->with('success', 'Theme added successfully.');
-    }
+    // return response()->json(['success' => 'Theme Applied']);
+    return redirect()->back()->with('success', 'Theme applied successfully successfully!');
+}
+
 }

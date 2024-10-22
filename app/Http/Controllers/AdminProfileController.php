@@ -6,7 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;   
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use League\Csv\Reader;
+use App\Mail\TestMail;
+// use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Spatie\Permission\Models\Role;
 
@@ -24,16 +29,103 @@ class AdminProfileController extends Controller
             'name' => 'required|string|max:255',
             'mobile' => 'required|string|max:20',
             'email' => 'required|email',
+            'current_password' => 'nullable',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+    
+        $user = auth()->user();
+    
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Current password is incorrect']);
+        }
+        $user = auth()->user();
+            $user->name = $request->name;
+            $user->mobile = $request->mobile;
+            $user->password = Hash::make($request->password);
+        
+    
+            return redirect()->back()->with([
+                'success' => true,
+                'message' => 'Profile updated successfully!',
+                 // This will pass the session data as an array
+            ]);
+            
+        
+    }
+    public function verifyOtp(Request $request)
+    {
+            $otp = $request->otp;
+    
+        // // Check if OTP matches and has not expired
+      
+        //     // Get user data from session
+        //     $user = auth()->user();
+        //     $user->name = session('name');
+        //     $user->mobile = session('mobile');
+        //     $user->password = Hash::make(session('new_password'));
+        //     $user->save();
+    
+        // //     // Clear OTP data from session
+        //     session()->forget(['password_change_otp', 'password_change_otp_expiry', 'new_password', 'name', 'mobile']);
+    
+            return response()->json(['success' => true , 'otp' => $otp , session()->all()]);
+        
+    
+        // return response()->json(['status' => 'error']);
+    }
+        
+    public function requestPasswordChange(Request $request)
+    {
+        $request->validate([
+           
         ]);
 
-        $admin = request()->user(); 
-        $admin->update($request->all());
+        $user = auth()->user();
 
-        return redirect()->back()->with('success', 'Profile updated successfully!');
+        // Verify current password
+       
+
+        // Generate OTP
+       
+
+        // Send OTP email
+  
+
+        return back()->with('success', 'OTP has been sent to your email address');
+    }
+    public function verifyPasswordChange(Request $request)
+    {
+        $request->validate([
+            'otp' => 'required|string'
+        ]);
+
+        // Check if OTP exists and is valid
+        if (!session('password_change_otp') || 
+            !session('password_change_otp_expiry') || 
+            !session('new_password') ||
+            now()->isAfter(session('password_change_otp_expiry'))) {
+            return back()->withErrors(['otp' => 'OTP has expired. Please request a new one.']);
+        }
+
+        // Verify OTP
+        if ($request->otp !== session('password_change_otp')) {
+            return back()->withErrors(['otp' => 'Invalid OTP']);
+        }
+
+        // Update password
+        $user = auth()->user();
+        $user->password = Hash::make(session('new_password'));
+        $user->save();
+
+        // Clear session data
+        session()->forget(['password_change_otp', 'password_change_otp_expiry', 'new_password']);
+
+        return redirect()->back()->with('success', 'Password changed successfully!');
     }
 
     public function addUser(Request $request)
     {
+        Log::info($request);
         $request->validate([
             'user_name' => 'required|string|max:255',
             'user_email' => 'required|email|unique:users,email',

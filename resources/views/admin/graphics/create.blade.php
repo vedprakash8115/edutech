@@ -199,33 +199,7 @@
 
 @push('styles')
 <style>
-    /* .preview-box {
-        width: 100%;
-        height: 200px;
-        border: 1px solid #dee2e6;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #f8f9fa;
-    }
-    .color-preview {
-        width: 30px;
-        height: 30px;
-        display: inline-block;
-        margin-left: 10px;
-        border: 1px solid #dee2e6;
-    }
-    .gradient-preview {
-        width: 100px;
-        height: 30px;
-        display: inline-block;
-        margin-left: 10px;
-        border: 1px solid #dee2e6;
-    }
-    #text_preview {
-        min-height: 100px;
-        background-color: #f8f9fa;
-    } */
+
     .card {
             border: none;
             border-radius: 15px;

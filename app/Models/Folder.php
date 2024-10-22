@@ -15,6 +15,7 @@ class Folder extends Model
         return $this->belongsTo(VideoCourse::class);
     }
 
+
     // A folder can contain other nested folders
     public function subfolders()
     {
@@ -43,4 +44,9 @@ class Folder extends Model
         return $this->belongsToMany(Folder::class, 'folder_hierarchy', 'ancestor_id', 'descendant_id')
                     ->withPivot('depth');
     }
+    public function liveclasses()
+    {
+        return $this->belongsToMany(Liveclass::class, 'folder_liveclass');
+    }
+
 }

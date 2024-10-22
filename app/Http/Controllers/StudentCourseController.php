@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
+use App\Models\Theme;
+use DB;
 use Illuminate\Http\Request;
 use App\Models\Slider;
 use App\Models\VideoCourse;
@@ -13,9 +16,18 @@ class StudentCourseController extends Controller
     public function index()
     {
         $courses = VideoCourse::where('show_on_website', 1)->get();
+        $notificationIds = DB::table('notification_user')
+        ->pluck('notification_id'); // Retrieves multiple IDs
+    
+    // Fetch all notifications that match the IDs
 
+    $notifications = Notification::whereIn('id', $notificationIds)->get();
+$theme = Theme::where('is_active',1)->first();
         $slider = Slider::all();
-        return view('user-account.content.home', compact('slider','courses'));
+
+        return view($theme->path, compact('slider','courses' , 'notifications'));
+        // return  compact('slider','courses' , 'notifications');
+        
     }
     public function details($id)
     {

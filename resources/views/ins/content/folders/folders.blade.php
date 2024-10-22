@@ -9,7 +9,8 @@
                 <h1 class="mb-4 ">
                     {{ $videoCourse->course_name ?? $folder->name }} course
                 </h1>
-                <a class="folder-structure btn btn-info" href="{{route('folders.hierarchy',$videoCourse->id)}}">Move folders/files</a>
+                <a class="folder-structure btn btn-info" href="{{route('folders.hierarchy', $videoCourse->id)}}">Move
+                    folders/files</a>
 
 
             </div>
@@ -173,11 +174,11 @@
                                     @if($file->type == 'image')
                                         <!-- Use Lightbox for images -->
                                         <a href="{{ $fileUrl }}" data-lightbox="image-gallery" data-title="{{ $file->name }}" class="file-item">
-                                            <button class="menu"><i class="bi bi-three-dots-vertical "></i></button>
+                                            <button class="menu"><i class="bi bi-three-dots-vertical"></i></button>
 
                                             <img src="{{ $fileUrl }}" alt="{{ $file->name }}" class="img-thumbnail"
                                                 style="width: 100px; height: 100px; border-radius: 10px">
-                                            <span>{{ $file->name }}</span>
+                                            <span>{{ \Illuminate\Support\Str::limit($file->name, 10, '...') }}</span>
                                             <div class="actions">
                                                 <button class="rename-btn" data-bs-toggle="modal" data-bs-target="#renameFileModal"
                                                     data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
@@ -192,10 +193,10 @@
                                     @elseif($file->type == 'pdf')
                                         <!-- PDF files handled by PDF.js -->
                                         <a href="javascript:void(0);" onclick="openPDF('{{ $fileUrl }}');" class="file-item">
-                                            <button class="menu"><i class="bi bi-three-dots-vertical "></i></button>
+                                            <button class="menu"><i class="bi bi-three-dots-vertical"></i></button>
 
                                             <i class="bi bi-file-earmark-pdf"></i>
-                                            <span>{{ $file->name }}</span>
+                                            <span>{{ \Illuminate\Support\Str::limit($file->name, 10, '...') }}</span>
                                             <div class="actions">
                                                 <button class="rename-btn" data-bs-toggle="modal" data-bs-target="#renameFileModal"
                                                     data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
@@ -210,10 +211,10 @@
                                     @else
                                         <!-- Other files -->
                                         <a href="{{ $fileUrl }}" target="_blank" class="file-item">
-                                            <button class="menu"><i class="bi bi-three-dots-vertical "></i></button>
+                                            <button class="menu"><i class="bi bi-three-dots-vertical"></i></button>
 
                                             <i class="bi bi-file-earmark"></i>
-                                            <span>{{ $file->name }}</span>
+                                            <span>{{ \Illuminate\Support\Str::limit($file->name, 10, '...') }}</span>
                                             <div class="actions">
                                                 <button class="rename-btn" data-bs-toggle="modal" data-bs-target="#renameFileModal"
                                                     data-file-id="{{ $file->id }}" data-file-name="{{ $file->name }}">
@@ -226,6 +227,7 @@
                                             </div>
                                         </a>
                                     @endif
+
                         @endforeach
                     </div>
             @endif
@@ -235,9 +237,10 @@
 
     <!-- Floating Action Buttons -->
     <div class="fab-container">
-        <button class="fab-item" data-bs-toggle="modal" data-bs-target="#createFolderModal">
-            <i class="bi bi-folder-plus"></i>
+        <button class="fab-item" data-bs-toggle="modal" data-bs-target="#uploadAudioModal">
+            <i class="bi bi-file-music-fill"></i>
         </button>
+
         <button class="fab-item" data-bs-toggle="modal" data-bs-target="#uploadPdfModal">
             <i class="bi bi-file-earmark-pdf"></i>
         </button>
@@ -247,9 +250,14 @@
         <button class="fab-item" data-bs-toggle="modal" data-bs-target="#uploadImageModal">
             <i class="bi bi-image"></i>
         </button>
+
+        <button class="fab-item" data-bs-toggle="modal" data-bs-target="#createFolderModal">
+            <i class="bi bi-folder-plus"></i>
+        </button>
         <button class="fab-main">
             <i class="bi bi-plus"></i>
         </button>
+
     </div>
 </div>
 

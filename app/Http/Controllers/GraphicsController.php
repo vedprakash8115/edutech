@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Http\Request;
 use App\Models\Graphics;
+use Illuminate\Support\Facades\Storage;
 
 class GraphicsController extends Controller
 {
@@ -14,8 +15,8 @@ class GraphicsController extends Controller
      */
     public function index()
     {
-        $settings = Graphics::all();
-        return view('admin.graphics.index' , compact('settings'));
+        $graphics = Graphics::all();
+        return view('admin.graphics.index' , compact('graphics'));
     }
 
     /**
@@ -72,7 +73,7 @@ class GraphicsController extends Controller
         try {
         Graphics::create($validatedData);
 
-            return redirect()->back()->with('status', 'Graphics settings saved successfully!');
+            return redirect()->back()->with('success', 'Graphics settings saved successfully!');
         } catch (\Exception $e) {
             \Log::info($e);
 
@@ -99,26 +100,74 @@ class GraphicsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( $id)
     {
-        //
+        $graphic = Graphics::find($id);
+        return view('admin.graphics.edit', compact('graphic') );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Graphics $graphic)
     {
-        //
+        $request->validate([
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'logo_width' => 'required|integer|min:50|max:300',
+            'logo_height' => 'required|integer|min:50|max:300',
+            'logo_horizontal_position' => 'required|in:left,center,right',
+            'logo_vertical_position' => 'required|in:top,middle,bottom',
+            'header_background_color' => 'required|regex:/^#[a-fA-F0-9]{6}$/',
+            'header_border_color' => 'required|regex:/^#[a-fA-F0-9]{6}$/',
+            'header_text' => 'required|string|max:255',
+            'header_text_color' => 'required|regex:/^#[a-fA-F0-9]{6}$/',
+            'header_font' => 'required|string',
+            'header_font_size' => 'required|integer|min:8|max:72',
+            'header_text_horizontal_position' => 'required|in:left,center,right',
+            'header_text_vertical_position' => 'required|in:top,middle,bottom',
+            'custom_url' => 'nullable|url',
+            'condition' => 'required|in:none,date,time,interval',
+            'from_date' => 'required_if:condition,date|nullable|date',
+            'to_date' => 'required_if:condition,date|nullable|date|after_or_equal:from_date',
+            'from_time' => 'required_if:condition,time|nullable|date_format:H:i',
+            'to_time' => 'required_if:condition,time|nullable|date_format:H:i|after:from_time',
+            'interval' => 'required_if:condition,interval|nullable|in:morning,afternoon,evening,night',
+        ]);
+
+        $data = $request->except('logo');
+
+        if ($request->hasFile('logo')) {
+            // Delete old logo
+            if ($graphic->logo) {
+                Storage::delete($graphic->logo);
+            }
+
+            // Store new logo
+            $logoPath = $request->file('logo')->store('logos', 'public');
+            $data['logo'] = $logoPath;
+        }
+
+        $graphic->update($data);
+
+        return redirect()->route('graphics.index')->with('success', 'Graphic updated successfully!');
+    }
+
+    public function destroy(Graphics $graphic)
+    {
+        // Delete logo file if exists
+        if ($graphic->logo) {
+            Storage::delete($graphic->logo);
+        }
+
+        $graphic->delete();
+
+        return redirect()->route('graphics.index')->with('status', 'Graphic deleted successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+   
     public function getGraphicsSettings()
 {
     try {

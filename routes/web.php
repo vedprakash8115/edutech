@@ -70,7 +70,13 @@ Route::get('/index2', [HomeController::class ,'index2']);
 
 
 
-
+Route::get('/session-data', function () {
+    // Retrieve all session data
+    $sessionData = session()->all();
+    // session()->flush();
+    // Return a JSON response with the session data
+    return response()->json($sessionData);
+})->name('session.data');
 // Route::get('login', function () {
 //     return view('dashboard');
 // });
@@ -78,6 +84,8 @@ Route::get('/clear-route-cache', function () {
     Artisan::call('route:clear');
     return "Route cache cleared!";
 });
+Route::get('/password/email', [LoginController::class, 'send_otp'])->name('send_otp');
+Route::get('/enter_otp', [LoginController::class, 'forgot'])->name('enter_otp');
 Route::get('ins/login', [LoginController::class, 'insindex'])->name('inslogin');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
@@ -100,6 +108,8 @@ Route::middleware(['auth'])->group(function () {
 
         // Route for deleting a live class
         Route::delete('/live-Classes/{id}', [LiveClassController::class, 'destroy'])->name('liveClasses.destroy');
+        Route::get('/live-class/allCourses', [LiveClassController::class, 'allCourses']);
+
         Route::get('/live-classes/clear-session', [LiveClassController::class, 'resetSession'])->name('liveclass.reset');
 
         // In get Category route , fetching category 1 and category 2
@@ -167,15 +177,19 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/getGraphicsSettings', [GraphicsController::class, 'getGraphicsSettings']);
 // In routes/web.php
 Route::get('/get-users-by-role', [NotificationsController::class, 'getUsersByRole']);
-Route::get('/get-users-all', [NotificationsController::class, 'getAllUsers'])->name("users.all");
+Route::post('/send', [NotificationsController::class, 'send'])->name("users.all");
+
+// use App\Http\Controllers\NotificationController;
+
+Route::resource('notification', NotificationsController::class);
+// Route::get('users/all', [UserController::class, 'all'])->name('users.all'); // This route should return the list of users
 
 
-        Route::prefix('admin')->name('admin.')->group(function () {
-            Route::get('themes', [ThemeController::class, 'index'])->name('themes.index');
-            Route::post('themes', [ThemeController::class, 'store'])->name('themes.store');
-            Route::get('themes/{id}/preview', [ThemeController::class, 'preview'])->name('themes.preview');
-            Route::get('themes/{id}/activate', [ThemeController::class, 'activate'])->name('themes.activate');
-        });
+
+        Route::get('/themes', [ThemeController::class, 'render']);
+        Route::get('/api/themes', [ThemeController::class, 'index']);
+Route::get('/api/theme-preview/{id}', [ThemeController::class, 'preview']);
+Route::post('/api/apply-theme', [ThemeController::class, 'apply'])->name('apply.theme');
         
 
         Route::get('/books', [BookController::class, 'index'])->name('books.index');
@@ -269,12 +283,16 @@ Route::get('live-classes/{id}', [CouponController::class, 'getLiveClasses'])->na
 
             Route::get('blocked-users', [AdminProfileController::class, 'blockUsers'])->name('admin.block-user');
             Route::get('blocked-users/update/{id}', [AdminProfileController::class, 'blockUpdate'])->name('block-users.update');
-
+            Route::post('/admin/password/change/request', [AdminProfileController::class, 'requestPasswordChange'])
+            ->name('admin.password.change.request');
+        Route::post('/admin/password/change/verify', [AdminProfileController::class, 'verifyPasswordChange'])
+            ->name('admin.password.change.verify');
         });
 
         // View file manager for a video course
         Route::get('/video-course/{id}/folders', [FolderController::class, 'index'])->name('folders.index');
         Route::get('folder/{folderId}', [FolderController::class, 'showFolder'])->name('folders.show');
+        Route::get('/admin/profile/verify-otp', [AdminProfileController::class, 'verifyOtp'])->name('admin.profile.verifyOtp');
 
         // Create a new folder
         Route::post('/video-course/{id}/folders/create', [FolderController::class, 'createFolder'])->name('folders.create');
@@ -326,7 +344,6 @@ Route::get('live-classes/{id}', [CouponController::class, 'getLiveClasses'])->na
         Route::put('/ticket/{id}/reopen', [StudentSupportController::class, 'reopenTicket'])->name('student.support.reopen');
 
         Route::get('tests', [TestController::class, 'index'])->name('tests');
-
 
 
 

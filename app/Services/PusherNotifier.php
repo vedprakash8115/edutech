@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Services;
 
 use Pusher\Pusher;
 use App\Models\Alert;
+use Exception;
+use Log;
 
 class PusherNotifier
 {
@@ -23,16 +26,35 @@ class PusherNotifier
         );
     }
 
-    public function sendMessage($channel, $event, $message)
+    public function sendMessage($channel, $event, $title, $message, $link_url, $image_path)
     {
-        // Trigger the Pusher event
-        $this->pusher->trigger($channel, $event, ['message' => $message]);
+        try {
+            // Trigger the Pusher event
+            $this->pusher->trigger($channel, $event, [
+                'title' => $title,
+                'message' => $message,
+                'link_url' => $link_url,
+                'image_path' => $image_path,
+            ]);
 
-        // Insert into alerts table
-        Alert::create([
-            'channel' => $channel,
-            'event' => $event,
-            'message' => $message
-        ]);
+            // Insert into alerts table
+            Alert::create([
+                'channel' => $channel,
+                'event' => $event,
+                'title' => $title,
+                'message' => $message,
+                'link_url' => $link_url,
+                'image_path' => $image_path,
+            ]);
+
+        } catch (Exception $e) {
+            // Log the error message
+            Log::error('Failed to send Pusher notification: ' . $e->getMessage());
+
+            // Optionally, you can return an error message or handle it as per your needs
+            return false;
+        }
+
+        return true;
     }
 }

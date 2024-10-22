@@ -5,29 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-    <title>{{ $seos->meta_title ?? 'Eductech Home' }}</title>
+    <title>Eductech Home</title>
 
     
-    <meta name="description" content="{{ $seos->meta_description ?? 'Default Page Description' }}">
-    <meta name="copyright" content="{{ $seos->copyright ?? '' }}">
-    <meta name="keywords" content="{{ $seos->meta_keywords ?? 'default, keywords' }}">
-    <meta name="author" content="{{ $seos->author ?? 'Eductech' }}">
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="{{ $seos->og_title ?? 'Default OG Title' }}">
 
-
-    <meta property="og:type" content="{{ $seos->og_type ?? 'website' }}">
-    <meta property="og:locale" content="{{ $seos->og_locale ?? 'en_US' }}">
-    <meta property="og:site_name" content="{{ $seos->og_site_name ?? '' }}">
-    <meta property="og:video" content="{{ $seos->og_video ?? '' }}">
-    <meta property="og:description" content="{{ $seos->og_description ?? 'Default OG Description' }}">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ $seos->og_image ?? asset('default-image.jpg') }}">
-   @isset($seos->schema_markup)
-   <script type="application/ld+json">
-    {!! $seos->schema_markup !!}
-</script>
-   @endisset
     
 
     <!-- Canonical URL -->
@@ -109,7 +90,7 @@
                         <button class="btn-icon me-3" title="Messages">
                             <i class="fas fa-envelope"></i>
                         </button>
-                        <a href="#" class="login-btn">Login</a>
+                        <a href="{{route('login')}}" class="login-btn">Login</a>
                         <a href="#" class="login-btn">Register</a>
                     </div>
                 </div>

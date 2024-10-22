@@ -15,7 +15,16 @@ class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
-     */
+     */ 
+     public function all()
+{
+    // Retrieve all users from the database
+    $users = User::all();
+
+    // Return the list of users
+    return response()->json($users);
+}
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -267,5 +276,6 @@ class UserController extends Controller
         // Redirect back to the previous page
         return redirect()->back();
     }
+ 
 
 }

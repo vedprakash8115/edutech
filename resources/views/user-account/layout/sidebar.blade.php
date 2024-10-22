@@ -68,7 +68,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
 
     .sidebar {
-        position: fixed;
+        position: relative;
         left: 0;
         top: 0;
         height: 100vh;

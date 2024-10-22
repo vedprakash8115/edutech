@@ -1,5 +1,4 @@
 @extends('layout.app')
-
 @section('content')
 <div class="container mt-5">
     <h1>Create Notification</h1>
@@ -27,22 +26,6 @@
                 <div class="form-group">
                     <label for="image">Image</label>
                     <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
-                </div>
-                <div class="form-group">
-                    <label for="role">Select Role to Send Notification To:</label>
-                    <select class="form-control" id="role" name="role">
-                        <option value="">Select Role</option>
-                        @foreach($roles as $role)
-                            <option value="{{ $role->name }}">{{ ucfirst($role->name) }}s</option>
-                        @endforeach
-                        <option value="custom">Custom Selection</option>
-                    </select>
-                </div>
-                <div id="users-list" class="form-group" style="display: none;">
-                    <label for="users">Select Users:</label>
-                    <select class="form-control" id="users" name="users[]" multiple>
-                        <!-- User options will be dynamically loaded here -->
-                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Create Notification</button>
             </form>
@@ -78,8 +61,6 @@
                 <p id="modalMessage"></p>
                 <h6>Link URL:</h6>
                 <p id="modalLink"></p>
-                <h6>Recipients:</h6>
-                <p id="modalRecipients"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -92,7 +73,6 @@
 
 @push('styles')
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
 @endpush
 
 @push('scripts')
@@ -118,37 +98,12 @@
             }
         });
 
-        // User selection
-        $('#role').change(function() {
-            const selectedRole = $(this).val();
-            if (selectedRole === 'custom') {
-                $.ajax({
-                    url: "{{ route('users.all') }}", // Implement this route
-                    method: "GET",
-                    success: function(response) {
-                        $('#users').empty();
-                        response.users.forEach(function(user) {
-                            $('#users').append(new Option(`${user.name} (${user.email})`, user.id));
-                        });
-                        $('#users-list').show();
-                        $('#users').select2({
-                            placeholder: "Select users",
-                            allowClear: true
-                        });
-                    }
-                });
-            } else {
-                $('#users-list').hide();
-            }
-        });
-
         // Form submission and confirmation modal
         $('#notificationForm').on('submit', function(e) {
             e.preventDefault();
             $('#modalTitle').text($('#title').val());
             $('#modalMessage').text($('#message').val());
             $('#modalLink').text($('#link_url').val() || 'None');
-            $('#modalRecipients').text($('#role option:selected').text());
             $('#confirmationModal').modal('show');
         });
 

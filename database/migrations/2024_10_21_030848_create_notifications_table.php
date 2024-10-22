@@ -9,7 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
@@ -22,19 +22,13 @@ return new class extends Migration
 
         Schema::create('notification_user', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('notification_id');
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('notification_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-
-            $table->foreign('notification_id')->references('id')->on('notifications')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('notification_user');
         Schema::dropIfExists('notifications');

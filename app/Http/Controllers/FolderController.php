@@ -26,6 +26,15 @@ class FolderController extends Controller
         ->whereNull('folder_id')
         ->get();
 
+
+        if ($request->ajax()) {
+            $rootFolders = Folder::where('video_course_id', $id)->where('parent_folder_id',null)->get();
+
+            return response()->json([
+                'rootFolders' => $rootFolders,
+            ]);
+        }
+
         return view('ins.content.folders.folders', compact('videoCourse','currentRouteIsRootLevel','filesAtRoot','allFolders'));
     }
     public function showFolder(Request $request,$id)

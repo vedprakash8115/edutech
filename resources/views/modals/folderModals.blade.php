@@ -84,6 +84,31 @@
         </div>
     </div>
 </div>
+<!-- audio modal  -->
+<div class="modal fade" id="uploadAudioModal" tabindex="-1" aria-labelledby="uploadAudioModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form
+                action="{{ isset($folder) ? route('folders.subfolder.upload', [$videoCourse ?? $videoCourse->id, $folder->id]) : route('folders.upload', $videoCourse->id) }}"
+                method="POST" enctype="multipart/form-data"> @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadVideoModalLabel">Upload Audio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="videoFile" class="form-label">Select Audio</label>
+                        <input type="file" class="form-control" id="videoFile" name="file" accept="video/*" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Upload Audio</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Add Image Modal -->
 <div class="modal fade" id="uploadImageModal" tabindex="-1" aria-labelledby="uploadImageModalLabel" aria-hidden="true">
