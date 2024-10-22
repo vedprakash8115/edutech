@@ -128,10 +128,7 @@
   </head>
 
   <body>
-    <div id="overlay">
-      <div class="loader"></div>
-      <div class="loading-text">LOADING...</div>
-  </div>
+
   <script>
     (function() {
         const overlay = document.getElementById('overlay');

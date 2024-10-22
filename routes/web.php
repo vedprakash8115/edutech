@@ -8,6 +8,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\GraphicsController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SEOController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\StudentHomeController;
@@ -292,6 +293,8 @@ Route::get('live-classes/{id}', [CouponController::class, 'getLiveClasses'])->na
     Route::get('/agent/tickets', [AgentTicketController::class, 'index'])->name('agent.tickets');
     Route::get('/agent/tickets/{ticket}', [AgentTicketController::class, 'show'])->name('agent.tickets.show');
     Route::post('/agent/tickets/{ticket}/resolve', [AgentTicketController::class, 'resolve'])->name('agent.tickets.resolve');
+
+    Route::resource('news', NewsController::class);
 
 
 

@@ -20,33 +20,42 @@ class liveClassesDataTable extends DataTable
      * @param QueryBuilder $query Results from query() method.
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
-    {
-        return (new EloquentDataTable($query))
-            ->addColumn('actions', function ($row) {
-                $editUrl = route('liveClasses.edit', $row->id); // URL for the edit action
-                $deleteUrl = route('liveClasses.destroy', $row->id); // URL for the delete action
-                $pdfUrl = route('live-class-pdfs.index'  , $row->id); // URL for managing PDFs
-    
-                // Generate the HTML for the Edit, Manage PDFs, and Delete buttons
-                return '
-                    <a href="' . e($editUrl) . '" class="btn btn-sm btn-info my-2" style="width:100px;">
-                        <i class="fa fa-pencil"></i> Edit
-                    </a>
-                  <a href="' . e($pdfUrl) . '" class="btn btn-sm btn-dark my-2" style="width: 130px;">
-   <i class="fas fa-file-pdf mr-2"></i> Manage PDFs
-</a>
+{
+    return (new EloquentDataTable($query))
+        ->addColumn('actions', function ($row) {
+            $editUrl = route('liveClasses.edit', $row->id);
+            $deleteUrl = route('liveClasses.destroy', $row->id);
+            $pdfUrl = route('live-class-pdfs.index', $row->id);
 
-                    <form action="' . e($deleteUrl) . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Are you sure you want to delete this?\');">
-                        ' . csrf_field() . '
-                        ' . method_field('DELETE') . '
-                        <button type="submit" class="btn btn-sm btn-danger my-2" style="width:100px;">
-                            <i class="fa fa-trash"></i> Delete
-                        </button>
-                    </form>';
-            })
-            ->setRowId('id') // Set the row ID to the 'id' of the record
-            ->rawColumns(['actions']); // Ensure the actions column renders HTML
-    }
+            // Button to open the schedule modal
+            $scheduleBtn = '
+                <button type="button" class="btn btn-sm btn-success my-2" style="width:120px;" 
+                    data-bs-toggle="modal" data-bs-target="#scheduleModal" 
+                    data-class-id="' . e($row->id) . '">
+                    <i class="fas fa-calendar-alt"></i> Schedule
+                </button>';
+
+            return '
+                ' . $scheduleBtn . ' 
+                <a href="' . e($editUrl) . '" class="btn btn-sm btn-info my-2" style="width:100px;">
+                    <i class="fa fa-pencil"></i> Edit
+                </a>
+                <a href="' . e($pdfUrl) . '" class="btn btn-sm btn-dark my-2" style="width:130px;">
+                    <i class="fas fa-file-pdf mr-2"></i> Manage PDFs
+                </a>
+                <form action="' . e($deleteUrl) . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Are you sure you want to delete this?\');">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="submit" class="btn btn-sm btn-danger my-2" style="width:100px;">
+                        <i class="fa fa-trash"></i> Delete
+                    </button>
+                </form>
+            ';
+        })
+        ->setRowId('id')
+        ->rawColumns(['actions']);
+}
+
     
 
     

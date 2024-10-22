@@ -101,7 +101,7 @@
                   </a>
                 </li>
                 <li class="menu-item ">
-                  <a href="{{route('videocourse')}}" class="menu-link" >
+                  <a href="{{route('news.index')}}" class="menu-link" >
                     <div class="ms-2" data-i18n="Without navbar">News</div>
                   </a>
                 </li>

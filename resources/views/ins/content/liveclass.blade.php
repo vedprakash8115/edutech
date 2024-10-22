@@ -350,7 +350,174 @@
         </div>
     </div>
 </div>
+<!-- Schedule Modal -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header text-white">
+                <h5 class="modal-title" id="scheduleModalLabel">
+                    <i class="fas fa-calendar-alt me-2"></i> Schedule Live Class
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="#" method="POST" class="needs-validation" novalidate>
+                @csrf
+                <input type="hidden" name="class_id" id="class_id">
 
+                <div class="modal-body">
+                    <!-- Title -->
+                    <div class="mb-4">
+                        <label for="title" class="form-label fw-bold">
+                            <i class="fas fa-heading me-2"></i>Title
+                        </label>
+                        <input type="text" class="form-control form-control-lg" id="title" name="title" required 
+                               placeholder="Enter class title">
+                        <div class="invalid-feedback">Please provide a title for the class.</div>
+                    </div>
+
+                    <!-- Date and Time -->
+                    <div class="mb-4">
+                        <label for="date" class="form-label fw-bold">
+                            <i class="fas fa-clock me-2"></i>Date & Time
+                        </label>
+                        <input type="datetime-local" class="form-control form-control-lg" id="date" name="date" required>
+                        <div class="invalid-feedback">Please select a valid date and time.</div>
+                    </div>
+
+                    <!-- Duration -->
+                    <div class="mb-4">
+                        <label for="duration" class="form-label fw-bold">
+                            <i class="fas fa-hourglass-half me-2"></i>Duration
+                        </label>
+                        <div class="input-group">
+                            <input type="number" class="form-control form-control-lg" id="duration" name="duration" 
+                                   required min="15" max="240" placeholder="Enter duration">
+                            <span class="input-group-text">minutes</span>
+                        </div>
+                        <div class="form-text">Minimum 15 minutes, maximum 240 minutes</div>
+                    </div>
+
+                    <!-- Repeating -->
+                    <div class="mb-4">
+                        <label for="repeating" class="form-label fw-bold">
+                            <i class="fas fa-redo me-2"></i>Repeating
+                        </label>
+                        <select class="form-select form-select-lg" id="repeating" name="repeating">
+                            <option value="no">No Repeat</option>
+                            <option value="weekly">Weekly</option>
+                        </select>
+                    </div>
+
+                    <!-- Weekly Repeat Options (initially hidden) -->
+                    <div class="mb-4 repeat-options" id="weeklyOptions" style="display: none;">
+                        <div class="card border-light bg-light">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-3 text-muted">Repeat on following days:</h6>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="monday" name="repeat_days[]" value="monday">
+                                        <label class="form-check-label" for="monday">Monday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="tuesday" name="repeat_days[]" value="tuesday">
+                                        <label class="form-check-label" for="tuesday">Tuesday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="wednesday" name="repeat_days[]" value="wednesday">
+                                        <label class="form-check-label" for="wednesday">Wednesday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="thursday" name="repeat_days[]" value="thursday">
+                                        <label class="form-check-label" for="thursday">Thursday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="friday" name="repeat_days[]" value="friday">
+                                        <label class="form-check-label" for="friday">Friday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="saturday" name="repeat_days[]" value="saturday">
+                                        <label class="form-check-label" for="saturday">Saturday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="sunday" name="repeat_days[]" value="sunday">
+                                        <label class="form-check-label" for="sunday">Sunday</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-3">
+                                    <label for="repeat_until" class="form-label">Repeat until</label>
+                                    <input type="date" class="form-control" id="repeat_until" name="repeat_until">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enable Recording -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-video me-2"></i>Enable Recording
+                        </label>
+                        <div class="btn-group w-100" role="group">
+                            <input type="radio" class="btn-check" id="recording_yes" name="enable_recording" value="1">
+                            <label class="btn btn-outline-success" for="recording_yes">
+                                <i class="fas fa-check-circle me-2"></i>Yes
+                            </label>
+                            
+                            <input type="radio" class="btn-check" id="recording_no" name="enable_recording" value="0" checked>
+                            <label class="btn btn-outline-danger" for="recording_no">
+                                <i class="fas fa-times-circle me-2"></i>No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-calendar-check me-2"></i>Schedule Class
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle repeating options visibility
+    const repeatingSelect = document.getElementById('repeating');
+    const weeklyOptions = document.getElementById('weeklyOptions');
+    
+    repeatingSelect.addEventListener('change', function() {
+        weeklyOptions.style.display = this.value === 'weekly' ? 'block' : 'none';
+    });
+
+    // Form validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
+
+    // Set minimum date for datetime-local
+    const dateInput = document.getElementById('date');
+    const today = new Date();
+    const minDateTime = today.toISOString().slice(0, 16);
+    dateInput.min = minDateTime;
+
+    // Set minimum date for repeat_until
+    const repeatUntilInput = document.getElementById('repeat_until');
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const minDate = tomorrow.toISOString().slice(0, 10);
+    repeatUntilInput.min = minDate;
+});
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
     integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="

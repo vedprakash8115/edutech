@@ -1,7 +1,7 @@
 
 @push('styles')<style>
     .footer {
-      background-color: #ffa480;
+      background-color: #2c3e50;
       /* border-radius: 30px 30px 0 0; */
       padding: 50px 0;
       overflow: hidden;
@@ -100,7 +100,7 @@
         <!-- Contact Info -->
         <div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-right">
           <img src="{{asset('assets/img/avatars/1.png')}}" class="rounded-circle mb-3 profile" alt="Profile Image">
-          <h5 class="text-dark">Contact Us</h5>
+          <h5 class="text-light">Contact Us</h5>
           <p class="contact-info"><i class="fa fa-phone"></i> 7091700931</p>
           <p class="contact-info"><i class="fab fa-whatsapp"></i> 7081027170</p>
           <p>EDUTECH PRIVATE LIMITED</p>
@@ -108,7 +108,7 @@
         
         <!-- Quick Links -->
         <div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="100">
-          <h5 class="text-dark">Quick Links</h5>
+          <h5 class="text-light">Quick Links</h5>
           <ul class="list-unstyled">
             <li><a href="#" class="quick-link">Terms and Conditions</a></li>
             <li><a href="#" class="quick-link">Privacy Policy</a></li>
@@ -124,7 +124,7 @@
 
             <span id="typed-text"></span>
           </button>
-          <h5 class="text-dark">Follow Us</h5>
+          <h5 class="text-light">Follow Us</h5>
           <div class="social-icons">
             <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
