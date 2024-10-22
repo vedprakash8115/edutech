@@ -2,8 +2,7 @@
 
 @section('content')
 
-<link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/font-awesome.min.css')}}">
+<link href="lib/animate/animate.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('assets/css/owl.carousel.css')}}">
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" integrity="sha512-RWhcC19d8A3vE7kpXq6Ze4GcPfGe3DQWuenhXAbcGiZOaqGojLtWwit1eeM9jLGHFv8hnwpX3blJKGjTsf2HxQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
 <link rel="stylesheet" href="{{asset('assets/css/owl.theme.default.min.css')}}">
@@ -27,6 +26,12 @@
         align-content: center;
         align-items: center; */
 
+    }
+    .feature-thumb{
+        transition: all 0.2s ease-in;
+    }
+    .feature-thumb:hover{
+        background-color: #e4e4ff;
     }
     </style>
 <!-- HOME -->
@@ -108,7 +113,7 @@
 
 
 <!-- ABOUT -->
-<section id="about">
+<!-- <section id="about">
     <div class="container">
         <div class="row">
 
@@ -161,92 +166,7 @@
 
         </div>
     </div>
-</section>
-
-
-<!-- TEAM -->
-<section id="team">
-    <div class="container">
-        <div class="row">
-
-            <div class="col-md-12 col-sm-12">
-                <div class="section-title">
-                    <h2>Teachers <small>Meet Professional Trainers</small></h2>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6">
-                <div class="team-thumb">
-                    <div class="team-image">
-                        <img src="{{asset('landing_ui/assets/images/author-image1.jpg')}}" class="img-responsive" alt="">
-                    </div>
-                    <div class="team-info">
-                        <h3>Mark Wilson</h3>
-                        <span>I love Teaching</span>
-                    </div>
-                    <ul class="social-icon">
-                        <li><a href="#" class="fa fa-facebook-square" attr="facebook icon"></a></li>
-                        <li><a href="#" class="fa fa-twitter"></a></li>
-                        <li><a href="#" class="fa fa-instagram"></a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6">
-                <div class="team-thumb">
-                    <div class="team-image">
-                        <img src="{{asset('landing_ui/assets/images/author-image2.jpg')}}" class="img-responsive" alt="">
-                    </div>
-                    <div class="team-info">
-                        <h3>Catherine</h3>
-                        <span>Education is the key!</span>
-                    </div>
-                    <ul class="social-icon">
-                        <li><a href="#" class="fa fa-google"></a></li>
-                        <li><a href="#" class="fa fa-instagram"></a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6">
-                <div class="team-thumb">
-                    <div class="team-image">
-                        <img src="{{asset('landing_ui/assets/images/author-image3.jpg')}}" class="img-responsive" alt="">
-                    </div>
-                    <div class="team-info">
-                        <h3>Jessie Ca</h3>
-                        <span>I like Online Courses</span>
-                    </div>
-                    <ul class="social-icon">
-                        <li><a href="#" class="fa fa-twitter"></a></li>
-                        <li><a href="#" class="fa fa-envelope-o"></a></li>
-                        <li><a href="#" class="fa fa-linkedin"></a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6">
-                <div class="team-thumb">
-                    <div class="team-image">
-                        <img src="{{asset('landing_ui/assets/images/author-image4.jpg')}}" class="img-responsive" alt="">
-                    </div>
-                    <div class="team-info">
-                        <h3>Andrew Berti</h3>
-                        <span>Learning is fun</span>
-                    </div>
-                    <ul class="social-icon">
-                        <li><a href="#" class="fa fa-twitter"></a></li>
-                        <li><a href="#" class="fa fa-google"></a></li>
-                        <li><a href="#" class="fa fa-behance"></a></li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-
+</section> -->
 <!-- Courses -->
 <section id="courses">
     <div class="container">
@@ -258,23 +178,28 @@
                 </div>
 
                 <div class="owl-carousel owl-theme owl-courses">
+
+                @php
+                    $defaultRatings = [3, 3.5, 4, 4.5, 5];
+                @endphp
+                @foreach($courses as $course)
                     <div class="col-md-4 col-sm-4">
                         <div class="item">
                             <div class="courses-thumb">
                                 <div class="courses-top">
                                     <div class="courses-image">
-                                        <img src="{{asset('landing_ui/assets/images/courses-image1.jpg')}}" class="img-responsive"
+                                        <img src="{{asset($course->banner)}}" class="img-responsive"
                                             alt="">
                                     </div>
                                     <div class="courses-date">
-                                        <span><i class="fa fa-calendar"></i> 12 / 7 / 2018</span>
+                                        <span><i class="fa fa-calendar"></i> {{$course->from}}</span>
                                         <span><i class="fa fa-clock-o"></i> 7 Hours</span>
                                     </div>
                                 </div>
 
                                 <div class="courses-detail">
-                                    <h3><a href="#">Social Media Management</a></h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    <h3><a href="#">{{$course->course_name}}</a></h3>
+                                    <p>{{$course->about_course}}</p>
                                 </div>
 
                                 <div class="courses-info">
@@ -284,14 +209,15 @@
                                         <span>Mark Wilson</span>
                                     </div>
                                     <div class="courses-price">
-                                        <a href="#"><span>USD 25</span></a>
+                                        <a href="#"><span>{{$course->price ? $course->price : 'Free'}}</span></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    @endforeach
 
-                    <div class="col-md-4 col-sm-4">
+                    <!-- <div class="col-md-4 col-sm-4">
                         <div class="item">
                             <div class="courses-thumb">
                                 <div class="courses-top">
@@ -323,6 +249,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <div class="col-md-4 col-sm-4">
                         <div class="item">
@@ -421,13 +348,98 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
 
             </div>
         </div>
 </section>
+
+<!-- TEAM -->
+<section id="team">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12">
+                <div class="section-title">
+                    <h2>Teachers <small>Meet Professional Trainers</small></h2>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="team-thumb">
+                    <div class="team-image">
+                        <img src="{{asset('landing_ui/assets/images/author-image1.jpg')}}" class="img-responsive" alt="">
+                    </div>
+                    <div class="team-info">
+                        <h3>Mark Wilson</h3>
+                        <span>I love Teaching</span>
+                    </div>
+                    <ul class="social-icon">
+                        <li><a href="#" class="fa fa-facebook-square" attr="facebook icon"></a></li>
+                        <li><a href="#" class="fa fa-twitter"></a></li>
+                        <li><a href="#" class="fa fa-instagram"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="team-thumb">
+                    <div class="team-image">
+                        <img src="{{asset('landing_ui/assets/images/author-image2.jpg')}}" class="img-responsive" alt="">
+                    </div>
+                    <div class="team-info">
+                        <h3>Catherine</h3>
+                        <span>Education is the key!</span>
+                    </div>
+                    <ul class="social-icon">
+                        <li><a href="#" class="fa fa-google"></a></li>
+                        <li><a href="#" class="fa fa-instagram"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="team-thumb">
+                    <div class="team-image">
+                        <img src="{{asset('landing_ui/assets/images/author-image3.jpg')}}" class="img-responsive" alt="">
+                    </div>
+                    <div class="team-info">
+                        <h3>Jessie Ca</h3>
+                        <span>I like Online Courses</span>
+                    </div>
+                    <ul class="social-icon">
+                        <li><a href="#" class="fa fa-twitter"></a></li>
+                        <li><a href="#" class="fa fa-envelope-o"></a></li>
+                        <li><a href="#" class="fa fa-linkedin"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="team-thumb">
+                    <div class="team-image">
+                        <img src="{{asset('landing_ui/assets/images/author-image4.jpg')}}" class="img-responsive" alt="">
+                    </div>
+                    <div class="team-info">
+                        <h3>Andrew Berti</h3>
+                        <span>Learning is fun</span>
+                    </div>
+                    <ul class="social-icon">
+                        <li><a href="#" class="fa fa-twitter"></a></li>
+                        <li><a href="#" class="fa fa-google"></a></li>
+                        <li><a href="#" class="fa fa-behance"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
 
 
 <!-- TESTIMONIAL -->
@@ -529,7 +541,7 @@
 
 
 <!-- CONTACT -->
-<section id="contact">
+<!-- <section id="contact">
     <div class="container">
         <div class="row">
 
@@ -565,11 +577,11 @@
 
         </div>
     </div>
-</section>
+</section> -->
 
 
 <!-- FOOTER -->
-<footer id="footer">
+<!-- <footer id="footer">
     <div class="container">
         <div class="row">
 
@@ -639,7 +651,9 @@
 
         </div>
     </div>
-</footer>
+</footer> -->
+@include('user-account.content.footer')
+@include('user-account.content.fixed_button')
 
 
 <!-- SCRIPTS -->

@@ -74,11 +74,12 @@
         height: 100vh;
         background-color: #2c3e50;
         width: 60px;
+        margin-right: 2rem;
         /* border: 2px solid red; */
         overflow-x: hidden;
         transition: width 0.3s ease;
         font-family: 'Poppins', sans-serif;
-        z-index: 99;
+        z-index: 1001;
     }
 
     .sidebar:hover {

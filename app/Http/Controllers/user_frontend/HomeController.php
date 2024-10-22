@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user_frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\News;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Models\Testimonial;
@@ -20,6 +21,8 @@ class HomeController extends Controller
         $testimonials = Testimonial::with(['user', 'role'])->take(4)->get();
         $route = request()->route()->getName();
 
+        $news = News::all();
+
 if ($route == 'index') {
     try {
         $seos = SEO::where('page_slug', 'home')->firstOrFail();
@@ -36,7 +39,7 @@ if ($route == 'index') {
         $categories = CourseCategory0::with(['videocourses'])->withCount('videoCourses')->latest()->take(4)->get();
 
         // Pass both testimonials and sliders to the frontend
-        return view('frontend.index', compact('testimonials', 'sliders','categories','seos'));
+        return view('frontend.index', compact('testimonials', 'sliders','categories','seos','news'));
     }
 
     public function details($id)
